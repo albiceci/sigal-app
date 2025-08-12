@@ -1,0 +1,7 @@
+.buyPageInnerContainer{
+    transform-style: preserve-3d;
+}
+
+#buyPageContainer{
+    perspective: 100vh;
+}

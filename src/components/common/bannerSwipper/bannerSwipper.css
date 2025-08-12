@@ -1,0 +1,86 @@
+.swipper-container {
+  perspective: 1200px;
+}
+
+.swipper-wapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 1200px;
+}
+
+.swipper-wapper .swipper-item {
+  transform-style: preserve-3d;
+  position: absolute;
+  flex-shrink: 0;
+  transition-property: transform;
+  transition-duration: 300ms;
+}
+
+.swipper-wapper .primary {
+  z-index: 2;
+  transform: translate3d(0px, 0px, 0px) rotateX(0deg) rotateY(0deg) scale(1);
+}
+
+.swipper-wapper .secondary-r {
+  transform: translate3d(180px, 0px, -860px) rotateX(0deg) rotateY(-40deg) scale(1);
+  position: relative;
+  z-index: 1;
+}
+.swipper-wapper .secondary-hidden-r {
+  transform: translate3d(360px, 0px, -1720px) rotateX(0deg) rotateY(-80deg) scale(1);
+  z-index: 0;
+}
+
+.swipper-wapper .secondary-l {
+  transform: translate3d(-180px, 0px, -860px) rotateX(0deg) rotateY(40deg) scale(1);
+  position: relative;
+  z-index: 1;
+}
+
+.swipper-wapper .secondary-hidden-l {
+  transform: translate3d(-360px, 0px, -1720px) rotateX(0deg) rotateY(80deg) scale(1);
+  z-index: 0;
+}
+
+.bannerBlur {
+  mask: linear-gradient(to right, black, black, transparent);
+  backdrop-filter: blur(8px);
+}
+
+@media (max-width: 640px) {
+  .bannerBlur {
+    mask: linear-gradient(to bottom, black, black, transparent);
+    backdrop-filter: blur(8px);
+  }
+}
+
+@media (max-width: 1025px) {
+  .swipper-wapper .primary {
+    z-index: 2;
+    transform: translate3d(0px, 0px, 0px) rotateX(0deg) rotateY(0deg) scale(1);
+  }
+
+  .swipper-wapper .secondary-r {
+    transform: translate3d(120px, 0px, -860px) rotateX(0deg) rotateY(-40deg) scale(1);
+    position: relative;
+    z-index: 1;
+  }
+  .swipper-wapper .secondary-hidden-r {
+    transform: translate3d(240px, 0px, -1720px) rotateX(0deg) rotateY(-80deg) scale(1);
+    z-index: 0;
+  }
+
+  .swipper-wapper .secondary-l {
+    transform: translate3d(-120px, 0px, -860px) rotateX(0deg) rotateY(40deg) scale(1);
+    position: relative;
+    z-index: 1;
+  }
+
+  .swipper-wapper .secondary-hidden-l {
+    transform: translate3d(-240px, 0px, -1720px) rotateX(0deg) rotateY(80deg) scale(1);
+    z-index: 0;
+  }
+}
