@@ -1,4 +1,3 @@
-import { create } from "domain";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Reveal } from "../../../util/reveal";
@@ -44,7 +43,7 @@ const AlertMessage = ({
     <Reveal width="100%">
       <div
         onClick={onClick}
-        className={`flex justify-end rounded-md absolute left-0 right-0 w-fit m-auto transition-all ${
+        className={`flex justify-end rounded-md absolute left-0 right-0 w-fit m-auto shadow-md transition-all ${
           typeStyle[messageData.type].containerStyle
         }`}
         style={{

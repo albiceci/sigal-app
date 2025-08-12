@@ -18,7 +18,7 @@ export const BuyPageContainer = ({ children }: { children: React.ReactNode }) =>
   return (
     <div className="w-[100%] overflow-hidden">
       <div id="overlayContainer" className="fixed z-[11] left-0 top-[0]"></div>
-      <div id="alerterContainer" className="fixed z-[12] w-full top-[10vh]"></div>
+      <div id="alerterContainer" className="fixed z-[12] w-full top-[5vh]"></div>
       <ScrollRestoration />
       <div className="animate-[fadein_1s]">
         <div
