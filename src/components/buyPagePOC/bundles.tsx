@@ -170,7 +170,12 @@ const BundleForm = ({
                   banner={currentBundle[0]?.promoMessage}
                   onClick={() => {
                     if (activeProducts.length > 1) removeProduct(product);
-                    else alerter.alertMessage("You can't remove the last product.");
+                    else
+                      alerter.alertMessage({
+                        description: "You cannot remove the last product from the list.",
+                        message: "Product could not be removed!",
+                        type: "error",
+                      });
                   }}
                 />
               );

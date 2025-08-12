@@ -127,7 +127,7 @@ export const LoginForm = () => {
       if (jsonData.field) {
         updateForm(jsonData.field, "", true);
       }
-      alerter.alertMessage(jsonData.message);
+      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
     } else {
       window.location.href = "/";
     }

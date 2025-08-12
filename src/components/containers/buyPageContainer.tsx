@@ -8,11 +8,7 @@ export const SidebarContext = createContext<{
   setsideBarActive: React.Dispatch<React.SetStateAction<boolean>> | (() => {});
 }>({ sideBarActive: false, setsideBarActive: () => {} });
 
-export const BuyPageContainer = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const BuyPageContainer = ({ children }: { children: React.ReactNode }) => {
   const [sideBarActive, setsideBarActive] = useState(false);
 
   useEffect(() => {
@@ -22,10 +18,7 @@ export const BuyPageContainer = ({
   return (
     <div className="w-[100%] overflow-hidden">
       <div id="overlayContainer" className="fixed z-[11] left-0 top-[0]"></div>
-      <div
-        id="alerterContainer"
-        className="absolute z-[12] right-0 top-[15vh]"
-      ></div>
+      <div id="alerterContainer" className="fixed z-[12] w-full top-[10vh]"></div>
       <ScrollRestoration />
       <div className="animate-[fadein_1s]">
         <div
@@ -34,22 +27,14 @@ export const BuyPageContainer = ({
         >
           <div
             className={`buyPageInnerContainer relative z-[2] w-[90%] my-[5vh] min-h-[90vh] bg-white shadow-2xl rounded-md flex transition-transform duration-[0.7s] ${
-              sideBarActive
-                ? "translate-x-[250px] overflow-hidden"
-                : "translate-x-0"
+              sideBarActive ? "translate-x-[250px] overflow-hidden" : "translate-x-0"
             }`}
             style={{
-              transform: sideBarActive
-                ? "rotateY(20deg) translate(250px, -50px)"
-                : "rotateY(0deg) translate(0px, 0px)",
+              transform: sideBarActive ? "rotateY(20deg) translate(250px, -50px)" : "rotateY(0deg) translate(0px, 0px)",
               pointerEvents: sideBarActive ? "none" : "auto",
             }}
           >
-            <SidebarContext.Provider
-              value={{ sideBarActive, setsideBarActive }}
-            >
-              {children}
-            </SidebarContext.Provider>
+            <SidebarContext.Provider value={{ sideBarActive, setsideBarActive }}>{children}</SidebarContext.Provider>
           </div>
         </div>
       </div>

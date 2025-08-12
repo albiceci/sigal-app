@@ -28,7 +28,7 @@ const BundleContextProvider = ({ children }: { children: JSX.Element }) => {
     });
 
     if (jsonData.status !== 200) {
-      alerter.alertMessage(jsonData.message);
+      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
     } else {
       setBundleData(
         (jsonData.data as BUNDLE_TYPE[]).map((bundle) => {

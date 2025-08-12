@@ -44,7 +44,7 @@ export const MainMenu = ({ tabData, activeTab }: { tabData: tabType[]; activeTab
     });
 
     if (jsonData.status !== 200) {
-      alerter.alertMessage(jsonData.message);
+      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
     } else {
       setUserInfo((prev) => {
         return {

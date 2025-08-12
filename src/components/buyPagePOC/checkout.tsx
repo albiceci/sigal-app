@@ -59,7 +59,7 @@ export default function Checkout() {
     if (showOverlay) loadingOverlay.close();
 
     if (jsonData.status !== 200) {
-      alerter.alertMessage(jsonData.message);
+      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
     } else {
       //window.location.href = "/";
       //alerter.alertMessage("Success");

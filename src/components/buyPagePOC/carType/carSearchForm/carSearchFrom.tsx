@@ -107,7 +107,7 @@ export const CarSearchForm = ({
 
     if (jsonData.status !== 200) {
       carInfoForm.setFromStatus("closed");
-      alerter.alertMessage(jsonData.description);
+      alerter.alertMessage({ description: null, message: jsonData.description, type: "error" });
     } else {
       carInfoForm.updateFormData(jsonData.data.carInfo);
       carInfoForm.setFromStatus("opened");
