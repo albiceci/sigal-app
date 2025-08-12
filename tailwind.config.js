@@ -22,7 +22,6 @@ module.exports = {
       green: colors.emerald,
       purple: colors.violet,
       yellow: colors.amber,
-      pink: colors.fuchsia,
     },
     fontFamily: {
       regularFamily: ["Proxima Nova Regular", "sans-serif"],
