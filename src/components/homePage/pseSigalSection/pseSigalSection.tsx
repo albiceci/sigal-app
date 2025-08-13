@@ -10,6 +10,7 @@ import { ComputerSVG } from "./icons/computer";
 import { GroupSVG } from "./icons/group";
 import { HeartSVG } from "./icons/heart";
 import { Button } from "../../ui/button/button";
+import { AnimatedNumber } from "../../../util/animatedNumber";
 
 const BACKGROUND_EFFECT_THRESHHOLD = 1500;
 
@@ -17,7 +18,7 @@ const ITEM_DATA = [
   {
     icon: <GroupSVG />,
     bgColor: "bg-sapphire",
-    mainTitle: "15.5",
+    mainTitle: <AnimatedNumber value={15.5} marginBottom="-30" />,
     subTitle: "million customers",
     description:
       "SIGAL IG is a leading insurer in Central and Eastern Europe. With its experience of over two centuries of insurance tradition, today, it serves more than 15.5 million customers in 18 European countries.",
@@ -25,7 +26,7 @@ const ITEM_DATA = [
   {
     icon: <HeartSVG />,
     bgColor: "bg-orange-600",
-    mainTitle: "30",
+    mainTitle: <AnimatedNumber value={30} marginBottom="-30" />,
     subTitle: "years of experience",
     description:
       "SIGAL IG provides Albanian consumers with modern insurance solutions based on a broad product portfolio in all areas of general insurance and life insurance.",
@@ -33,7 +34,11 @@ const ITEM_DATA = [
   {
     icon: <ComputerSVG />,
     bgColor: "bg-cyan-500",
-    mainTitle: "24/7",
+    mainTitle: (
+      <>
+        <AnimatedNumber value={24} marginBottom="-30" />/<AnimatedNumber value={7} marginBottom="-30" />
+      </>
+    ),
     subTitle: "service",
     description:
       "You contract and manage your insurance entirely online. Anytime, anywhere in Albania. Sign up to the SIGAL Incsurance Group portal and benefit from the advantages of the MedSIGAL medical application.",

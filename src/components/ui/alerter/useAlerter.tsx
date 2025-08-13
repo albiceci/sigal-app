@@ -40,15 +40,15 @@ const AlertMessage = ({
     },
   };
   return (
-    <Reveal width="100%">
+    <Reveal duration={0.25} width="100%">
       <div
         onClick={onClick}
         className={`flex justify-end rounded-md absolute left-0 right-0 w-fit m-auto shadow-md transition-all ${
           typeStyle[messageData.type].containerStyle
         }`}
         style={{
-          transform: `translate(0, ${index * 15}px)`,
-          scale: `${100 + index * 5}%`,
+          transform: `translate(0, ${index * 15 > 100 ? 100 : index * 15}px)`,
+          scale: `${100 + index * 5 < 50 ? 50 : 100 + index * 5}%`,
         }}
       >
         <div

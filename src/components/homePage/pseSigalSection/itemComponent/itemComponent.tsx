@@ -9,7 +9,7 @@ export const ItemComponent = ({
 }: {
   icon: ReactNode;
   bgColor: string;
-  mainTitle: string;
+  mainTitle: ReactNode;
   subTitle: string;
   description: string;
 }) => {

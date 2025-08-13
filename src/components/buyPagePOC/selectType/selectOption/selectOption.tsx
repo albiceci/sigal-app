@@ -120,7 +120,7 @@ export const SelectOption = ({ optionData, type, bundleProduct, isMoreInfoExpand
                   </Suspense>
                 </div>
               </div>
-              <div className="px-6 overflow-y-auto">
+              <div className="px-6 overflow-y-auto pb-3">
                 <SelectType
                   products={getPossibleBundles(bundleData as BUNDLE_TYPE[])}
                   message="Want to bundle your policy?"

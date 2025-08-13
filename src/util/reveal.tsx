@@ -9,7 +9,7 @@ export const Reveal = ({
   duration = 0.5,
   type = "y",
   distance = 70,
-  margin = "0px 0px 0px 0px",
+  marginBottom = "0",
 }: {
   children: ReactNode;
   width?: "fit-content" | "100%";
@@ -18,11 +18,12 @@ export const Reveal = ({
   duration?: number;
   distance?: number;
   type?: "x" | "y" | null;
-  margin?: string;
+  marginBottom?: string;
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
-    //margin: "0px 0px -10% 0px",
+    //@ts-ignore
+    margin: `0px 0px ${marginBottom}% 0px`,
     once: true,
   });
 
