@@ -2,7 +2,7 @@ import { useCallback, useContext } from "react";
 import { sessionContext } from "./sessionContainer";
 
 export const useServer = () => {
-  const server_url = "https://fefefdba33d8.ngrok.app";
+  const server_url = "https://cfd8b2046fdb.ngrok.app";
   const { sessionData } = useContext(sessionContext);
 
   const customFetch = useCallback(

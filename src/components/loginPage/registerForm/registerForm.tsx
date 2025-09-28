@@ -12,54 +12,15 @@ import { useAlerter } from "../../ui/alerter/useAlerter";
 import { SelectInput } from "../../ui/form/inputs/selectInput/selectInput";
 import { DateInput } from "../../ui/form/inputs/dateInput/dateInput";
 import { Button } from "../../ui/button/button";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { IResolveParams, LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
+import { Socials } from "../socials/socials";
 
 export const formFields: FormInputs<{
-  name: InputField<"text">;
-  surname: InputField<"text">;
-  birthday: InputField<"text">;
-  taxNumber: InputField<"text">;
-  gender: InputField<"text">;
-  phoneNumber: InputField<"text">;
   email: InputField<"text">;
   password: InputField<"text">;
   repeatPassword: InputField<"text">;
 }> = {
-  name: {
-    name: "name",
-    placeholder: "Emri",
-    type: "text",
-    value: "",
-  },
-  surname: {
-    name: "surname",
-    placeholder: "Mbiemri",
-    type: "text",
-    value: "",
-  },
-  birthday: {
-    name: "birthday",
-    placeholder: "Datelindja",
-    type: "text",
-    value: "",
-  },
-  taxNumber: {
-    name: "taxNumber",
-    placeholder: "Nr. personal",
-    type: "text",
-    value: "",
-  },
-  gender: {
-    name: "gender",
-    placeholder: "Gjinia",
-    type: "text",
-    value: "",
-  },
-  phoneNumber: {
-    name: "phoneNumber",
-    placeholder: "Nr. i telefonit",
-    type: "text",
-    value: "",
-  },
   email: {
     name: "email",
     placeholder: "Email",
@@ -81,62 +42,6 @@ export const formFields: FormInputs<{
 };
 
 const cardFromFieldValidationRules: fieldValidationRules<keyof typeof formFields> = {
-  name: [
-    {
-      type: "REGEX",
-      value: /^.{2}/g,
-      error: "Emri duhet te kete me shume se 2 karaktere",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "Emri nuk mund te jete bosh",
-    },
-  ],
-  surname: [
-    {
-      type: "REGEX",
-      value: /^.{2}/g,
-      error: "Mbiemri duhet te kete me shume se 2 karaktere",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "Mbiemri nuk mund te jete bosh",
-    },
-  ],
-  birthday: [
-    {
-      type: "NOT_EMPTY",
-      error: "Datelindja nuk mund te jete bosh",
-    },
-  ],
-  taxNumber: [
-    {
-      type: "REGEX",
-      value: /[A-Z]\d{8}[A-Z]/g,
-      error: "Nr. personal nuk esht ne formatin e duhur",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "Nr. personal nuk mund te jete bosh",
-    },
-  ],
-  gender: [
-    {
-      type: "NOT_EMPTY",
-      error: "Gjinia nuk mund te jete bosh",
-    },
-  ],
-  phoneNumber: [
-    {
-      type: "REGEX",
-      value: /\d+/g,
-      error: "Nr. i telefonit duhet te permbaje vetem numra",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "Nr. i telefonit nuk mund te jete bosh",
-    },
-  ],
   email: [
     {
       type: "REGEX",
@@ -234,12 +139,6 @@ export const RegisterForm = () => {
 
   const onSubmit = async () => {
     const body = {
-      name: formData.name.value,
-      surname: formData.surname.value,
-      gender: formData.gender.value,
-      birthday: formData.birthday.value,
-      taxNumber: formData.taxNumber.value,
-      phoneNumber: formData.phoneNumber.value,
       email: formData.email.value,
       password: formData.password.value,
     };
@@ -281,74 +180,7 @@ export const RegisterForm = () => {
           >
             <div className="font-boldFamily text-4xl text-primary pb-4">Sign up</div>
           </FormRow>
-          <FormRow>
-            <TextInput
-              name={formFields.name.name}
-              value={formData.name.value}
-              placeholder={formData.name.placeholder as string}
-              isValid={formFieldsState["name"].isValid}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              errors={formFieldsState["name"].errors}
-            />
-            <TextInput
-              name={formFields.surname.name}
-              value={formData.surname.value}
-              placeholder={formData.surname.placeholder as string}
-              isValid={formFieldsState["surname"].isValid}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              errors={formFieldsState["surname"].errors}
-            />
-          </FormRow>
-          <FormRow>
-            <SelectInput
-              placeholder={formData.gender.placeholder as string}
-              name={formData.gender.name}
-              value={formData.gender.value}
-              isValid={formFieldsState["gender"].isValid}
-              options={[
-                { id: "Male", text: "Mashkull" },
-                { id: "Female", text: "Femer" },
-              ]}
-              onOptionChange={onSelectChange}
-              errors={formFieldsState["gender"].errors}
-            />
-            <DateInput
-              name={formFields.birthday.name}
-              value={formData.birthday.value}
-              placeholder={formData.birthday.placeholder as string}
-              isValid={formFieldsState["birthday"].isValid}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              errors={formFieldsState["birthday"].errors}
-            />
-          </FormRow>
-          <FormRow>
-            <TextInput
-              name={formFields.taxNumber.name}
-              value={formData.taxNumber.value}
-              placeholder={formData.taxNumber.placeholder as string}
-              isValid={formFieldsState["taxNumber"].isValid}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              errors={formFieldsState["taxNumber"].errors}
-            />
-            <TextInput
-              name={formFields.phoneNumber.name}
-              value={formData.phoneNumber.value}
-              placeholder={formData.phoneNumber.placeholder as string}
-              isValid={formFieldsState["phoneNumber"].isValid}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              errors={formFieldsState["phoneNumber"].errors}
-            />
-          </FormRow>
+
           <FormRow>
             <TextInput
               name={formFields.email.name}
@@ -408,6 +240,34 @@ export const RegisterForm = () => {
               </Button>
             </div>
           </FormRow>
+          <FormRow
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div className="flex w-full items-center justify-center">
+              <hr className="flex-grow text-primary" />
+              <span className="px-2 text-primary font-semibold">or</span>
+              <hr className="flex-grow text-primary" />
+            </div>
+          </FormRow>
+          <FormRow
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Socials
+              type="register"
+              onSuccess={() => {
+                window.location.href = "/";
+              }}
+            />
+          </FormRow>
+
           <FormRow
             style={{
               display: "flex",

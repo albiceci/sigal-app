@@ -31,7 +31,7 @@ export const TextInput: React.FC<textInputType> = ({
       <div className="flex">
         <input
           type="text"
-          className={`py-3 px-1 pr-10 lg:pr-7 border-[1px] rounded-md focus:outline-none w-full transition-[border-color] min-w-[150px] ${
+          className={`py-2 px-1 pr-10 lg:pr-7 border-[1px] rounded-md focus:outline-none w-full transition-[border-color] min-w-[150px] ${
             errors.length
               ? "border-red-400 focus:border-red-500 bg-red-50"
               : isValid
@@ -53,7 +53,7 @@ export const TextInput: React.FC<textInputType> = ({
               errors.length ? "text-red-500" : isValid ? "text-primary" : "text-gray-400"
             }`}
             style={{
-              paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 16,
+              paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 12,
             }}
           >
             <div
@@ -93,7 +93,7 @@ export const TextInput: React.FC<textInputType> = ({
                 background: "linear-gradient(to top, transparent, white, transparent)",
               }
             : {
-                paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 14,
+                paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 10,
                 cursor: "text",
                 willChange: "auto",
                 fontSize: style.fontSize ? style.fontSize : 16,

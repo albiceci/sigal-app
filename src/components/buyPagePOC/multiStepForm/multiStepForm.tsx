@@ -9,7 +9,12 @@ import { FORM_TYPE, PRODUCT_DATA_TYPE } from "../formConstants";
 type multiStepFormProps = {
   title: string;
   stepsData: (FORM_TYPE & {
-    element: React.ForwardRefExoticComponent<React.RefAttributes<unknown>>; // Component for the form step. Must follow a defined interface.
+    element: React.ForwardRefExoticComponent<
+      React.PropsWithoutRef<{
+        product: PRODUCT_DATA_TYPE;
+      }> &
+        React.RefAttributes<unknown>
+    >; // Component for the form step. Must follow a defined interface.
     product: PRODUCT_DATA_TYPE; // Product context passed to each step, supporting form reuse across products.
     position: number;
   })[];
@@ -132,6 +137,7 @@ export default function MultiStepForm({ title, stepsData, onSubmit }: multiStepF
                   <div className="flex-grow z-[2]">
                     {React.createElement(stepsData[currStep - 1].element, {
                       ref: currentChildRef,
+                      product: stepsData[currStep - 1].product,
                     })}
                   </div>
                   <div className="z-[1] flex items-center justify-center mt-8 sm:mt-0 sm:justify-end">

@@ -4,7 +4,12 @@ import { StepItem } from "./stepItem/stepItem";
 
 type stepperProps = {
   stepsData: (FORM_TYPE & {
-    element: React.ForwardRefExoticComponent<React.RefAttributes<unknown>>;
+    element: React.ForwardRefExoticComponent<
+      React.PropsWithoutRef<{
+        product: PRODUCT_DATA_TYPE;
+      }> &
+        React.RefAttributes<unknown>
+    >;
     product: PRODUCT_DATA_TYPE;
     position: number;
   })[];

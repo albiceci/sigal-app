@@ -27,14 +27,11 @@ export const DateInput: React.FC<dateInputType> = ({
   const [isFocus, setIsFocus] = useState(false);
   const [isHelperHover, setIsHelperHover] = useState(false);
   return (
-    <div
-      className="flex-[1] flex flex-col gap-1 relative"
-      style={{ ...containerStyle }}
-    >
+    <div className="flex-[1] flex flex-col gap-1 relative" style={{ ...containerStyle }}>
       <div className="flex w-full">
         <input
           type="date"
-          className={`py-3 px-1 pr-10 lg:pr-7 border-[1px] rounded-md focus:outline-none min-w-[100%] transition-[border-color] ${
+          className={`py-2 px-1 pr-10 lg:pr-7 border-[1px] rounded-md focus:outline-none min-w-[100%] transition-[border-color] ${
             isFocus || props.value !== "" ? "" : "text-transparent"
           } ${
             errors.length
@@ -55,14 +52,10 @@ export const DateInput: React.FC<dateInputType> = ({
         {helper ? (
           <div
             className={`absolute right-2 flex items-center text-sm font-semibold ${
-              errors.length
-                ? "text-red-500"
-                : isValid
-                ? "text-primary"
-                : "text-gray-400"
+              errors.length ? "text-red-500" : isValid ? "text-primary" : "text-gray-400"
             }`}
             style={{
-              paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 16,
+              paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 12,
             }}
           >
             <div
@@ -74,9 +67,7 @@ export const DateInput: React.FC<dateInputType> = ({
                 setIsHelperHover(false);
               }}
             >
-              <Suspense
-                fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-              >
+              <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
                 <FaRegQuestionCircle size={20} />
               </Suspense>
             </div>
@@ -94,24 +85,17 @@ export const DateInput: React.FC<dateInputType> = ({
       </div>
       <label
         className={`absolute mx-2 px-1 font-semibold transition-all pointer-events-none ${
-          errors.length
-            ? "text-red-500"
-            : isValid
-            ? "text-primary"
-            : "text-gray-400"
+          errors.length ? "text-red-500" : isValid ? "text-primary" : "text-gray-400"
         }`}
         style={
           isFocus || props.value !== ""
             ? {
                 top: -10,
                 fontSize: "14px",
-                background:
-                  "linear-gradient(to top, transparent, white, transparent)",
+                background: "linear-gradient(to top, transparent, white, transparent)",
               }
             : {
-                paddingTop: style.paddingTop
-                  ? Number(style.paddingTop) + 4
-                  : 14,
+                paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 10,
                 cursor: "text",
                 fontSize: style.fontSize ? style.fontSize : 16,
               }
@@ -122,11 +106,7 @@ export const DateInput: React.FC<dateInputType> = ({
       <div className="flex flex-col px-1">
         {errors.length
           ? errors.map((error) => {
-              return (
-                <span className="text-red-400 font-semibold text-sm">
-                  &#x25cf; {error}
-                </span>
-              );
+              return <span className="text-red-400 font-semibold text-sm">&#x25cf; {error}</span>;
             })
           : ""}
       </div>

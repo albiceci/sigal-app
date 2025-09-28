@@ -85,7 +85,9 @@ export const MainMenu = ({ tabData, activeTab }: { tabData: tabType[]; activeTab
                     {userInfo.name} {userInfo.surname}
                   </div>
                   <div className="text-sm font-medium">{userInfo.email}</div>
-                  <div className="text-sm font-medium">{userInfo.phoneNumber}</div>
+                  <div className="text-sm font-medium">
+                    {userInfo.phoneNumber ? userInfo.phoneNumber : " No phone number found."}
+                  </div>
                 </div>
               </div>
               <hr className="bg-primary h-[2px] lg:bg-white lg:h-[1px]" />

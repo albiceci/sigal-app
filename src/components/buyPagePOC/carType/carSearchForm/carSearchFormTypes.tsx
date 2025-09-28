@@ -1,11 +1,7 @@
 //////////////PRECREATED FORM FIELD//////////////
 /////////////////ADD HERE WHEN ADDING NEW FORM FIELD///////////////
 
-import {
-  fieldValidationRules,
-  FormInputs,
-  InputField,
-} from "../../../ui/form/types";
+import { fieldValidationRules, FormInputs, InputField } from "../../../ui/form/types";
 
 export const formFields: FormInputs<{
   licence: InputField<"text">;
@@ -26,9 +22,7 @@ export const formFields: FormInputs<{
 };
 
 ///////////VALIDATION RULES/////////////////////////
-export const fieldsValidationObject: fieldValidationRules<
-  keyof typeof formFields
-> = {
+export const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
   licence: [
     {
       type: "REGEX",
@@ -42,9 +36,8 @@ export const fieldsValidationObject: fieldValidationRules<
   ],
   vin: [
     {
-      type: "REGEX",
-      value: /^[A-Z]{9}$/g,
-      error: "Vin nuk eshte ne formatin e duhur",
+      type: "NOT_EMPTY",
+      error: "Targa nuk mund te jete bosh",
     },
   ],
 };

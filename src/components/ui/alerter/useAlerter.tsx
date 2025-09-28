@@ -5,7 +5,7 @@ import { Reveal } from "../../../util/reveal";
 type alertMessageType = {
   message: string;
   description: string | null;
-  type: "error";
+  type: "error" | "success";
 };
 
 function uuidv4() {
@@ -34,6 +34,20 @@ const AlertMessage = ({
             clip-rule="evenodd"
             d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1.5-5.009c0-.867.659-1.491 1.491-1.491.85 0 1.509.624 1.509 1.491 0 .867-.659 1.509-1.509 1.509-.832 0-1.491-.642-1.491-1.509zM11.172 6a.5.5 0 0 0-.499.522l.306 7a.5.5 0 0 0 .5.478h1.043a.5.5 0 0 0 .5-.478l.305-7a.5.5 0 0 0-.5-.522h-1.655z"
             fill="#ef4444"
+          />
+        </svg>
+      ),
+    },
+    success: {
+      containerStyle: "bg-green-500",
+      innerContainerStyle: "bg-green-100",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z"
+            fill="#10b981"
           />
         </svg>
       ),
@@ -116,9 +130,8 @@ export const useAlerter = () => {
   };
 
   useEffect(() => {
-    console.log("test");
     resetInterval();
-  }, [messages]);
+  }, [messages.length]);
 
   return {
     render: (

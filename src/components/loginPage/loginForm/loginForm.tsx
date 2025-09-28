@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fieldValidationRules, FormInputs, InputField } from "../../ui/form/types";
 import { useValidator } from "../../ui/form/validator/useValidator";
 import { FormBody } from "../../ui/form/formContainers/formBody";
@@ -10,6 +10,10 @@ import { useServer } from "../../../util/useServer";
 import { useLoadingOverlay } from "../../ui/loadingOverlay/loadingOverlay";
 import { useAlerter } from "../../ui/alerter/useAlerter";
 import { Button } from "../../ui/button/button";
+import { CredentialResponse, GoogleLogin, googleLogout } from "@react-oauth/google";
+import { IResolveParams, LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
+import { ObjectType } from "typescript";
+import { Socials } from "../socials/socials";
 
 export const formFields: FormInputs<{
   email: InputField<"text">;
@@ -43,6 +47,8 @@ const cardFromFieldValidationRules: fieldValidationRules<keyof typeof formFields
     },
   ],
 };
+
+const REDIRECT_URI = window.location.href;
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState(formFields);
@@ -203,6 +209,33 @@ export const LoginForm = () => {
                 Login
               </Button>
             </div>
+          </FormRow>
+          <FormRow
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div className="flex w-full items-center justify-center">
+              <hr className="flex-grow text-primary" />
+              <span className="px-2 text-primary font-semibold">or</span>
+              <hr className="flex-grow text-primary" />
+            </div>
+          </FormRow>
+          <FormRow
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Socials
+              type="login"
+              onSuccess={() => {
+                window.location.href = "/";
+              }}
+            />
           </FormRow>
           <FormRow
             style={{

@@ -1,28 +1,17 @@
 import { useState } from "react";
 
-import {
-  FormFieldTypes,
-  InputField,
-  FormInputs,
-  fieldValidationRules,
-  formFieldsStateType,
-} from "../types";
+import { FormFieldTypes, InputField, FormInputs, fieldValidationRules, formFieldsStateType } from "../types";
 
-type useValidatorProps<
-  T extends Record<string, InputField<keyof FormFieldTypes>>
-> = {
+type useValidatorProps<T extends Record<string, InputField<keyof FormFieldTypes>>> = {
   fields: FormInputs<T>;
   validationRules: fieldValidationRules<keyof T>;
 };
 
-export function useValidator<
-  T extends Record<string, InputField<keyof FormFieldTypes>>
->({ fields, validationRules }: useValidatorProps<T>) {
-  const _validateField = (
-    name: keyof typeof validationRules,
-    value: any,
-    showErrors: boolean
-  ) => {
+export function useValidator<T extends Record<string, InputField<keyof FormFieldTypes>>>({
+  fields,
+  validationRules,
+}: useValidatorProps<T>) {
+  const _validateField = (name: keyof typeof validationRules, value: any, showErrors: boolean) => {
     const validationObject = validationRules[name];
 
     if (validationObject.length) {
@@ -72,23 +61,15 @@ export function useValidator<
     ) as formFieldsStateType<keyof typeof fields>;
   };
 
-  const [formFieldsState, setFormFieldsState] = useState(
-    setInitialFormFieldsState()
-  );
+  const [formFieldsState, setFormFieldsState] = useState(setInitialFormFieldsState());
 
   const validateForm = (showErrors: boolean) => {
-    (
-      Object.keys(formFieldsState) as Array<keyof typeof formFieldsState>
-    ).forEach((field) => {
+    (Object.keys(formFieldsState) as Array<keyof typeof formFieldsState>).forEach((field) => {
       validateField(field, fields[field].value, showErrors);
     });
   };
 
-  const validateField = (
-    name: keyof typeof validationRules,
-    value: any,
-    showErrors: boolean
-  ) => {
+  const validateField = (name: keyof typeof validationRules, value: any, showErrors: boolean) => {
     setFormFieldsState((prev) => {
       return {
         ...prev,

@@ -6,13 +6,7 @@ import { ReactComponent as PrivateGoldProduct } from "../../assets/freepik/buyPa
 import { ReactComponent as PrivateSilverProduct } from "../../assets/freepik/buyPage/healthCategory/privateSilver.svg";
 import { ReactComponent as PrivateStandardProduct } from "../../assets/freepik/buyPage/healthCategory/privateStandand.svg";
 
-export type PRODUCT_SITE_ID =
-  | "FIRE"
-  | "TPL"
-  | "TRAVELAL"
-  | "PRIVATEGOLD"
-  | "PRIVATESILVER"
-  | "PRIVATESTANDARD";
+export type PRODUCT_SITE_ID = "FIRE" | "TPL" | "TRAVELAL" | "PRIVATEGOLD" | "PRIVATESILVER" | "PRIVATESTANDARD";
 
 export type PRODUCT_INFO_TYPE = {
   productId: string;
@@ -89,7 +83,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     ),
   },
   TPL: {
-    productId: "TPLDUMMYID",
+    productId: "00000000-e1fe-43e2-85cd-439ac4c6a857",
     productSiteId: "TPL",
     categoryId: "car",
     paramKey: "tpl",

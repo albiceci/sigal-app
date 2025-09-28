@@ -12,10 +12,7 @@ export type InputField<T extends keyof FormFieldTypes<S>, S = any> = {
   value: FormFieldTypes<S>[T];
 };
 
-export type FormInputs<
-  T extends Record<string, InputField<keyof FormFieldTypes<S>, S>>,
-  S = any
-> = {
+export type FormInputs<T extends Record<string, InputField<keyof FormFieldTypes<S>, S>>, S = any> = {
   [K in keyof T]: T[K];
 };
 

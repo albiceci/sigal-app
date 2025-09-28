@@ -24,7 +24,7 @@ const SessionContextProvider = ({ children }: { children: JSX.Element }) => {
   const [isValid, setIsValid] = useState(false);
 
   const checkSession = async () => {
-    var response = await fetch(`https://fefefdba33d8.ngrok.app/session/check`, {
+    var response = await fetch(`https://cfd8b2046fdb.ngrok.app/session/check`, {
       headers: { sessionId: sessionData.id },
     });
 
@@ -39,7 +39,7 @@ const SessionContextProvider = ({ children }: { children: JSX.Element }) => {
   };
 
   const getNewSession = async () => {
-    var response = await fetch(`https://fefefdba33d8.ngrok.app/session/create`);
+    var response = await fetch(`https://cfd8b2046fdb.ngrok.app/session/create`);
 
     const json_response = (await response.json()) as any;
 

@@ -23,7 +23,7 @@ export type dateInputType = React.HTMLAttributes<HTMLDivElement> & {
   isValid?: boolean;
   helper?: string | null;
   placeholder: string;
-  value: string;
+  value: string | undefined;
   name: string;
   options: {
     id: string;
@@ -55,7 +55,7 @@ export const SelectInput: React.FC<dateInputType> = ({
       <div className="flex w-full">
         <div className="w-full">
           <div
-            className={`py-3 px-3 pr-10 lg:pr-7 border-[1px] rounded-md min-w-[100%] cursor-pointer ${
+            className={`py-2 px-3 pr-10 lg:pr-7 border-[1px] rounded-md min-w-[100%] cursor-pointer ${
               errors.length
                 ? "border-red-400 focus:border-red-500 bg-red-50"
                 : isValid
@@ -82,7 +82,7 @@ export const SelectInput: React.FC<dateInputType> = ({
               {options.map((option) => {
                 return (
                   <div
-                    className="py-3 px-3 hover:bg-blue-50 cursor-pointer"
+                    className="py-2 px-3 hover:bg-blue-50 cursor-pointer"
                     onClick={() => {
                       if (option.id !== value) onOptionChange(name, option.id);
                       setIsFocus(false);
@@ -100,7 +100,7 @@ export const SelectInput: React.FC<dateInputType> = ({
             errors.length ? "text-red-500" : isValid ? "text-primary" : "text-gray-400"
           }`}
           style={{
-            paddingTop: style.paddingTop ? Number(style.paddingTop) + 2 : 14,
+            paddingTop: style.paddingTop ? Number(style.paddingTop) + 2 : 10,
           }}
           onClick={() => {
             setIsFocus(!isFocus);
@@ -119,7 +119,7 @@ export const SelectInput: React.FC<dateInputType> = ({
               errors.length ? "text-red-500" : isValid ? "text-primary" : "text-gray-400"
             }`}
             style={{
-              paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 16,
+              paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 12,
             }}
           >
             <div
@@ -159,7 +159,7 @@ export const SelectInput: React.FC<dateInputType> = ({
                 background: "linear-gradient(to top, transparent, white, transparent)",
               }
             : {
-                paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 14,
+                paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 10,
                 cursor: "text",
                 fontSize: style.fontSize ? style.fontSize : 16,
               }

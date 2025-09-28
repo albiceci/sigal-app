@@ -12,9 +12,6 @@ const bundleContext = createContext<{
 const BundleContextProvider = ({ children }: { children: JSX.Element }) => {
   const [bundleData, setBundleData] = useState<BUNDLE_TYPE[] | null>(null);
 
-  console.log("Context");
-  console.log(bundleData);
-
   const customFetch = useServer();
   const alerter = useAlerter();
 

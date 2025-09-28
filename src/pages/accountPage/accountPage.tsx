@@ -5,6 +5,7 @@ import { AccountContainer } from "../../components/containers/accountContainer";
 import React from "react";
 import { WindowDimensions } from "../../util/windowDimensions";
 import { PageContainer } from "../../components/containers/pageContainer";
+import { General } from "../../components/accountPage/general/general";
 
 const FaUser = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
@@ -28,11 +29,9 @@ const IoMdSettings = React.lazy(() =>
 );
 
 const Subscriptions = React.lazy(() =>
-  import("../../components/accountPage/subscriptions/subscriptions").then(
-    (module) => ({
-      default: module.Subscriptions,
-    })
-  )
+  import("../../components/accountPage/subscriptions/subscriptions").then((module) => ({
+    default: module.Subscriptions,
+  }))
 );
 const IoDocumentText = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
@@ -52,9 +51,7 @@ const tabData: tabType[] = [
     paramKey: "general",
     icon: (
       <div className="mb-1">
-        <Suspense
-          fallback={<div style={{ height: "18px", width: "18px" }}></div>}
-        >
+        <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
           <FaUser size={18} />
         </Suspense>
       </div>
@@ -65,9 +62,7 @@ const tabData: tabType[] = [
     paramKey: "subscriptions",
     icon: (
       <div className="">
-        <Suspense
-          fallback={<div style={{ height: "19px", width: "19px" }}></div>}
-        >
+        <Suspense fallback={<div style={{ height: "19px", width: "19px" }}></div>}>
           <FaCubes size={19} />
         </Suspense>
       </div>
@@ -78,9 +73,7 @@ const tabData: tabType[] = [
     paramKey: "claims",
     icon: (
       <div className="">
-        <Suspense
-          fallback={<div style={{ height: "19px", width: "19px" }}></div>}
-        >
+        <Suspense fallback={<div style={{ height: "19px", width: "19px" }}></div>}>
           <IoDocumentText size={19} />
         </Suspense>
       </div>
@@ -91,9 +84,7 @@ const tabData: tabType[] = [
     paramKey: "payment",
     icon: (
       <div className="">
-        <Suspense
-          fallback={<div style={{ height: "18px", width: "18px" }}></div>}
-        >
+        <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
           <BsCreditCard2FrontFill size={18} />
         </Suspense>
       </div>
@@ -104,9 +95,7 @@ const tabData: tabType[] = [
     paramKey: "settings",
     icon: (
       <div className="">
-        <Suspense
-          fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-        >
+        <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
           <IoMdSettings size={20} />
         </Suspense>
       </div>
@@ -120,10 +109,14 @@ function renderSwitch(param: string | null) {
       return <></>;
     case "subscriptions":
       return (
-        <Suspense
-          fallback={<div style={{ height: "100%", width: "100%" }}></div>}
-        >
+        <Suspense fallback={<div style={{ height: "100%", width: "100%" }}></div>}>
           <Subscriptions />
+        </Suspense>
+      );
+    case "general":
+      return (
+        <Suspense fallback={<div style={{ height: "100%", width: "100%" }}></div>}>
+          <General />
         </Suspense>
       );
     case "bundle":
@@ -138,31 +131,30 @@ export default function Account() {
 
   useEffect(() => {
     var tabParam = searchParams.get("tab");
-    if (
-      !tabData.filter((tab) => tab.paramKey === tabParam).length &&
-      windowDimensions.width > 768
-    )
+    if (!tabData.filter((tab) => tab.paramKey === tabParam).length && windowDimensions.width > 768)
       setSearchParams({ tab: "general" });
     else setAccountTab(tabParam);
   }, [searchParams]);
 
   return (
-    <div className="relative overflow-x-hidden">
-      <ScrollRestoration />
-      <NavBar
-        buyButton={{
-          isVisible: true,
-          isActive: true,
-          link: "/buy",
-        }}
-        logo={{
-          isMovable: false,
-        }}
-        activeKey={"login"}
-      />
-      <AccountContainer tabData={tabData} activeTab={accountTab}>
-        {renderSwitch(accountTab)}
-      </AccountContainer>
-    </div>
+    <PageContainer>
+      <div className="relative overflow-x-hidden">
+        <ScrollRestoration />
+        <NavBar
+          buyButton={{
+            isVisible: true,
+            isActive: true,
+            link: "/buy",
+          }}
+          logo={{
+            isMovable: false,
+          }}
+          activeKey={"login"}
+        />
+        <AccountContainer tabData={tabData} activeTab={accountTab}>
+          {renderSwitch(accountTab)}
+        </AccountContainer>
+      </div>
+    </PageContainer>
   );
 }

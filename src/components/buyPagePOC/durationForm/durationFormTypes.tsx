@@ -1,11 +1,7 @@
 //////////////PRECREATED FORM FIELD//////////////
 /////////////////ADD HERE WHEN ADDING NEW FORM FIELD///////////////
 
-import {
-  fieldValidationRules,
-  FormInputs,
-  InputField,
-} from "../../ui/form/types";
+import { fieldValidationRules, FormInputs, InputField } from "../../ui/form/types";
 
 export const formFields: FormInputs<{
   durationId: InputField<"text">;
@@ -32,9 +28,7 @@ export const formFields: FormInputs<{
 };
 
 ///////////VALIDATION RULES/////////////////////////
-export const fieldsValidationObject: fieldValidationRules<
-  keyof typeof formFields
-> = {
+export const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
   durationId: [
     {
       type: "NOT_EMPTY",

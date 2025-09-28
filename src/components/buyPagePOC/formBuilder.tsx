@@ -216,7 +216,7 @@ const FormBuilderForm = ({ currentProducts }: { currentProducts: PRODUCT_DATA_TY
     triggerStepLoad();
   }, [currentProducts]); // Trigger load when formGroups change
 
-  //console.log(formData);
+  //console.log(formSteps);
   return (
     <>
       {loadingOverlay.render}

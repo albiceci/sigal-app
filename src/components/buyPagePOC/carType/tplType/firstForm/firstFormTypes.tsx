@@ -1,15 +1,12 @@
 //////////////PRECREATED FORM FIELD//////////////
 /////////////////ADD HERE WHEN ADDING NEW FORM FIELD///////////////
 
-import {
-  fieldValidationRules,
-  FormInputs,
-  InputField,
-} from "../../../../ui/form/types";
+import { fieldValidationRules, FormInputs, InputField } from "../../../../ui/form/types";
 
 export const formFields: FormInputs<{
   vehicleSelected: InputField<"checkbox">;
   durationCompleted: InputField<"checkbox">;
+  premium: InputField<"text">;
 }> = {
   vehicleSelected: {
     name: "vehicleSelected",
@@ -21,12 +18,16 @@ export const formFields: FormInputs<{
     type: "checkbox",
     value: false,
   },
+  premium: {
+    name: "premium",
+    placeholder: "Premium",
+    type: "text",
+    value: "",
+  },
 };
 
 ///////////VALIDATION RULES/////////////////////////
-export const fieldsValidationObject: fieldValidationRules<
-  keyof typeof formFields
-> = {
+export const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
   vehicleSelected: [
     {
       type: "IS_TRUE",
@@ -39,4 +40,5 @@ export const fieldsValidationObject: fieldValidationRules<
       error: "Ju duhet te kerkoni mjetin.",
     },
   ],
+  premium: [],
 };

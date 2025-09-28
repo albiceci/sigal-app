@@ -120,7 +120,7 @@ export const PasswordChangeForm = () => {
 
     loadingOverlay.open("Loading", "Getting your password change instance");
 
-    const jsonData = await customFetch("/user/recoveryCheck", {
+    const jsonData = await customFetch("/user/recovery/check", {
       method: "POST",
       body: body,
       headers: {
@@ -147,7 +147,7 @@ export const PasswordChangeForm = () => {
 
     loadingOverlay.open("Please wait", "Changing your password");
 
-    const jsonData = await customFetch("/user/recoveryChangePassword", {
+    const jsonData = await customFetch("/user/recovery/changePassword", {
       method: "POST",
       body: body,
       headers: {

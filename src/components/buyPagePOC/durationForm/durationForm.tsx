@@ -4,19 +4,25 @@ import { fieldsValidationObject } from "./durationFormTypes";
 import { FormRow } from "../../ui/form/formContainers/formRow";
 import { useContext, useEffect, useState } from "react";
 import { useValidator } from "../../ui/form/validator/useValidator";
-import { productIDtoContextDict } from "../productIDtoContextDict";
 import { DateInput } from "../../ui/form/inputs/dateInput/dateInput";
 import { SelectInput } from "../../ui/form/inputs/selectInput/selectInput";
+import { PRODUCT_DATA_TYPE } from "../formConstants";
+import { tplContext } from "../carType/tplType/tplContext";
+import { useServer } from "../../../util/useServer";
+import { useLoadingOverlay } from "../../ui/loadingOverlay/loadingOverlay";
+import { useAlerter } from "../../ui/alerter/useAlerter";
 
-type allowedProductIDs = "00000000-e1fe-43e2-85cd-439ac4c6a857";
-
-export const useDurationForm = ({ productID }: { productID: allowedProductIDs }) => {
+export const useDurationForm = ({ product }: { product: PRODUCT_DATA_TYPE }) => {
   const { formData, setFormData } = useContext(
     //@ts-ignore
-    productIDtoContextDict[productID]
+    product.context as typeof tplContext
   );
   const [isValid, setIsValid] = useState<boolean>(false);
   const [durations, setDurations] = useState(null);
+
+  const customFetch = useServer();
+  const loadingOverlay = useLoadingOverlay();
+  const alerter = useAlerter();
 
   ///////////////VALIDATION HOOK/////////////////////////////////////
   const { formFieldsState, validateField, validateForm } = useValidator({
@@ -86,15 +92,16 @@ export const useDurationForm = ({ productID }: { productID: allowedProductIDs })
 
   ///////////CUSTOM FUNCTIONS/////////////////////////////////////////////
 
-  const doFetch = async (url: string) => {
-    var r = await fetch(url);
-    return await r.json();
-  };
-
   const getDurations = async () => {
-    const jsonData = await doFetch(`https://6ccc290cd143.ngrok.app/${productID}/durations`);
+    const jsonData = await customFetch(`/form/durations?id=${product.productId}`, {
+      method: "GET",
+    });
 
-    setDurations(jsonData.data);
+    if (jsonData.status !== 200) {
+      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
+    } else {
+      setDurations(jsonData.data);
+    }
   };
 
   const createOption = (): { id: string; text: string }[] => {
@@ -158,6 +165,8 @@ export const useDurationForm = ({ productID }: { productID: allowedProductIDs })
   return {
     render: (
       <>
+        {loadingOverlay.render}
+        {alerter.render}
         <FormRow>
           <SelectInput
             placeholder="Periudha e sigurimit"

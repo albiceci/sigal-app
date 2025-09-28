@@ -12,6 +12,11 @@ type stepType = {
   name: string;
   status: keyof typeof statusMap;
   transactionId: string;
+  result: {
+    data: {
+      id: string;
+    };
+  };
 };
 
 type transactionType = {
@@ -34,10 +39,6 @@ export default function Checkout() {
   const customFetch = useServer();
   const loadingOverlay = useLoadingOverlay();
   const alerter = useAlerter();
-
-  function delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
 
   const getTransactionDetails = async (transactionId: string, showOverlay: boolean = true) => {
     const body = {
@@ -99,12 +100,24 @@ export default function Checkout() {
           </div>
         </div>
         {transactionData !== null ? (
-          <div className="flex flex-col gap-6">
-            {transactionData.steps
-              .sort((a, b) => a.index - b.index)
-              .map((step) => {
-                return <StepItem stepData={step} />;
-              })}
+          <div>
+            <div className="flex flex-col gap-6">
+              {transactionData.steps
+                .sort((a, b) => a.index - b.index)
+                .map((step) => {
+                  return <StepItem stepData={step} />;
+                })}
+            </div>
+            <div className="w-full flex items-center justify-center">
+              <button
+                onClick={() => {
+                  const documentUrl = `https://dfb1fc04788e.ngrok.app/policy/get?id=${transactionData.steps[0].result.data.id}`;
+                  window.open(documentUrl, "_blank");
+                }}
+              >
+                DownloadFile
+              </button>
+            </div>
           </div>
         ) : (
           <div>Loading checkout...</div>

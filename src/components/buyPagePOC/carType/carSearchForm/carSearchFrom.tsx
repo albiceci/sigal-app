@@ -3,32 +3,38 @@ import { formFields } from "./carSearchFormTypes";
 import { fieldsValidationObject } from "./carSearchFormTypes";
 
 import { FormRow } from "../../../ui/form/formContainers/formRow";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useValidator } from "../../../ui/form/validator/useValidator";
 import { createPortal } from "react-dom";
 import { useCarInfoForm } from "./carInfoForm/carInfoForm";
 import { useAlerter } from "../../../ui/alerter/useAlerter";
 import { TextInput } from "../../../ui/form/inputs/textInput/textInput";
 import { Button } from "../../../ui/button/button";
-
-type contextDicKeys = "tpl";
+import { Overlay } from "../../../../util/overlay";
+import { PRODUCT_DATA_TYPE } from "../../formConstants";
+import { useServer } from "../../../../util/useServer";
+import { useLoadingOverlay } from "../../../ui/loadingOverlay/loadingOverlay";
 
 export const CarSearchForm = ({
-  contextKey,
-  setIsVehicleSelected,
+  product,
+  onSubmit,
 }: {
-  contextKey: contextDicKeys;
-  setIsVehicleSelected: (value: boolean) => void;
+  product: PRODUCT_DATA_TYPE;
+  onSubmit: (value: boolean) => void;
 }) => {
-  const contextDict = {
-    tpl: tplContext,
-  };
-  const { formData, setFormData } = useContext(contextDict[contextKey]);
+  const { formData, setFormData } = useContext(product.context as typeof tplContext);
 
-  const carInfoForm = useCarInfoForm({ onSubmit: setIsVehicleSelected });
+  const [carFormStatus, setCarFormStatus] = useState(false);
+
+  const carInfoForm = useCarInfoForm({
+    onSubmit: onSubmit,
+    onClose: () => {
+      setCarFormStatus(false);
+    },
+  });
+  const customFetch = useServer();
+  const loadingOverlay = useLoadingOverlay();
   const alerter = useAlerter();
-
-  const pageContainer = document.getElementById("buyPageContainer");
 
   ///////////////VALIDATION HOOK/////////////////////////////////////
   const { formFieldsState, validateField, validateForm } = useValidator({
@@ -56,7 +62,7 @@ export const CarSearchForm = ({
     });
     validateField(e.target.name as keyof typeof formFields, e.target.value, true);
 
-    setIsVehicleSelected(false);
+    onSubmit(false);
   };
 
   ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
@@ -83,41 +89,40 @@ export const CarSearchForm = ({
     });
   };
 
-  const doFetch = async (url: string, body: any) => {
-    var r = await fetch(url, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(body),
-    });
-    return await r.json();
-  };
-
-  const onVehicleSearch = async (name: string, value: string) => {
+  const onVehicleSearch = async () => {
     const body = {
-      name: name,
-      value: value,
+      licence: formData.licence.value,
+      vin: formData.vin.value,
+      productId: product.productId,
     };
 
-    carInfoForm.setFromStatus("loading");
+    loadingOverlay.open(
+      "Duke pergatitur te dhenat tuaja",
+      "Ju lutem prisni teksa te dhenat tuaja procesohen nga sistemi. Faleminderit!"
+    );
 
-    const jsonData = await doFetch("https://fefefdba33d8.ngrok.app/getVehicle", body);
+    const jsonData = await customFetch("/form/vehicleDetails", {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    loadingOverlay.close();
 
     if (jsonData.status !== 200) {
-      carInfoForm.setFromStatus("closed");
-      alerter.alertMessage({ description: null, message: jsonData.description, type: "error" });
+      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
     } else {
       carInfoForm.updateFormData(jsonData.data.carInfo);
-      carInfoForm.setFromStatus("opened");
-
       updatePassThroughInfo(jsonData.data.passThroughInfo);
+      setCarFormStatus(true);
     }
   };
 
   return (
     <>
+      {loadingOverlay.render}
       {alerter.render}
       <FormRow>
         {/* <SwitchInput
@@ -130,7 +135,7 @@ export const CarSearchForm = ({
         /> */}
         <div className="w-full flex flex-col items-center justify-center">
           <div className="flex gap-3 z-[2] translate-y-[1px]"></div>
-          <div className="w-full bg-gray-50 p-4 border rounded-md z-[1] flex flex-col items-center justify-center gap-1">
+          <div className="w-full bg-gray-50 p-4 border rounded-md z-[1] flex flex-col items-center justify-center gap-3">
             <FormRow>
               <TextInput
                 name={formFields.licence.name}
@@ -151,7 +156,7 @@ export const CarSearchForm = ({
                 onChange={(e) => {
                   handleChange(e);
                 }}
-                errors={formFieldsState["vin"].errors}
+                //errors={formFieldsState["vin"].errors}
               />
             </FormRow>
 
@@ -171,9 +176,7 @@ export const CarSearchForm = ({
                 disabled={!formFieldsState.licence.isValid && !formFieldsState.vin.isValid}
                 onClick={() => {
                   if (formFieldsState.licence.isValid) {
-                    onVehicleSearch(formFields.licence.name, formData.licence.value);
-                  } else if (formFieldsState.vin.isValid) {
-                    onVehicleSearch(formFields.vin.name, formData.vin.value);
+                    onVehicleSearch();
                   }
                 }}
               >
@@ -183,7 +186,7 @@ export const CarSearchForm = ({
           </div>
         </div>
       </FormRow>
-      {pageContainer ? createPortal(carInfoForm.render, pageContainer) : null}
+      {carFormStatus ? <Overlay>{carInfoForm.render}</Overlay> : <></>}
     </>
   );
 };
