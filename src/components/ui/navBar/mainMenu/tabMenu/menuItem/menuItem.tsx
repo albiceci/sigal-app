@@ -2,6 +2,7 @@ import { Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MenuSubItem } from "./menuSubItem/menuSubItem";
 import React from "react";
+import { NavBarItem } from "../../../navBarData";
 
 const MdOutlineKeyboardArrowDown = React.lazy(() =>
   import("react-icons/md").then((module) => ({
@@ -16,23 +17,7 @@ const MdOutlineKeyboardArrowUp = React.lazy(() =>
 );
 
 type menuItemProps = {
-  itemData: {
-    name: string;
-    link: string | null;
-    icons: {
-      primary: JSX.Element;
-      secondary: JSX.Element;
-    };
-    key: string;
-    subCategories:
-      | {
-          name: string;
-          link: string;
-
-          key: string;
-        }[]
-      | null;
-  };
+  itemData: NavBarItem;
   activeKey?: string | null;
 };
 
@@ -46,10 +31,7 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
   };
 
   useEffect(() => {
-    if (
-      itemData.subCategories &&
-      itemData.subCategories.filter((item) => item.key === activeKey).length
-    )
+    if (itemData.subCategories && itemData.subCategories.filter((item) => item.key === activeKey).length)
       setSubCatOpen(true);
     else setSubCatOpen(false);
   }, [activeKey, itemData.subCategories]);
@@ -58,14 +40,22 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
       <div className="w-[220px] flex">
         {itemData.key === activeKey ? (
           <div
-            className={`flex items-center p-[10px] flex-grow no-underline text-white text-sm font-normal transition-colors text-[rgb(211, 212, 212)] bg-primarysub rounded-[10px]`}
+            className={`flex items-center p-[10px] flex-grow gap-2 no-underline text-white text-sm font-normal transition-colors text-[rgb(211, 212, 212)] bg-primarysub rounded-[10px]`}
           >
-            {itemData.icons.primary}
+            {itemData.icons ? (
+              isMouseOver || itemData.key === activeKey ? (
+                itemData.icons.primary
+              ) : (
+                itemData.icons.secondary
+              )
+            ) : (
+              <></>
+            )}
             <span className="ml-[3px]">{itemData.name}</span>
           </div>
         ) : itemData.link ? (
           <Link
-            className={`flex items-center p-[10px] flex-grow no-underline text-white text-sm font-normal transition-colors rounded-[10px] hover:text-[rgb(211, 212, 212)] hover:bg-primarysub`}
+            className={`flex items-center p-[10px] flex-grow gap-2 no-underline text-white text-sm font-normal transition-colors rounded-[10px] hover:text-[rgb(211, 212, 212)] hover:bg-primarysub`}
             to={itemData.link}
             onMouseOver={() => {
               setIsMouseOver(true);
@@ -74,12 +64,20 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
               setIsMouseOver(false);
             }}
           >
-            {isMouseOver ? itemData.icons.primary : itemData.icons.secondary}
+            {itemData.icons ? (
+              isMouseOver || itemData.key === activeKey ? (
+                itemData.icons.primary
+              ) : (
+                itemData.icons.secondary
+              )
+            ) : (
+              <></>
+            )}
             <span className="ml-[3px]">{itemData.name}</span>
           </Link>
         ) : (
           <div
-            className={`flex items-center p-[10px] flex-grow no-underline text-white text-sm font-normal transition-colors rounded-[10px] hover:text-[rgb(211, 212, 212)] hover:bg-primarysub`}
+            className={`flex items-center p-[10px] flex-grow gap-2 no-underline text-white text-sm font-normal transition-colors rounded-[10px] hover:text-[rgb(211, 212, 212)] hover:bg-primarysub`}
             onMouseOver={() => {
               setIsMouseOver(true);
             }}
@@ -87,7 +85,15 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
               setIsMouseOver(false);
             }}
           >
-            {isMouseOver ? itemData.icons.primary : itemData.icons.secondary}
+            {itemData.icons ? (
+              isMouseOver || itemData.key === activeKey ? (
+                itemData.icons.primary
+              ) : (
+                itemData.icons.secondary
+              )
+            ) : (
+              <></>
+            )}
             <span className="ml-[3px]">{itemData.name}</span>
           </div>
         )}
@@ -96,27 +102,17 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
             className="text-white cursor-pointer p-[10px] flex justify-center items-center"
             onClick={handleOpenSubCat}
           >
-            <Suspense
-              fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-            >
-              <MdOutlineKeyboardArrowUp
-                size={20}
-                style={{ display: subCatOpen ? "block" : "none" }}
-              />
+            <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
+              <MdOutlineKeyboardArrowUp size={20} style={{ display: subCatOpen ? "block" : "none" }} />
 
-              <MdOutlineKeyboardArrowDown
-                size={20}
-                style={{ display: !subCatOpen ? "block" : "none" }}
-              />
+              <MdOutlineKeyboardArrowDown size={20} style={{ display: !subCatOpen ? "block" : "none" }} />
             </Suspense>
           </div>
         ) : null}
       </div>
       {itemData.subCategories ? (
         <div
-          className={`bg-primarysubalt w-[220px] rounded-[10px] ${
-            subCatOpen ? "flex flex-col" : "hidden"
-          }`}
+          className={`bg-primarysubalt w-[220px] rounded-[10px] ${subCatOpen ? "flex flex-col" : "hidden"}`}
           onMouseOver={() => {
             setIsMouseOver(true);
           }}
@@ -125,9 +121,7 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
           }}
         >
           {itemData.subCategories.map((item, index) => {
-            return (
-              <MenuSubItem key={index} itemData={item} activeKey={activeKey} />
-            );
+            return <MenuSubItem key={index} itemData={item} activeKey={activeKey} />;
           })}
         </div>
       ) : null}

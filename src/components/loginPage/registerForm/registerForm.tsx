@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { fieldValidationRules, FormInputs, InputField } from "../../ui/form/types";
-import { useValidator } from "../../ui/form/validator/useValidator";
 import { FormBody } from "../../ui/form/formContainers/formBody";
 import { FormRow } from "../../ui/form/formContainers/formRow";
 import { TextInput } from "../../ui/form/inputs/textInput/textInput";
@@ -9,12 +8,13 @@ import { Reveal } from "../../../util/reveal";
 import { useServer } from "../../../util/useServer";
 import { useLoadingOverlay } from "../../ui/loadingOverlay/loadingOverlay";
 import { useAlerter } from "../../ui/alerter/useAlerter";
-import { SelectInput } from "../../ui/form/inputs/selectInput/selectInput";
-import { DateInput } from "../../ui/form/inputs/dateInput/dateInput";
+
 import { Button } from "../../ui/button/button";
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { IResolveParams, LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
+
 import { Socials } from "../socials/socials";
+import { useForm } from "../../ui/form/useForm";
+import { useTranslation } from "react-i18next";
+import { getErrorMessage } from "../../../helper/getErrorMessage";
 
 export const formFields: FormInputs<{
   email: InputField<"text">;
@@ -23,25 +23,37 @@ export const formFields: FormInputs<{
 }> = {
   email: {
     name: "email",
-    placeholder: "Email",
+    placeholder: "form.placeholder.email",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   password: {
     name: "password",
-    placeholder: "Password",
+    placeholder: "form.placeholder.password",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   repeatPassword: {
     name: "repeatPassword",
-    placeholder: "Repeat Password",
+    placeholder: "form.placeholder.repeatPassword",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
 };
 
-const cardFromFieldValidationRules: fieldValidationRules<keyof typeof formFields> = {
+const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
   email: [
     {
       type: "REGEX",
@@ -64,76 +76,29 @@ const cardFromFieldValidationRules: fieldValidationRules<keyof typeof formFields
       type: "NOT_EMPTY",
       error: "Password nuk mund te jete bosh",
     },
-    {
-      type: "SAME_AS",
-      value: "password",
-      error: "Password doesn't match",
-    },
   ],
 };
 
 export const RegisterForm = () => {
   const [formData, setFormData] = useState(formFields);
-  const [isValid, setIsValid] = useState(false);
+
+  const { t } = useTranslation();
 
   const customFetch = useServer();
   const loadingOverlay = useLoadingOverlay();
   const alerter = useAlerter();
 
   ///////////////VALIDATION HOOK/////////////////////////////////////
-  const { formFieldsState, validateField, validateForm } = useValidator({
-    fields: (Object.keys(formFields) as Array<keyof typeof formFields>).reduce(
-      (a, v) => ({
-        ...a,
-        [v]: { ...formFields[v], value: formData[v].value },
-      }),
-      {}
-    ) as typeof formFields,
-    validationRules: cardFromFieldValidationRules,
+  const formHook = useForm<typeof formData, keyof typeof formFields>({
+    formData: formData,
+    formFields: formFields,
+    setFormData: setFormData,
+    fieldsValidationObject: fieldsValidationObject,
   });
 
   //////////////////////ON CHANGE///////////////////////////////
 
-  const updateForm = (name: any, value: any, showErrors = false) => {
-    setFormData((prev) => {
-      return {
-        ...prev,
-        [name]: {
-          ...prev[name as keyof typeof formFields],
-          value: value,
-        },
-      };
-    });
-    validateField(name as keyof typeof formFields, value, showErrors);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateForm(e.target.name, e.target.value, true);
-  };
-
-  const onSelectChange = (name: string, value: string) => {
-    updateForm(name, value, true);
-  };
-
   ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
-
-  const runValidation = (showErrors: boolean) => {
-    validateForm(showErrors);
-  };
-
-  useEffect(() => {
-    runValidation(false);
-  }, []);
-
-  useEffect(() => {
-    setIsValid((prev) => {
-      return (Object.keys(formFieldsState) as Array<keyof typeof formFieldsState>).filter(
-        (field) => !formFieldsState[field].isValid
-      ).length
-        ? false
-        : true;
-    });
-  }, [formFieldsState]);
 
   //////////////////////////CUSTOM FUCTIONS//////////////////////////////////
 
@@ -143,7 +108,7 @@ export const RegisterForm = () => {
       password: formData.password.value,
     };
 
-    loadingOverlay.open("Please wait", "Creating your account");
+    loadingOverlay.open("Ju lutem prisni.", "Duke krijuar llogarin tuaj");
 
     const jsonData = await customFetch("/user/create", {
       method: "POST",
@@ -157,13 +122,26 @@ export const RegisterForm = () => {
 
     if (jsonData.status !== 200) {
       if (jsonData.field) {
-        updateForm(jsonData.field, "", true);
+        formHook.changeFieldValue({
+          name: jsonData.field as keyof typeof formFields,
+          value: "",
+          showErrors: true,
+        });
       }
-      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
+      alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
       window.location.href = "/";
     }
   };
+
+  const isPasswordValid = () => {
+    return formData.password.value === formData.repeatPassword.value;
+  };
+
+  const isFormValid = () => {
+    return formHook.isValid && isPasswordValid();
+  };
+  console.log(isFormValid());
 
   return (
     <>
@@ -178,7 +156,7 @@ export const RegisterForm = () => {
               justifyContent: "center",
             }}
           >
-            <div className="font-boldFamily text-4xl text-primary pb-4">Sign up</div>
+            <div className="font-boldFamily text-4xl text-primary pb-4">{t("account.register.title")}</div>
           </FormRow>
 
           <FormRow>
@@ -186,35 +164,43 @@ export const RegisterForm = () => {
               name={formFields.email.name}
               value={formData.email.value}
               placeholder={formData.email.placeholder as string}
-              isValid={formFieldsState["email"].isValid}
+              isValid={formData.email.state.isValid}
               onChange={(e) => {
-                handleChange(e);
+                formHook.handleInputChange(e);
               }}
-              errors={formFieldsState["email"].errors}
+              errors={formData.email.state.errors}
             />
           </FormRow>
           <FormRow>
             <TextInput
               name={formFields.password.name}
               value={formData.password.value}
+              type={"password"}
               placeholder={formData.password.placeholder as string}
-              isValid={formFieldsState["password"].isValid}
+              isValid={formData.password.state.isValid}
               onChange={(e) => {
-                handleChange(e);
+                formHook.handleInputChange(e);
               }}
-              errors={formFieldsState["password"].errors}
+              errors={formData.password.state.errors}
             />
           </FormRow>
           <FormRow>
             <TextInput
               name={formFields.repeatPassword.name}
+              type={"password"}
               value={formData.repeatPassword.value}
               placeholder={formData.repeatPassword.placeholder as string}
-              isValid={formFieldsState["repeatPassword"].isValid}
+              isValid={formData.repeatPassword.state.isValid && isPasswordValid()}
               onChange={(e) => {
-                handleChange(e);
+                formHook.handleInputChange(e);
               }}
-              errors={formFieldsState["repeatPassword"].errors}
+              errors={(() => {
+                if (isPasswordValid()) {
+                  return;
+                } else {
+                  return [...formData.repeatPassword.state.errors, "Fjalëkalimi nuk eshte i njejte"];
+                }
+              })()}
             />
           </FormRow>
           <FormRow
@@ -227,16 +213,16 @@ export const RegisterForm = () => {
             <div className="py-4">
               <Button
                 buttonType="secondary"
-                disabled={!isValid}
+                disabled={!isFormValid()}
                 onClick={() => {
-                  if (isValid) {
+                  if (isFormValid()) {
                     onSubmit();
                   } else {
-                    runValidation(true);
+                    formHook.validateForm(true);
                   }
                 }}
               >
-                Sign up
+                {t("account.register.submit")}
               </Button>
             </div>
           </FormRow>
@@ -249,7 +235,7 @@ export const RegisterForm = () => {
           >
             <div className="flex w-full items-center justify-center">
               <hr className="flex-grow text-primary" />
-              <span className="px-2 text-primary font-semibold">or</span>
+              <span className="px-2 text-primary font-semibold">{t("account.register.or")}</span>
               <hr className="flex-grow text-primary" />
             </div>
           </FormRow>
@@ -277,10 +263,10 @@ export const RegisterForm = () => {
           >
             <div>
               <div>
-                Already have an account?{" "}
+                {t("account.register.haveAccount")}{" "}
                 {
                   <span className="text-primary">
-                    <Link to="/login">Login</Link>
+                    <Link to="/login">{t("account.login.title")}</Link>
                   </span>
                 }
               </div>

@@ -26,7 +26,6 @@ export const AuthContainer = ({
         return true;
       });
     } else {
-      console.log(redirect);
       navigate(redirect);
       setShowComponent((prev) => {
         return true;

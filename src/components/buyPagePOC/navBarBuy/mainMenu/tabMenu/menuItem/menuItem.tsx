@@ -4,6 +4,7 @@ import { MenuSubItem } from "./menuSubItem/menuSubItem";
 import React from "react";
 
 import { SidebarContext } from "../../../../../containers/buyPageContainer";
+import { useTranslation } from "react-i18next";
 
 const MdOutlineKeyboardArrowDown = React.lazy(() =>
   import("react-icons/md").then((module) => ({
@@ -38,6 +39,7 @@ type menuItemProps = {
 };
 
 export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
+  const { t } = useTranslation();
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
   const [subCatOpen, setSubCatOpen] = useState<boolean>(false);
   const { sideBarActive } = useContext(SidebarContext);
@@ -48,10 +50,7 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
   };
 
   useEffect(() => {
-    if (
-      itemData.subCategories &&
-      itemData.subCategories.filter((item) => item.key === activeKey).length
-    )
+    if (itemData.subCategories && itemData.subCategories.filter((item) => item.key === activeKey).length)
       setSubCatOpen(true);
     else setSubCatOpen(false);
   }, [activeKey, itemData.subCategories, sideBarActive]);
@@ -64,7 +63,7 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
             className={`flex items-center p-[10px] flex-grow no-underline text-white text-sm font-normal transition-colors text-[rgb(211, 212, 212)] bg-primarysub rounded-[10px]`}
           >
             {itemData.icons.primary}
-            <span className="ml-[3px]">{itemData.name}</span>
+            <span className="ml-[3px]">{t(itemData.name)}</span>
           </div>
         ) : itemData.link ? (
           <Link
@@ -77,10 +76,8 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
               setIsMouseOver(false);
             }}
           >
-            {isMouseOver || subCatOpen
-              ? itemData.icons.primary
-              : itemData.icons.secondary}
-            <span className="ml-[3px]">{itemData.name}</span>
+            {isMouseOver || subCatOpen ? itemData.icons.primary : itemData.icons.secondary}
+            <span className="ml-[3px]">{t(itemData.name)}</span>
           </Link>
         ) : (
           <div
@@ -92,10 +89,8 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
               setIsMouseOver(false);
             }}
           >
-            {isMouseOver || subCatOpen
-              ? itemData.icons.primary
-              : itemData.icons.secondary}
-            <span className="ml-[3px]">{itemData.name}</span>
+            {isMouseOver || subCatOpen ? itemData.icons.primary : itemData.icons.secondary}
+            <span className="ml-[3px]">{t(itemData.name)}</span>
           </div>
         )}
         {itemData.subCategories ? (
@@ -114,10 +109,7 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
                 ></div>
               }
             >
-              <MdOutlineKeyboardArrowUp
-                size={20}
-                style={{ display: subCatOpen ? "block" : "none" }}
-              />
+              <MdOutlineKeyboardArrowUp size={20} style={{ display: subCatOpen ? "block" : "none" }} />
             </Suspense>
             <Suspense
               fallback={
@@ -130,19 +122,14 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
                 ></div>
               }
             >
-              <MdOutlineKeyboardArrowDown
-                size={20}
-                style={{ display: !subCatOpen ? "block" : "none" }}
-              />
+              <MdOutlineKeyboardArrowDown size={20} style={{ display: !subCatOpen ? "block" : "none" }} />
             </Suspense>
           </div>
         ) : null}
       </div>
       {itemData.subCategories ? (
         <div
-          className={`bg-primarysubalt w-[220px] rounded-[10px] ${
-            subCatOpen ? "flex flex-col" : "hidden"
-          }`}
+          className={`bg-primarysubalt w-[220px] rounded-[10px] ${subCatOpen ? "flex flex-col" : "hidden"}`}
           onMouseOver={() => {
             setIsMouseOver(true);
           }}
@@ -151,9 +138,7 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
           }}
         >
           {itemData.subCategories.map((item, index) => {
-            return (
-              <MenuSubItem key={index} itemData={item} activeKey={activeKey} />
-            );
+            return <MenuSubItem key={index} itemData={item} activeKey={activeKey} />;
           })}
         </div>
       ) : null}

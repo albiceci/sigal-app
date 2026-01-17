@@ -6,6 +6,7 @@ import Lottie from "lottie-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../ui/button/button";
+import { useTranslation } from "react-i18next";
 
 const FaLink = React.lazy(() =>
   import("react-icons/fa6").then((module) => ({
@@ -22,15 +23,16 @@ type insuranceTypesType = {
 
 const InsuranceTypesItem = ({ insuranceType }: { insuranceType: insuranceTypesType }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <div className="w-52 min-w-52 h-80 border rounded-md shadow-lg p-4 bg-white flex flex-col hover:scale-105">
-      <div className="h-1/2 overflow-hidden">{insuranceType.image}</div>
+      <div className="h-[150px] overflow-hidden flex items-center justify-center">{insuranceType.image}</div>
       <div className="py-4 flex flex-col items-center justify-center">
         <div>
-          <div className="font-bold text-presetgray text-lg uppercase">{insuranceType.title}</div>
+          <div className="font-bold text-presetgray text-lg uppercase">{t(insuranceType.title)}</div>
         </div>
         <div>
-          <div className="text-presetgray text-sm font-medium">{insuranceType.subTitle}</div>
+          <div className="text-presetgray text-sm font-medium">{t(insuranceType.subTitle)}</div>
         </div>
       </div>
       <div className="flex-grow flex items-center justify-center">
@@ -52,7 +54,7 @@ const InsuranceTypesItem = ({ insuranceType }: { insuranceType: insuranceTypesTy
               <Suspense fallback={<div style={{ height: "16px", width: "16px" }}></div>}>
                 <FaLink size={16} />
               </Suspense>
-              Meso me shume
+              {t("button.learnMore")}
             </div>
           </Button>
         </div>
@@ -65,46 +67,56 @@ const InsuranceTypesItem = ({ insuranceType }: { insuranceType: insuranceTypesTy
 export default function InsuranceTypes({ insuranceTypes }: { insuranceTypes: insuranceTypesType[] }) {
   const lottieRef = React.useRef(null);
   var windowDimensions = WindowDimensions();
+  const { t } = useTranslation();
 
   return (
-    <div className="w-full flex items-center justify-center py-10">
+    <section id="insurance-types" className="w-full flex items-center justify-center py-16">
       <ContentContainer>
         <Reveal type={"x"} width="100%">
           <div className="flex flex-col gap-2 items-center justify-center">
-            <div className="h2 text-presetgray">TITLE FOR SECTION</div>
-            <div className="h5 font-semibold text-presetgray">SUBTITLE FOR SECTION</div>
+            <div className="h2 text-presetgray text-center">{t("insuraceTypes.title")}</div>
+            <div className="h5 font-semibold text-presetgray text-center">{t("insuraceTypes.subTitle")}</div>
           </div>
         </Reveal>
-        <div
-          className="flex md:justify-center overflow-x-auto overflow-y-hidden md:flex-wrap gap-9 mt-10 py-6"
-          onScroll={() => {
-            //@ts-ignore
-            lottieRef.current?.setAttribute("hidden", "");
-          }}
-        >
-          {insuranceTypes.map((type, index) => {
-            return (
-              <Reveal delay={windowDimensions.width > 768 ? index * 0.25 : 0}>
-                <InsuranceTypesItem insuranceType={type} key={index} />
-              </Reveal>
-            );
-          })}
-        </div>
-        <div className="w-full flex md:hidden items-end justify-center min-h-20">
-          <div ref={lottieRef} className="-translate-y-12 opacity-50">
-            <Lottie
+        <div className="w-full relative">
+          <div
+            className="flex md:justify-center overflow-x-auto overflow-y-hidden  mt-10 py-6" //
+            onScroll={() => {
+              //@ts-ignore
+              lottieRef.current?.setAttribute("hidden", "");
+            }}
+          >
+            <div
+              className="flex gap-9 md:justify-center md:flex-wrap md:max-w-[900px]"
               style={{
-                pointerEvents: "none",
-                height: 80,
-                width: 80,
+                maxWidth: windowDimensions.width > 1385 ? "fit-content" : undefined,
               }}
-              animationData={require("../../../assets/lottie/icons/swipeLeftRightIconPrimary.json")}
-              autoplay={true}
-              loop={true}
-            />
+            >
+              {insuranceTypes.map((type, index) => {
+                return (
+                  <Reveal key={index} delay={windowDimensions.width > 768 ? index * 0.25 : 0}>
+                    <InsuranceTypesItem insuranceType={type} />
+                  </Reveal>
+                );
+              })}
+            </div>
+          </div>
+          <div className="w-full absolute flex md:hidden items-end justify-center min-h-20">
+            <div ref={lottieRef} className="-translate-y-12 opacity-50">
+              <Lottie
+                style={{
+                  pointerEvents: "none",
+                  height: 80,
+                  width: 80,
+                }}
+                animationData={require("../../../assets/lottie/icons/swipeLeftRightIconPrimary.json")}
+                autoplay={true}
+                loop={true}
+              />
+            </div>
           </div>
         </div>
       </ContentContainer>
-    </div>
+    </section>
   );
 }

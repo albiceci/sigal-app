@@ -12,12 +12,7 @@ export function CarType() {
     <div className="w-full">
       <div className="h-full flex flex-col">
         <NavBarBuy activeKey={"car"} />
-        <SelectType
-          products={getProductInfo()}
-          message="Cfare lloje sigurimi po kerkoni?"
-          showMessage={false}
-          type="product"
-        />
+        <SelectType products={getProductInfo()} message="buy.product.title" showMessage={true} type="product" />
       </div>
     </div>
   );

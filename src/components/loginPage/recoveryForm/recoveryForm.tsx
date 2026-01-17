@@ -11,19 +11,26 @@ import { useLoadingOverlay } from "../../ui/loadingOverlay/loadingOverlay";
 import { useAlerter } from "../../ui/alerter/useAlerter";
 import { FormDisclaimer } from "../../ui/form/formContainers/formDisclaimer";
 import { Button } from "../../ui/button/button";
+import { useForm } from "../../ui/form/useForm";
+import { useTranslation } from "react-i18next";
+import { getErrorMessage } from "../../../helper/getErrorMessage";
 
 export const formFields: FormInputs<{
   email: InputField<"text">;
 }> = {
   email: {
     name: "email",
-    placeholder: "Email",
+    placeholder: "form.placeholder.email",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
 };
 
-const cardFromFieldValidationRules: fieldValidationRules<keyof typeof formFields> = {
+const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
   email: [
     {
       type: "REGEX",
@@ -46,56 +53,19 @@ export const RecoveryForm = () => {
   const loadingOverlay = useLoadingOverlay();
   const alerter = useAlerter();
 
+  const { t } = useTranslation();
+
   ///////////////VALIDATION HOOK/////////////////////////////////////
-  const { formFieldsState, validateField, validateForm } = useValidator({
-    fields: (Object.keys(formFields) as Array<keyof typeof formFields>).reduce(
-      (a, v) => ({
-        ...a,
-        [v]: { ...formFields[v], value: formData[v].value },
-      }),
-      {}
-    ) as typeof formFields,
-    validationRules: cardFromFieldValidationRules,
+  const formHook = useForm<typeof formData, keyof typeof formFields>({
+    formData: formData,
+    formFields: formFields,
+    setFormData: setFormData,
+    fieldsValidationObject: fieldsValidationObject,
   });
 
   //////////////////////ON CHANGE///////////////////////////////
 
-  const updateForm = (name: any, value: any, showErrors = false) => {
-    setFormData((prev) => {
-      return {
-        ...prev,
-        [name]: {
-          ...prev[name as keyof typeof formFields],
-          value: value,
-        },
-      };
-    });
-    validateField(name as keyof typeof formFields, value, showErrors);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateForm(e.target.name, e.target.value, true);
-  };
-
   ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
-
-  const runValidation = (showErrors: boolean) => {
-    validateForm(showErrors);
-  };
-
-  useEffect(() => {
-    runValidation(false);
-  }, []);
-
-  useEffect(() => {
-    setIsValid((prev) => {
-      return (Object.keys(formFieldsState) as Array<keyof typeof formFieldsState>).filter(
-        (field) => !formFieldsState[field].isValid
-      ).length
-        ? false
-        : true;
-    });
-  }, [formFieldsState]);
 
   //////////////////////////CUSTOM FUCTIONS//////////////////////////////////
 
@@ -118,9 +88,13 @@ export const RecoveryForm = () => {
 
     if (jsonData.status !== 200) {
       if (jsonData.field) {
-        updateForm(jsonData.field, "", true);
+        formHook.changeFieldValue({
+          name: jsonData.field as keyof typeof formFields,
+          value: "",
+          showErrors: true,
+        });
       }
-      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
+      alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
       setEmailSent((prev) => {
         return true;
@@ -141,19 +115,19 @@ export const RecoveryForm = () => {
               justifyContent: "center",
             }}
           >
-            <div className="font-boldFamily text-4xl text-center text-primary pb-4">Password Recovery</div>
+            <div className="font-boldFamily text-4xl text-center text-primary pb-4">{t("account.recovery.title")}</div>
           </FormRow>
-          <FormDisclaimer>Enter your email and we will send you a recovery link</FormDisclaimer>
+          <FormDisclaimer>{t("account.recovery.disclaimer")}</FormDisclaimer>
           <FormRow>
             <TextInput
               name={formFields.email.name}
               value={formData.email.value}
               placeholder={formData.email.placeholder as string}
-              isValid={formFieldsState["email"].isValid}
+              isValid={formData.email.state.isValid}
               onChange={(e) => {
-                handleChange(e);
+                formHook.handleInputChange(e);
               }}
-              errors={formFieldsState["email"].errors}
+              errors={formData.email.state.errors}
             />
           </FormRow>
           <FormRow
@@ -166,16 +140,16 @@ export const RecoveryForm = () => {
             <div className="py-4">
               <Button
                 buttonType="secondary"
-                disabled={!isValid || emailSent}
+                disabled={!formHook.isValid || emailSent}
                 onClick={() => {
-                  if (isValid && !emailSent) {
+                  if (formHook.isValid && !emailSent) {
                     onSubmit();
                   } else {
-                    runValidation(true);
+                    formHook.validateForm(true);
                   }
                 }}
               >
-                {emailSent ? "Email sent" : "Send"}
+                {emailSent ? t("account.recovery.sent") : t("account.recovery.send")}
               </Button>
             </div>
           </FormRow>
@@ -188,10 +162,10 @@ export const RecoveryForm = () => {
           >
             <div>
               <div>
-                Don't have an account?{" "}
+                {t("account.login.noAccount")}{" "}
                 {
                   <span className="text-primary">
-                    <Link to="/register">Sign up</Link>
+                    <Link to="/register">{t("account.register.title")}</Link>
                   </span>
                 }
               </div>

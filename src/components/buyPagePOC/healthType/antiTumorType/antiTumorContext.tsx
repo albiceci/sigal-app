@@ -1,0 +1,112 @@
+import { createContext, useEffect, useRef, useState } from "react";
+
+import { formFields as firstFormFields } from "../privateHealthType/firstForm/firstFormTypes";
+import { formFields as secondFormFields } from "./secondForm/secondFormTypes";
+import { formFields as durationFormFields } from "../../durationForm/durationFormTypes";
+import { formFields as additionalPeopleFields } from "../../additionalPeopleForm/additionalPeopleFormTypes";
+import { useServer } from "../../../../util/useServer";
+import { useLoadingOverlay } from "../../../ui/loadingOverlay/loadingOverlay";
+import { useAlerter } from "../../../ui/alerter/useAlerter";
+import { PRODUCT_INFO } from "../../productConstants";
+import { getErrorMessage } from "../../../../helper/getErrorMessage";
+
+//////////JOIN ALL FIELDS ON THE FORMS//////////////////////
+
+function mergeForms(
+  form1: typeof firstFormFields,
+  form2: typeof secondFormFields,
+  form3: typeof durationFormFields,
+  form4: typeof additionalPeopleFields
+) {
+  return { ...form1, ...form2, ...form3, ...form4 };
+}
+
+const combinedFormFields = mergeForms(
+  firstFormFields,
+  secondFormFields,
+  durationFormFields,
+  JSON.parse(JSON.stringify(additionalPeopleFields))
+);
+
+const antiTumorContext = createContext<{
+  formData: typeof combinedFormFields;
+  setFormData: React.Dispatch<React.SetStateAction<typeof combinedFormFields>>;
+}>({ formData: combinedFormFields, setFormData: () => {} });
+
+const AntiTumorContextProvider = ({ children }: { children: JSX.Element }) => {
+  const [formData, setFormData] = useState(combinedFormFields);
+
+  const hasMounted = useRef(false);
+
+  const customFetch = useServer();
+  const loadingOverlay = useLoadingOverlay();
+  const alerter = useAlerter();
+
+  const getPremium = async () => {
+    const body = {
+      data: formData,
+      productSiteId: PRODUCT_INFO.ANTITUMOR.productSiteId,
+    };
+
+    loadingOverlay.open("Please wait", "Calculation premium...");
+
+    const jsonData = await customFetch("/form/premium", {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    loadingOverlay.close();
+
+    if (jsonData.status !== 200) {
+      alerter.alertMessage(getErrorMessage(jsonData.message));
+    } else {
+      setFormData((prev) => {
+        return {
+          ...prev,
+          premium: {
+            ...prev.premium,
+            value: jsonData.data.premiumGross,
+          },
+          premiumCurrency: {
+            ...prev.premiumCurrency,
+            value: jsonData.data.premiumCurrency,
+          },
+        };
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (hasMounted.current) {
+      if (
+        formData.birthday.state.isValid &&
+        formData.gender.state.isValid &&
+        formData.durationId.value &&
+        formData.coverage.state.isValid
+      ) {
+        getPremium();
+      }
+    } else {
+      hasMounted.current = true; // Skip the first run
+    }
+  }, [
+    formData.additionalPeople.value,
+    formData.gender.value,
+    formData.birthday.value,
+    formData.coverage.value,
+    formData.durationId.value,
+  ]);
+  // provider logic here
+  return (
+    <antiTumorContext.Provider value={{ formData: formData, setFormData: setFormData }}>
+      {loadingOverlay.render}
+      {alerter.render}
+      {children}
+    </antiTumorContext.Provider>
+  );
+};
+
+export { antiTumorContext, AntiTumorContextProvider };

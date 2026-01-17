@@ -33,7 +33,7 @@ export const AccountContainer = ({
           <MainMenu tabData={tabData} activeTab={activeTab} />
         </div>
         <div
-          className={`bg-gray-100 flex flex-col rounded-md md:flex-grow border lg:border-0 absolute md:static w-full h-full top-0 left-0 z-[100] md:z-[1] md:translate-x-[0] transition-transform duration-500 overflow-hidden ${
+          className={`bg-gray-100 flex flex-col rounded-md md:flex-grow border lg:border-0 absolute md:static w-full h-full top-0 left-0 z-[50] md:z-[1] md:translate-x-[0] transition-transform duration-500 overflow-hidden ${
             activeTab === null ? "translate-x-[100%]" : "translate-x-[0]"
           }`}
         >

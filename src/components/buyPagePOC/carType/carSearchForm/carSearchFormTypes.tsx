@@ -9,15 +9,23 @@ export const formFields: FormInputs<{
 }> = {
   licence: {
     name: "licence",
-    placeholder: "Targa",
+    placeholder: "form.placeholder.licence",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   vin: {
     name: "vin",
-    placeholder: "Shasia",
+    placeholder: "form.placeholder.vin",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
 };
 
@@ -26,18 +34,18 @@ export const fieldsValidationObject: fieldValidationRules<keyof typeof formField
   licence: [
     {
       type: "REGEX",
-      value: /^[A-z]{2}\d{3}[A-z]{2}$/g,
-      error: "Targa duhet te kete formatin XX000XX",
+      value: /^[A-z]{2}\d{3}([A-z]{2})?$/g,
+      error: "form.error.licence.wrongFormat",
     },
     {
       type: "NOT_EMPTY",
-      error: "Targa nuk mund te jete bosh",
+      error: "form.error.licence.notEmpty",
     },
   ],
   vin: [
     {
       type: "NOT_EMPTY",
-      error: "Targa nuk mund te jete bosh",
+      error: "form.error.vin.notEmpty",
     },
   ],
 };

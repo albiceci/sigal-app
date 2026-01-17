@@ -1,8 +1,6 @@
 import React, { Suspense } from "react";
 
-const BsCarFront = React.lazy(() =>
-  import("react-icons/bs").then((module) => ({ default: module.BsCarFront }))
-);
+const BsCarFront = React.lazy(() => import("react-icons/bs").then((module) => ({ default: module.BsCarFront })));
 
 const BsCarFrontFill = React.lazy(() =>
   import("react-icons/bs").then((module) => ({
@@ -21,18 +19,7 @@ const FaRegHospital = React.lazy(() =>
   }))
 );
 
-const IoAirplane = React.lazy(() =>
-  import("react-icons/io5").then((module) => ({ default: module.IoAirplane }))
-);
-
-const IoAirplaneOutline = React.lazy(() =>
-  import("react-icons/io5").then((module) => ({
-    default: module.IoAirplaneOutline,
-  }))
-);
-const IoHome = React.lazy(() =>
-  import("react-icons/io5").then((module) => ({ default: module.IoHome }))
-);
+const IoHome = React.lazy(() => import("react-icons/io5").then((module) => ({ default: module.IoHome })));
 const IoHomeOutline = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoHomeOutline,
@@ -64,20 +51,16 @@ const FaUser = React.lazy(() =>
 export const navBarBuyValues = {
   products: [
     {
-      name: "MAKINA",
+      name: "category.car.name",
       link: "/buy?type=car",
       icons: {
         primary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <BsCarFrontFill size={20} />
           </Suspense>
         ),
         secondary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <BsCarFront size={20} />
           </Suspense>
         ),
@@ -86,20 +69,16 @@ export const navBarBuyValues = {
       subCategories: null,
     },
     {
-      name: "PASURIA",
+      name: "category.wealth.name",
       link: "/buy?type=wealth",
       icons: {
         primary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <IoHome size={20} />
           </Suspense>
         ),
         secondary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <IoHomeOutline size={20} />
           </Suspense>
         ),
@@ -108,20 +87,16 @@ export const navBarBuyValues = {
       subCategories: null,
     },
     {
-      name: "SHËNDETI",
+      name: "category.health.name",
       link: "/buy?type=health",
       icons: {
         primary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <FaHospital size={20} />
           </Suspense>
         ),
         secondary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <FaRegHospital size={20} />
           </Suspense>
         ),
@@ -130,20 +105,16 @@ export const navBarBuyValues = {
       subCategories: null,
     },
     {
-      name: "MARINA",
+      name: "category.marina.name",
       link: "/buy?type=marina",
       icons: {
         primary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <IoBoat size={20} />
           </Suspense>
         ),
         secondary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <IoBoatOutline size={20} />
           </Suspense>
         ),
@@ -154,63 +125,16 @@ export const navBarBuyValues = {
   ],
   secondary: [
     {
-      name: `SHERBIME & KONTAKTE`,
-      link: null,
-      icons: {
-        primary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
-            <FaUser size={20} />
-          </Suspense>
-        ),
-        secondary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
-            <FaRegUser size={20} />
-          </Suspense>
-        ),
-      },
-      key: "sherbime",
-      subCategories: [
-        {
-          name: "POLICAT E MIA",
-          link: "/buy/policies",
-          key: "policies",
-        },
-        {
-          name: "RAPORTO DEM SHENDETSOR",
-          link: "/buy/policies",
-          key: "healthreport",
-        },
-        {
-          name: "RAPORTO DEM TPL",
-          link: "/buy/policies",
-          key: "tplreport",
-        },
-        {
-          name: "VERIFIKO POLICEN",
-          link: "/buy/policies",
-          key: "policiesverify",
-        },
-      ],
-    },
-    {
-      name: "LLOGARIA IME",
+      name: "navigation.myAccount.name",
       link: "/login",
       icons: {
         primary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <FaUser size={20} />
           </Suspense>
         ),
         secondary: (
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <FaRegUser size={20} />
           </Suspense>
         ),

@@ -3,6 +3,7 @@ import { BUNDLE_TYPE } from "./formConstants";
 import { PRODUCT_SITE_ID } from "./productConstants";
 import { useServer } from "../../util/useServer";
 import { useAlerter } from "../ui/alerter/useAlerter";
+import { getErrorMessage } from "../../helper/getErrorMessage";
 
 const bundleContext = createContext<{
   bundleData: BUNDLE_TYPE[] | null;
@@ -16,7 +17,7 @@ const BundleContextProvider = ({ children }: { children: JSX.Element }) => {
   const alerter = useAlerter();
 
   async function getBundles() {
-    const jsonData = await customFetch("/bundles/getBundles", {
+    const jsonData = await customFetch("/bundle/getAll", {
       method: "GET",
       body: undefined,
       headers: {
@@ -25,7 +26,7 @@ const BundleContextProvider = ({ children }: { children: JSX.Element }) => {
     });
 
     if (jsonData.status !== 200) {
-      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
+      alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
       setBundleData(
         (jsonData.data as BUNDLE_TYPE[]).map((bundle) => {

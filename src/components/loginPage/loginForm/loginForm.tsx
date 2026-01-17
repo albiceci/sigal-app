@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { fieldValidationRules, FormInputs, InputField } from "../../ui/form/types";
-import { useValidator } from "../../ui/form/validator/useValidator";
 import { FormBody } from "../../ui/form/formContainers/formBody";
 import { FormRow } from "../../ui/form/formContainers/formRow";
 import { TextInput } from "../../ui/form/inputs/textInput/textInput";
@@ -10,10 +9,12 @@ import { useServer } from "../../../util/useServer";
 import { useLoadingOverlay } from "../../ui/loadingOverlay/loadingOverlay";
 import { useAlerter } from "../../ui/alerter/useAlerter";
 import { Button } from "../../ui/button/button";
-import { CredentialResponse, GoogleLogin, googleLogout } from "@react-oauth/google";
-import { IResolveParams, LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
-import { ObjectType } from "typescript";
+
 import { Socials } from "../socials/socials";
+import { useForm } from "../../ui/form/useForm";
+import { useTranslation } from "react-i18next";
+import React from "react";
+import { getErrorMessage } from "../../../helper/getErrorMessage";
 
 export const formFields: FormInputs<{
   email: InputField<"text">;
@@ -21,19 +22,27 @@ export const formFields: FormInputs<{
 }> = {
   email: {
     name: "email",
-    placeholder: "Email",
+    placeholder: "form.placeholder.email",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   password: {
     name: "password",
-    placeholder: "Password",
+    placeholder: "form.placeholder.password",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
 };
 
-const cardFromFieldValidationRules: fieldValidationRules<keyof typeof formFields> = {
+const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
   email: [
     {
       type: "NOT_EMPTY",
@@ -52,62 +61,24 @@ const REDIRECT_URI = window.location.href;
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState(formFields);
-  const [isValid, setIsValid] = useState(false);
+
+  const { t } = useTranslation();
 
   const customFetch = useServer();
   const loadingOverlay = useLoadingOverlay();
   const alerter = useAlerter();
 
   ///////////////VALIDATION HOOK/////////////////////////////////////
-  const { formFieldsState, validateField, validateForm } = useValidator({
-    fields: (Object.keys(formFields) as Array<keyof typeof formFields>).reduce(
-      (a, v) => ({
-        ...a,
-        [v]: { ...formFields[v], value: formData[v].value },
-      }),
-      {}
-    ) as typeof formFields,
-    validationRules: cardFromFieldValidationRules,
+  const formHook = useForm<typeof formData, keyof typeof formFields>({
+    formData: formData,
+    formFields: formFields,
+    setFormData: setFormData,
+    fieldsValidationObject: fieldsValidationObject,
   });
 
   //////////////////////ON CHANGE///////////////////////////////
 
-  const updateForm = (name: any, value: any, showErrors = false) => {
-    setFormData((prev) => {
-      return {
-        ...prev,
-        [name]: {
-          ...prev[name as keyof typeof formFields],
-          value: value,
-        },
-      };
-    });
-    validateField(name as keyof typeof formFields, value, showErrors);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateForm(e.target.name, e.target.value, true);
-  };
-
   ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
-
-  const runValidation = (showErrors: boolean) => {
-    validateForm(showErrors);
-  };
-
-  useEffect(() => {
-    runValidation(false);
-  }, []);
-
-  useEffect(() => {
-    setIsValid((prev) => {
-      return (Object.keys(formFieldsState) as Array<keyof typeof formFieldsState>).filter(
-        (field) => !formFieldsState[field].isValid
-      ).length
-        ? false
-        : true;
-    });
-  }, [formFieldsState]);
 
   //////////////////////////CUSTOM FUCTIONS//////////////////////////////////
 
@@ -117,7 +88,7 @@ export const LoginForm = () => {
       password: formData.password.value,
     };
 
-    loadingOverlay.open("Please wait", "Finding your account");
+    loadingOverlay.open("Ju lutem prisni.", "Duke kerkuar llogarin tuaj");
 
     const jsonData = await customFetch("/user/login", {
       method: "POST",
@@ -131,13 +102,25 @@ export const LoginForm = () => {
 
     if (jsonData.status !== 200) {
       if (jsonData.field) {
-        updateForm(jsonData.field, "", true);
+        formHook.changeFieldValue({
+          name: jsonData.field as keyof typeof formFields,
+          value: "",
+          showErrors: true,
+        });
       }
-      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
+      alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
       window.location.href = "/";
     }
   };
+
+  const Forgot = React.memo(() => {
+    return (
+      <div className="flex justify-end text-primary text-sm">
+        <Link to="/recovery">Forgot</Link>
+      </div>
+    );
+  });
 
   return (
     <>
@@ -152,18 +135,18 @@ export const LoginForm = () => {
               justifyContent: "center",
             }}
           >
-            <div className="font-boldFamily text-4xl text-primary pb-4">Login</div>
+            <div className="font-boldFamily text-4xl text-primary pb-4">{t("account.login.title")}</div>
           </FormRow>
           <FormRow>
             <TextInput
               name={formFields.email.name}
               value={formData.email.value}
               placeholder={formData.email.placeholder as string}
-              isValid={formFieldsState["email"].isValid}
+              isValid={formData.email.state.isValid}
               onChange={(e) => {
-                handleChange(e);
+                formHook.handleInputChange(e);
               }}
-              errors={formFieldsState["email"].errors}
+              errors={formData.email.state.errors}
             />
           </FormRow>
           <FormRow
@@ -176,15 +159,16 @@ export const LoginForm = () => {
             <TextInput
               name={formFields.password.name}
               value={formData.password.value}
+              type={"password"}
               placeholder={formData.password.placeholder as string}
-              isValid={formFieldsState["password"].isValid}
+              isValid={formData.password.state.isValid}
               onChange={(e) => {
-                handleChange(e);
+                formHook.handleInputChange(e);
               }}
-              errors={formFieldsState["password"].errors}
+              errors={formData.password.state.errors}
             />
             <div className="flex justify-end text-primary text-sm">
-              <Link to={"/recovery"}>Forgot your password?</Link>
+              <Link to={"/recovery"}>{t("account.login.forgotPassword")}</Link>
             </div>
           </FormRow>
           <FormRow
@@ -197,16 +181,16 @@ export const LoginForm = () => {
             <div className="py-4">
               <Button
                 buttonType="secondary"
-                disabled={!isValid}
+                disabled={!formHook.isValid}
                 onClick={() => {
-                  if (isValid) {
+                  if (formHook.isValid) {
                     onSubmit();
                   } else {
-                    runValidation(true);
+                    formHook.validateForm(true);
                   }
                 }}
               >
-                Login
+                {t("account.login.submit")}
               </Button>
             </div>
           </FormRow>
@@ -219,7 +203,7 @@ export const LoginForm = () => {
           >
             <div className="flex w-full items-center justify-center">
               <hr className="flex-grow text-primary" />
-              <span className="px-2 text-primary font-semibold">or</span>
+              <span className="px-2 text-primary font-semibold">{t("account.login.or")}</span>
               <hr className="flex-grow text-primary" />
             </div>
           </FormRow>
@@ -246,10 +230,10 @@ export const LoginForm = () => {
           >
             <div>
               <div>
-                Don't have an account?{" "}
+                {t("account.login.noAccount")}{" "}
                 {
                   <span className="text-primary">
-                    <Link to="/register">Sign up</Link>
+                    <Link to="/register">{t("account.register.title")}</Link>
                   </span>
                 }
               </div>

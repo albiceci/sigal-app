@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Reveal } from "../../../util/reveal";
 
@@ -100,63 +100,82 @@ const AlertMessage = ({
 
 export const useAlerter = () => {
   const [messages, setMessages] = useState<(alertMessageType & { id: string })[]>([]);
-  const [currentInterval, setCurrentInterval] = useState<NodeJS.Timer | null>(null);
+
+  /* -------------------------
+   * Stable refs
+   * ------------------------- */
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
   const pageContainer = document.getElementById("alerterContainer");
 
-  const removeCurrentAlert = () => {
-    setMessages((prev) => {
-      return prev.slice(0, -1);
-    });
-  };
+  /* -------------------------
+   * Stable handlers
+   * ------------------------- */
+  const removeCurrentAlert = useCallback(() => {
+    setMessages((prev) => prev.slice(0, -1));
+  }, []);
 
-  const alertMessage = (messageData: alertMessageType) => {
-    const messageId = uuidv4();
+  const alertMessage = useCallback((messageData: alertMessageType) => {
+    console.log(messageData);
+    setMessages((prev) => [...prev, { ...messageData, id: uuidv4() }]);
+  }, []);
 
-    setMessages((prev) => {
-      return [...prev, { ...messageData, id: messageId }];
-    });
-  };
+  /* -------------------------
+   * Timer logic (stable)
+   * ------------------------- */
+  const resetInterval = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
 
-  const resetInterval = () => {
-    if (currentInterval) clearTimeout(currentInterval);
-
-    const intervalId = setTimeout(function () {
+    timerRef.current = setTimeout(() => {
       removeCurrentAlert();
     }, 10000);
-
-    setCurrentInterval((prev) => {
-      return intervalId;
-    });
-  };
+  }, [removeCurrentAlert]);
 
   useEffect(() => {
-    resetInterval();
-  }, [messages.length]);
+    if (messages.length) {
+      resetInterval();
+    }
 
-  return {
-    render: (
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, [messages.length, resetInterval]);
+
+  /* -------------------------
+   * Render (memoized)
+   * ------------------------- */
+  const render = useMemo(() => {
+    if (!pageContainer) return null;
+
+    return (
       <>
-        {messages.map((message, index) => {
-          return (
-            <>
-              {pageContainer
-                ? createPortal(
-                    <AlertMessage
-                      messageData={message}
-                      key={message.id}
-                      index={index - messages.length + 1}
-                      onClick={() => {
-                        removeCurrentAlert();
-                      }}
-                    />,
-                    pageContainer
-                  )
-                : null}
-            </>
-          );
-        })}
+        {messages.map((message, index) =>
+          createPortal(
+            <AlertMessage
+              key={message.id}
+              messageData={message}
+              index={index - messages.length + 1}
+              onClick={removeCurrentAlert}
+            />,
+            pageContainer
+          )
+        )}
       </>
-    ),
-    alertMessage: alertMessage,
-  };
+    );
+  }, [messages, pageContainer, removeCurrentAlert]);
+
+  /* -------------------------
+   * Stable API
+   * ------------------------- */
+  return useMemo(
+    () => ({
+      alertMessage,
+      render,
+    }),
+    [alertMessage, render]
+  );
 };

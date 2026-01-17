@@ -3,9 +3,7 @@ import { formFields } from "./carSearchFormTypes";
 import { fieldsValidationObject } from "./carSearchFormTypes";
 
 import { FormRow } from "../../../ui/form/formContainers/formRow";
-import { useContext, useEffect, useState } from "react";
-import { useValidator } from "../../../ui/form/validator/useValidator";
-import { createPortal } from "react-dom";
+import { useContext, useState } from "react";
 import { useCarInfoForm } from "./carInfoForm/carInfoForm";
 import { useAlerter } from "../../../ui/alerter/useAlerter";
 import { TextInput } from "../../../ui/form/inputs/textInput/textInput";
@@ -14,6 +12,9 @@ import { Overlay } from "../../../../util/overlay";
 import { PRODUCT_DATA_TYPE } from "../../formConstants";
 import { useServer } from "../../../../util/useServer";
 import { useLoadingOverlay } from "../../../ui/loadingOverlay/loadingOverlay";
+import { useForm } from "../../../ui/form/useForm";
+import { useTranslation } from "react-i18next";
+import { getErrorMessage } from "../../../../helper/getErrorMessage";
 
 export const CarSearchForm = ({
   product,
@@ -23,6 +24,7 @@ export const CarSearchForm = ({
   onSubmit: (value: boolean) => void;
 }) => {
   const { formData, setFormData } = useContext(product.context as typeof tplContext);
+  const { t } = useTranslation();
 
   const [carFormStatus, setCarFormStatus] = useState(false);
 
@@ -36,44 +38,21 @@ export const CarSearchForm = ({
   const loadingOverlay = useLoadingOverlay();
   const alerter = useAlerter();
 
-  ///////////////VALIDATION HOOK/////////////////////////////////////
-  const { formFieldsState, validateField, validateForm } = useValidator({
-    fields: (Object.keys(formFields) as Array<keyof typeof formFields>).reduce(
-      (a, v) => ({
-        ...a,
-        [v]: { ...formFields[v], value: formData[v].value },
-      }),
-      {}
-    ) as typeof formFields,
-    validationRules: fieldsValidationObject,
+  ///////////////FORM HOOK/////////////////////////////////////
+  const formHook = useForm<typeof formData, keyof typeof formFields>({
+    formData: formData,
+    formFields: formFields,
+    setFormData: setFormData,
+    fieldsValidationObject: fieldsValidationObject,
   });
 
   //////////////////////ON CHANGE///////////////////////////////
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => {
-      return {
-        ...prev,
-        [e.target.name]: {
-          ...prev[e.target.name as keyof typeof formFields],
-          value: e.target.value,
-        },
-      };
-    });
-    validateField(e.target.name as keyof typeof formFields, e.target.value, true);
+    formHook.handleInputChange(e);
 
     onSubmit(false);
   };
-
-  ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
-
-  const runValidation = (showErrors: boolean) => {
-    validateForm(showErrors);
-  };
-
-  useEffect(() => {
-    runValidation(false);
-  }, []);
 
   ///////////////CUSTOM FUNCTION////////////////////////////////////
 
@@ -93,13 +72,10 @@ export const CarSearchForm = ({
     const body = {
       licence: formData.licence.value,
       vin: formData.vin.value,
-      productId: product.productId,
+      productSiteId: product.productSiteId,
     };
 
-    loadingOverlay.open(
-      "Duke pergatitur te dhenat tuaja",
-      "Ju lutem prisni teksa te dhenat tuaja procesohen nga sistemi. Faleminderit!"
-    );
+    loadingOverlay.open(t("form.carSearchForm.loading.title"), t("form.carSearchForm.loading.subTitle"));
 
     const jsonData = await customFetch("/form/vehicleDetails", {
       method: "POST",
@@ -112,7 +88,7 @@ export const CarSearchForm = ({
     loadingOverlay.close();
 
     if (jsonData.status !== 200) {
-      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
+      alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
       carInfoForm.updateFormData(jsonData.data.carInfo);
       updatePassThroughInfo(jsonData.data.passThroughInfo);
@@ -125,14 +101,6 @@ export const CarSearchForm = ({
       {loadingOverlay.render}
       {alerter.render}
       <FormRow>
-        {/* <SwitchInput
-          fields={[formData.licence, formData.vin]}
-          states={[formFieldsState["licence"], formFieldsState["vin"]]}
-          onChange={(e) => {
-            handleChange(e);
-          }}
-          onSubmit={onVehicleSearch}
-        /> */}
         <div className="w-full flex flex-col items-center justify-center">
           <div className="flex gap-3 z-[2] translate-y-[1px]"></div>
           <div className="w-full bg-gray-50 p-4 border rounded-md z-[1] flex flex-col items-center justify-center gap-3">
@@ -141,19 +109,21 @@ export const CarSearchForm = ({
                 name={formFields.licence.name}
                 value={formData.licence.value}
                 placeholder={formData.licence.placeholder as string}
-                isValid={formFieldsState["licence"].isValid}
+                isValid={formData.licence.state.isValid}
                 onChange={(e) => {
+                  e.target.value = e.target.value.toUpperCase();
                   handleChange(e);
                 }}
-                errors={formFieldsState["licence"].errors}
+                errors={formData.licence.state.errors}
               />
 
               <TextInput
                 name={formFields.vin.name}
                 value={formData.vin.value}
                 placeholder={formData.vin.placeholder as string}
-                isValid={formFieldsState["vin"].isValid}
+                isValid={formData.vin.state.isValid}
                 onChange={(e) => {
+                  e.target.value = e.target.value.toUpperCase();
                   handleChange(e);
                 }}
                 //errors={formFieldsState["vin"].errors}
@@ -173,20 +143,20 @@ export const CarSearchForm = ({
                   style: { height: 20, width: 20 },
                   placement: "before",
                 }}
-                disabled={!formFieldsState.licence.isValid && !formFieldsState.vin.isValid}
+                disabled={!formData.licence.state.isValid && !formData.vin.state.isValid}
                 onClick={() => {
-                  if (formFieldsState.licence.isValid) {
+                  if (formData.licence.state.isValid) {
                     onVehicleSearch();
                   }
                 }}
               >
-                Kerko
+                {t("form.carSearchForm.search")}
               </Button>
             </div>
           </div>
         </div>
       </FormRow>
-      {carFormStatus ? <Overlay>{carInfoForm.render}</Overlay> : <></>}
+      {carFormStatus && carInfoForm.render}
     </>
   );
 };

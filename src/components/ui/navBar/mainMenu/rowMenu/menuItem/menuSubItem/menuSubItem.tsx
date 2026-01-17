@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import React, { Suspense } from "react";
+import { BaseNavBarItem } from "../../../../navBarData";
 
 const MdOutlineSubdirectoryArrowRight = React.lazy(() =>
   import("react-icons/md").then((module) => ({
@@ -9,11 +10,7 @@ const MdOutlineSubdirectoryArrowRight = React.lazy(() =>
 );
 
 type menuItemProps = {
-  itemData: {
-    name: string;
-    link: string;
-    key: string;
-  };
+  itemData: BaseNavBarItem;
   activeKey?: string | null;
 };
 
@@ -24,9 +21,7 @@ export const MenuSubItem = ({ itemData, activeKey = null }: menuItemProps) => {
         <div
           className={`p-[2px] py-[10px] h-full w-full no-underline text-presetgray text-sm font-semibold transition-colors whitespace-nowrap flex items-center text-primary border-b-2 border-b-primary `}
         >
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <MdOutlineSubdirectoryArrowRight size={20} />
           </Suspense>
           <span>{itemData.name}</span>
@@ -34,12 +29,10 @@ export const MenuSubItem = ({ itemData, activeKey = null }: menuItemProps) => {
       ) : (
         <Link
           className={`p-[2px] py-[10px] w-full h-full no-underline text-presetgray text-sm font-semibold transition-colors whitespace-nowrap flex items-center hover:text-primary hover:border-b-2 hover:border-b-primary `}
-          to={itemData.link}
+          to={itemData.link as string}
           preventScrollReset={false}
         >
-          <Suspense
-            fallback={<div style={{ height: "20px", width: "20px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "20px", width: "20px" }}></div>}>
             <MdOutlineSubdirectoryArrowRight size={20} />
           </Suspense>
           <span>{itemData.name}</span>

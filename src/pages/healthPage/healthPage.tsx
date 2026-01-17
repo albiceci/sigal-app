@@ -1,6 +1,10 @@
 import NavBar from "../../components/ui/navBar/navBar";
 
 import { PageContainer } from "../../components/containers/pageContainer";
+import ProductListSection from "../../components/healthPage/productListSection/productListSection";
+import Footer from "../../components/common/footer/footer";
+import ContactSection from "../../components/common/contactSection/contactSection";
+import MainSection from "../../components/healthPage/mainSection/mainSection";
 
 export default function Health() {
   return (
@@ -13,7 +17,12 @@ export default function Health() {
         }}
         activeKey={"health"}
       />
-      <div className="animate-[fadein_1s]"></div>
+      <main className="animate-[fadein_1s]">
+        <MainSection />
+        <ProductListSection />
+        <ContactSection />
+      </main>
+      <Footer />
     </PageContainer>
   );
 }

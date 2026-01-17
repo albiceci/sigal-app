@@ -1,19 +1,10 @@
-import {
-  forwardRef,
-  Suspense,
-  useContext,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
-import { useValidator } from "../../../ui/form/validator/useValidator";
-import { FormBody } from "../../../ui/form/formContainers/formBody";
+import { forwardRef, Suspense, useContext, useImperativeHandle } from "react";
 import React from "react";
-import { createPortal } from "react-dom";
 import { PaymentOption } from "../paymentOption/paymentOption";
-import { CardForm, cardFormFields } from "./cardForm/cardForm";
 import { fieldsValidationObject, formFields } from "./paymentFormTypes";
 import { paymentContext } from "../paymentContext";
+import { useForm } from "../../../ui/form/useForm";
+import { TransactionInfo } from "./transactionInfo/transactionInfo";
 
 const BsCreditCard2FrontFill = React.lazy(() =>
   import("react-icons/bs").then((module) => ({
@@ -28,97 +19,57 @@ const FaMoneyBillWave = React.lazy(() =>
 
 const PaymentForm = forwardRef((_, ref) => {
   const { formData, setFormData } = useContext(paymentContext);
-  const [isCardPageOpen, setIsCardPageOpen] = useState<boolean>(false);
-  const pageContainer = document.getElementById("buyPageContainer");
 
   ///////////////VALIDATION HOOK/////////////////////////////////////
-  const { formFieldsState, validateField, validateForm } = useValidator({
-    fields: (Object.keys(formFields) as Array<keyof typeof formFields>).reduce(
-      (a, v) => ({
-        ...a,
-        [v]: { ...formFields[v], value: formData[v].value },
-      }),
-      {}
-    ) as typeof formFields,
-    validationRules: fieldsValidationObject,
+  const formHook = useForm<typeof formData, keyof typeof formFields>({
+    formData: formData,
+    formFields: formFields,
+    setFormData: setFormData,
+    fieldsValidationObject: fieldsValidationObject,
   });
-
   //////////////////////ON CHANGE///////////////////////////////
 
   const changePaymentOption = (value: typeof formData.paymentOption.value) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      paymentOption: {
-        ...prevState.paymentOption,
-        value: value,
-      },
-    }));
-
-    validateField("paymentOption", value, true);
-  };
-
-  const saveCard = (cardInfo: typeof cardFormFields) => {
-    (Object.keys(cardInfo) as Array<keyof typeof cardInfo>).forEach((field) => {
-      setFormData((prevState) => ({
-        ...prevState,
-        paymentData: {
-          ...prevState.paymentData,
-          value: {
-            ...prevState.paymentData.value,
-            [field]: cardInfo[field].value,
-          },
-        },
-      }));
+    formHook.changeFieldValue({
+      name: "paymentOption",
+      value: value,
+      showErrors: true,
     });
-
-    validateField("paymentData", formData.paymentData, true);
-
-    changePaymentOption("1");
   };
 
   ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
 
-  const runValidation = (showErrors: boolean) => {
-    validateForm(showErrors);
-  };
-
-  useEffect(() => {
-    runValidation(false);
-  }, []);
-
   useImperativeHandle(ref, () => ({
-    runValidation: runValidation,
-    isValid: (
-      Object.keys(formFieldsState) as Array<keyof typeof formFieldsState>
-    ).filter((field) => !formFieldsState[field].isValid).length
-      ? false
-      : true,
+    runValidation: formHook.validateForm,
+    isValid: formHook.isValid,
   }));
 
   return (
     <>
-      <FormBody style={{ height: "100%", width: "100%" }}>
-        <div className="w-full h-full flex gap-6 justify-center py-10">
+      <div className="flex-col flex gap-3 xl:flex-row">
+        <div className="flex-grow xl:min-w-[400px] py-4">
+          <TransactionInfo />
+        </div>
+        <div className="flex items-center justify-center">
+          <div className="h-[1px] w-[80%] xl:h-[80%] xl:w-[1px] bg-gray-200"></div>
+        </div>
+        <div className="h-full flex flex-wrap gap-6 justify-center items-center py-10">
           <PaymentOption
             name="CARD"
             isSelected={formData.paymentOption.value === "1"}
             icon={
-              <Suspense
-                fallback={<div style={{ width: "100%", height: "100%" }}></div>}
-              >
+              <Suspense fallback={<div style={{ width: "100%", height: "100%" }}></div>}>
                 <BsCreditCard2FrontFill size={"80"} />
               </Suspense>
             }
             onClick={() => {
-              setIsCardPageOpen(true);
+              changePaymentOption("1");
             }}
           />
           <PaymentOption
             name="CASH"
             icon={
-              <Suspense
-                fallback={<div style={{ width: "100%", height: "100%" }}></div>}
-              >
+              <Suspense fallback={<div style={{ width: "100%", height: "100%" }}></div>}>
                 <FaMoneyBillWave size={"80"} />
               </Suspense>
             }
@@ -128,20 +79,7 @@ const PaymentForm = forwardRef((_, ref) => {
             }}
           />
         </div>
-      </FormBody>
-      {pageContainer
-        ? createPortal(
-            <CardForm
-              initialState={formData.paymentData.value}
-              isOpen={isCardPageOpen}
-              onClose={() => {
-                setIsCardPageOpen(false);
-              }}
-              onSubmit={saveCard}
-            />,
-            pageContainer
-          )
-        : null}
+      </div>
     </>
   );
 });

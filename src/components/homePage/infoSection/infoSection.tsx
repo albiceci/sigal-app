@@ -4,19 +4,19 @@ import { Button } from "../../ui/button/button";
 
 export default function InfoSection() {
   return (
-    <div className="flex items-center justify-center py-10">
+    <article className="flex items-center justify-center py-10">
       <ContentContainer>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-10 sm:gap-0 sm:flex-row sm:justify-between items-center">
             <Reveal>
               <div className="sm:w-[400px] md:w-[600px] lg:w-[700px] flex flex-col gap-5 text-center sm:text-left">
-                <div className="h2 text-primary">Siguroni pa hezituar mirëqënien tuaj shëndetësore</div>
+                <div className="h2 text-presetgray">Siguroni pa hezituar mirëqënien tuaj shëndetësore</div>
                 <div className="flex flex-col gap-4">
-                  <div className="h3 text-presetgray ">Thjesht! Gjithmonë! Kudo!</div>
+                  <div className="h3 text-primary ">Thjesht! Gjithmonë! Kudo!</div>
                   <div className="">
                     Një risi inovatore për të qenë pranë klientëve në çdo moment dhe për t’ju dhënë shërbimin e duhur
-                    shëndetësor. Mundësuar nga SIGAL UNIQA përmes teknologjisë më të fundit, Teleshëndet u lejon
-                    klientëve të konsultohen me mjekë të kualifikuar nga komoditeti i shtëpisë së tyre. Klientët mund të
+                    shëndetësor. Mundësuar nga SIGAL IG përmes teknologjisë më të fundit, Teleshëndet u lejon klientëve
+                    të konsultohen me mjekë të kualifikuar nga komoditeti i shtëpisë së tyre. Klientët mund të
                     rezervojnë takime, të marrin receta dhe të ndjekin udhëzimet mjekësore në mënyrë të thjeshtë dhe të
                     shpejtë, duke kontribuar kështu në përmirësimin e shëndetit dhe mirëqenies së tyre të përgjithshme.
                   </div>
@@ -39,7 +39,7 @@ export default function InfoSection() {
           <div className="flex flex-col gap-10 sm:gap-0 sm:flex-row-reverse sm:justify-between items-center">
             <Reveal>
               <div className="sm:w-[400px] md:w-[600px] lg:w-[700px] flex flex-col gap-5 text-center sm:text-left">
-                <div className="h2 text-primary">Zgjidhja e duhur për të gjithë!</div>
+                <div className="h2 text-presetgray">Zgjidhja e duhur për të gjithë!</div>
                 <div className="flex flex-col gap-4">
                   <div>
                     Përfitoni mbrojtje financiare të plotë dhe qetësi mendore në rast fatkeqësie. Ky sigurim është
@@ -66,6 +66,6 @@ export default function InfoSection() {
           </div>
         </div>
       </ContentContainer>
-    </div>
+    </article>
   );
 }

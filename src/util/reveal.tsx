@@ -9,14 +9,18 @@ export const Reveal = ({
   duration = 0.5,
   type = "y",
   distance = 70,
+  distanceType = "px",
+  opacityTransition = true,
   marginBottom = "0",
 }: {
   children: ReactNode;
-  width?: "fit-content" | "100%";
-  height?: "fit-content" | "100%";
+  width?: "fit-content" | "100%" | undefined;
+  height?: "fit-content" | "100%" | undefined;
   delay?: number;
   duration?: number;
   distance?: number;
+  distanceType?: "px" | "%";
+  opacityTransition?: boolean;
   type?: "x" | "y" | null;
   marginBottom?: string;
 }) => {
@@ -29,14 +33,16 @@ export const Reveal = ({
 
   return (
     <div
-      className={`transition-[opacity, translate] ${isInView ? `opacity-100` : `will-change-transform opacity-0`}`}
+      className={`transition-[opacity, translate] ${isInView ? `` : `will-change-transform`} ${
+        isInView || !opacityTransition ? `opacity-100` : `opacity-0`
+      }`}
       ref={ref}
       style={{
         height: height,
         width: width,
-        transform: `translate(${isInView || type === "y" ? "0" : distance}px, ${
+        transform: `translate(${isInView || type === "y" ? "0" : distance}${distanceType}, ${
           isInView || type === "x" ? "0" : distance
-        }px)`,
+        }${distanceType})`,
         transitionDelay: `${delay}s`,
         transitionDuration: `${duration}s`,
       }}

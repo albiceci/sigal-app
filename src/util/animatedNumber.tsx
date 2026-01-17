@@ -9,7 +9,7 @@ export const AnimatedNumber = ({
   className = "",
   duration = 400,
 }: {
-  value: number;
+  value: number | string;
   startFromZero?: boolean;
   marginBottom?: string;
   className?: string;

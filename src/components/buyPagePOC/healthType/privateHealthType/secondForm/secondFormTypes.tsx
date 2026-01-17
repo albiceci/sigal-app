@@ -1,0 +1,92 @@
+//////////////PRECREATED FORM FIELD//////////////
+/////////////////ADD HERE WHEN ADDING NEW FORM FIELD///////////////
+
+import { fieldValidationRules, FormInputs, InputField } from "../../../../ui/form/types";
+
+export const formFields: FormInputs<{
+  begDate: InputField<"text">;
+  endDate: InputField<"text">;
+  templateId: InputField<
+    "select",
+    | "fa0739e4-11ef-ed11-b989-00505692fbbd"
+    | "ce2f9003-3448-ef11-b9a8-00505692fbbd"
+    | "42878124-3448-ef11-b9a8-00505692fbbd"
+    | null
+  >;
+  premium: InputField<"text">;
+  premiumCurrency: InputField<"text">;
+}> = {
+  begDate: {
+    name: "begDate",
+    placeholder: "form.placeholder.begDate",
+    type: "text",
+    value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
+  },
+  endDate: {
+    name: "endDate",
+    placeholder: "form.placeholder.endDate",
+    type: "text",
+    value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
+  },
+  templateId: {
+    name: "templateId",
+    type: "select",
+    value: null,
+    state: {
+      isValid: false,
+      errors: [],
+    },
+  },
+  premium: {
+    name: "premium",
+    placeholder: "Premium",
+    type: "text",
+    value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
+  },
+  premiumCurrency: {
+    name: "premiumCurrency",
+    placeholder: "premiumCurrency",
+    type: "text",
+    value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
+  },
+};
+
+///////////VALIDATION RULES/////////////////////////
+export const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
+  begDate: [
+    {
+      type: "NOT_EMPTY",
+      error: "form.error.begDate.notEmpty",
+    },
+  ],
+  endDate: [
+    {
+      type: "NOT_EMPTY",
+      error: "form.error.endDate.notEmpty",
+    },
+  ],
+  templateId: [
+    {
+      type: "NOT_NULL",
+      error: "form.error.templateId.notNull",
+    },
+  ],
+  premium: [],
+  premiumCurrency: [],
+};

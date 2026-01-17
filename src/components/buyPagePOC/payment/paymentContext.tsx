@@ -2,15 +2,9 @@ import { createContext, useState } from "react";
 
 import { formFields as paymentFormFields } from "../payment/paymentForm/paymentFormTypes";
 
-import { FormInputs } from "../../ui/form/types";
-
 //////////JOIN ALL FIELDS ON THE FORMS//////////////////////
 
-type CombinedFormFields<F1> = F1;
-
-function mergeForms<F1 extends FormInputs<any>>(
-  form1: F1
-): CombinedFormFields<F1> {
+function mergeForms(form1: typeof paymentFormFields) {
   return { ...form1 };
 }
 
@@ -25,9 +19,7 @@ const PaymentContextProvider = ({ children }: { children: JSX.Element }) => {
   const [formData, setFormData] = useState(combinedFormFields);
   // provider logic here
   return (
-    <paymentContext.Provider
-      value={{ formData: formData, setFormData: setFormData }}
-    >
+    <paymentContext.Provider value={{ formData: formData, setFormData: setFormData }}>
       {children}
     </paymentContext.Provider>
   );

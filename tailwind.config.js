@@ -5,10 +5,13 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     colors: {
-      primary: "rgba(5,93,169,255)",
+      primary: "rgba(5,93,169,255)", //055DA9
       primarysub: "rgba(1, 79, 138, 1)",
       primarysubalt: "rgba(0, 120, 211, 255)",
-      presetgray: "rgb(60, 60, 60)",
+      secondary: "rgba(161, 216, 248)", //A1D8F8
+      presetblack: "rgba(38, 57, 109)",
+      presetgray: "rgb(60, 60, 60)", //3c3c3c
+      presetgray2: "rgb(173,173,173)", //ADADAD
       sapphire: "hsl(210 66% 53%)",
       cyan: colors.cyan,
       orange: colors.orange,
@@ -29,6 +32,7 @@ module.exports = {
     },
     extend: {
       height: {},
+      screens: {},
       width: {},
       scale: {},
       boxShadow: {

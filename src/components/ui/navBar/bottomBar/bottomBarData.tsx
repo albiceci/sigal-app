@@ -1,8 +1,6 @@
 import React, { Suspense } from "react";
 
-const IoHome = React.lazy(() =>
-  import("react-icons/io5").then((module) => ({ default: module.IoHome }))
-);
+const IoHome = React.lazy(() => import("react-icons/io5").then((module) => ({ default: module.IoHome })));
 const IoHomeOutline = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoHomeOutline,
@@ -44,16 +42,12 @@ export const bottomBarValues = {
       link: "/",
       icons: {
         primary: (
-          <Suspense
-            fallback={<div style={{ height: "18px", width: "18px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
             <IoHome size={18} />
           </Suspense>
         ),
         secondary: (
-          <Suspense
-            fallback={<div style={{ height: "18px", width: "18px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
             <IoHomeOutline size={18} />
           </Suspense>
         ),
@@ -66,16 +60,12 @@ export const bottomBarValues = {
       link: "/buy",
       icons: {
         primary: (
-          <Suspense
-            fallback={<div style={{ height: "18px", width: "18px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
             <IoCartOutline size={18} />
           </Suspense>
         ),
         secondary: (
-          <Suspense
-            fallback={<div style={{ height: "18px", width: "18px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
             <IoCartOutline size={18} />
           </Suspense>
         ),
@@ -84,20 +74,16 @@ export const bottomBarValues = {
       subCategories: null,
     },
     {
-      name: "Raporto",
+      name: "Raporto Dem",
       link: "/file-claim",
       icons: {
         primary: (
-          <Suspense
-            fallback={<div style={{ height: "18px", width: "18px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
             <IoDocumentText size={18} />
           </Suspense>
         ),
         secondary: (
-          <Suspense
-            fallback={<div style={{ height: "18px", width: "18px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
             <IoDocumentTextOutline size={18} />
           </Suspense>
         ),
@@ -110,16 +96,12 @@ export const bottomBarValues = {
       link: "/login",
       icons: {
         primary: (
-          <Suspense
-            fallback={<div style={{ height: "18px", width: "18px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
             <FaUser size={18} />
           </Suspense>
         ),
         secondary: (
-          <Suspense
-            fallback={<div style={{ height: "18px", width: "18px" }}></div>}
-          >
+          <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
             <FaRegUser size={18} />
           </Suspense>
         ),

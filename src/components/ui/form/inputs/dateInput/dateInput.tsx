@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { CSSProperties, useState } from "react";
+import { useTranslation } from "react-i18next";
 const FaRegQuestionCircle = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
     default: module.FaRegQuestionCircle,
@@ -13,6 +14,7 @@ export type dateInputType = React.InputHTMLAttributes<HTMLInputElement> & {
   isValid?: boolean;
   containerStyle?: CSSProperties;
   style?: CSSProperties;
+  selfState?: boolean;
 };
 
 export const DateInput: React.FC<dateInputType> = ({
@@ -20,34 +22,52 @@ export const DateInput: React.FC<dateInputType> = ({
   errors = [],
   placeholder,
   isValid = false,
+  selfState = false,
   containerStyle = {},
   style = {},
   ...props
 }) => {
+  const { t } = useTranslation();
   const [isFocus, setIsFocus] = useState(false);
   const [isHelperHover, setIsHelperHover] = useState(false);
+  const [value, setValue] = useState("");
   return (
     <div className="flex-[1] flex flex-col gap-1 relative" style={{ ...containerStyle }}>
       <div className="flex w-full">
         <input
+          id={props.name}
           type="date"
-          className={`py-2 px-1 pr-10 lg:pr-7 border-[1px] rounded-md focus:outline-none min-w-[100%] transition-[border-color] ${
+          className={`py-[9px] px-3 m-[1px] border-[1px] focus:border-[2px] focus:m-0 rounded-md min-h-[46px] w-full focus:outline-none min-w-[150px] transition-[border-color] ${
             isFocus || props.value !== "" ? "" : "text-transparent"
           } ${
             errors.length
               ? "border-red-400 focus:border-red-500 bg-red-50"
               : isValid
-              ? "border-primary focus:border-primarysub bg-blue-50"
-              : "border-gray-200 focus:border-gray-400 bg-gray-100"
-          }`}
+              ? "border-primary focus:border-primarysub bg-[#f6f9fd]"
+              : "border-gray-200 focus:border-gray-400 bg-gray-50"
+          } ${helper && "pr-10 lg:pr-7"}`}
           {...props}
           style={{ ...style }}
           onFocus={() => {
             setIsFocus(true);
           }}
-          onBlur={() => {
+          onBlur={(e) => {
             setIsFocus(false);
+
+            if (selfState) {
+              //@ts-ignore
+              props.onChange(e);
+            }
           }}
+          onChange={(e) => {
+            if (selfState) {
+              setValue(e.target.value);
+            } else if (props.onChange) {
+              //@ts-ignore
+              props.onChange(e);
+            }
+          }}
+          value={selfState ? value : props.value}
         />
         {helper ? (
           <div
@@ -55,7 +75,7 @@ export const DateInput: React.FC<dateInputType> = ({
               errors.length ? "text-red-500" : isValid ? "text-primary" : "text-gray-400"
             }`}
             style={{
-              paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 12,
+              paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 14,
             }}
           >
             <div
@@ -84,7 +104,7 @@ export const DateInput: React.FC<dateInputType> = ({
         )}
       </div>
       <label
-        className={`absolute mx-2 px-1 font-semibold transition-all pointer-events-none ${
+        className={`absolute mx-2 px-1 font-semibold transition-all pointer-events-none text-nowrap ${
           errors.length ? "text-red-500" : isValid ? "text-primary" : "text-gray-400"
         }`}
         style={
@@ -95,18 +115,19 @@ export const DateInput: React.FC<dateInputType> = ({
                 background: "linear-gradient(to top, transparent, white, transparent)",
               }
             : {
-                paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 10,
+                paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 12,
                 cursor: "text",
                 fontSize: style.fontSize ? style.fontSize : 16,
               }
         }
+        htmlFor={props.name}
       >
-        {placeholder}
+        {t(placeholder)}
       </label>
       <div className="flex flex-col px-1">
         {errors.length
           ? errors.map((error) => {
-              return <span className="text-red-400 font-semibold text-sm">&#x25cf; {error}</span>;
+              return <span className="text-red-400 font-semibold text-sm">&#x25cf; {t(error)}</span>;
             })
           : ""}
       </div>

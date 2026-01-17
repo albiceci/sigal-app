@@ -7,6 +7,7 @@ import { TextInput } from "../../ui/form/inputs/textInput/textInput";
 import { FormInputs, InputField } from "../../ui/form/types";
 import { FormDisclaimer } from "../../ui/form/formContainers/formDisclaimer";
 import { Button } from "../../ui/button/button";
+import { useTranslation } from "react-i18next";
 
 export const formFields: FormInputs<{
   nameSurname: InputField<"text">;
@@ -15,43 +16,56 @@ export const formFields: FormInputs<{
 }> = {
   nameSurname: {
     name: "nameSurname",
-    placeholder: "Emer Mbiemer",
+    placeholder: "form.placeholder.nameSurname",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   email: {
     name: "email",
-    placeholder: "Addresa e Email",
+    placeholder: "form.placeholder.email",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   phone: {
     name: "phone",
-    placeholder: "Numri i Telefonit",
+    placeholder: "form.placeholder.phone",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
 };
 
 export default function ContactSection() {
   const [formData, setFormData] = useState(formFields);
+  const { t } = useTranslation();
   return (
-    <div className="bg-primary flex justify-center items-center py-24 lg:bg-gradient-to-r from-primary via-primary to-sapphire">
+    <article className="bg-primary flex justify-center items-center py-24 lg:bg-gradient-to-r from-primary via-primary to-secondary">
       <Reveal>
         <ContentContainer>
           <div className="flex flex-col gap-6 lg:gap-0 lg:flex-row items-center">
             <div className="text-white w-full lg:w-2/3">
               <h2 className="h1">
-                Dëshironi të dini më shumë{<br className="hidden md:block" />} për produktet tona?
-                <p className="text-sapphire">Na kontaktoni!</p>
+                {t("contact.title")}
+                <p className="text-secondary">{t("contact.subTitle")}</p>
               </h2>
-              <p className="mt-10 text-muted text-lg">Ekipi ynë i specialistëve do t'ju ndihmojë të:</p>
+              <p className="mt-10 text-muted text-lg">{t("contact.listTitle")}</p>
               <ul className="mt-4 flex gap-3 flex-col">
                 {[
-                  "Mësoni për paketat dhe përfitimet e produkteve tona",
-                  "Merrni një ofertë individuale",
-                  "Planifikoni një takim personal",
-                  "Zgjidhni shërbimin e duhur për ju",
+                  t("contact.listItem.1"),
+                  t("contact.listItem.2"),
+                  t("contact.listItem.3"),
+                  t("contact.listItem.4"),
                 ].map((item, index) => {
                   return (
                     <li key={index} className="flex items-center gap-2">
@@ -77,7 +91,7 @@ export default function ContactSection() {
                 })}
               </ul>
               <div className="mt-10">
-                <p className="h4 font-bold">Na Kontaktoni:</p>
+                <p className="h4 font-bold">{t("contact.contact.title")}</p>
                 <div className="flex items-center gap-2 mt-3">
                   <div className="w-fit h-fit">
                     <Button
@@ -94,11 +108,11 @@ export default function ContactSection() {
                     </Button>
                   </div>
                   <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-sapphire text-background font-normal hover:bg-sapphire/80">
-                    Pa Kosto (FALAS)
+                    {t("contact.contact.feature")}
                   </div>
                 </div>
                 <div className="mt-5">
-                  <p className="font-subheader font-medium text-base">Metoda te tjera kontakti:</p>
+                  <p className="font-subheader font-medium text-base">{t("contact.contact.otherTitle")}</p>
                   <div className="flex items-center flex-wrap gap-2 mt-3">
                     <div className="w-fit h-fit">
                       <Button
@@ -157,7 +171,7 @@ export default function ContactSection() {
                           placement: "before",
                         }}
                       >
-                        <span>Zyrat SIGAL UNIQA</span>
+                        <span>{t("contact.contact.office")}</span>
                       </Button>
                     </div>
                   </div>
@@ -219,21 +233,18 @@ export default function ContactSection() {
                         placement: "before",
                       }}
                     >
-                      Me Kontakto
+                      {t("contact.form.submit")}
                     </Button>
                   </div>
                 </FormRow>
                 <FormRow>
-                  <FormDisclaimer>
-                    Të dhënat tuaja personale do të përdoren vetëm për qëllimin e ofrimit të informacionit shtesë rreth
-                    produkteve të SIGAL UNIQA
-                  </FormDisclaimer>
+                  <FormDisclaimer>{t("contact.form.Disclaimer")}</FormDisclaimer>
                 </FormRow>
               </FormBody>
             </div>
           </div>
         </ContentContainer>
       </Reveal>
-    </div>
+    </article>
   );
 }

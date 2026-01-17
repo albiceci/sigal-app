@@ -40,9 +40,9 @@ const offersData: offerType[] = [
     buttonLink: "/",
   },
   {
-    header: "TPL e shoqëruar me Shërbimin e Asistencës Rrugore, “SIGAL UNIQA AutoSOS“",
+    header: "TPL e shoqëruar me Shërbimin e Asistencës Rrugore, “SIGAL IG AutoSOS“",
     subHeader1:
-      "Bashkë me Sigurimin TPL ju mund të zgjidhni të blini edhe asistencë rrugore “SIGAL UNIQA Autosos“ në Shqiperi për një periudhë 1 vjeçare, e cila mbulon:",
+      "Bashkë me Sigurimin TPL ju mund të zgjidhni të blini edhe asistencë rrugore “SIGAL IG Autosos“ në Shqiperi për një periudhë 1 vjeçare, e cila mbulon:",
     list: [
       "Qendër kontakti në shqip, 24 orë të ditës në 7 ditë të javës",
       "Riparim ne vend i mjetit (kur riparimi eshte i mundur teknikisht)",

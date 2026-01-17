@@ -17,13 +17,13 @@ export default function TPL() {
           link: "/buy?type=form&subtype=tpl",
         }}
       />
-      <div className="animate-[fadein_1s]">
+      <main className="animate-[fadein_1s]">
         <MainSection />
         <ProductOffers />
         <QnASection />
         <ContactSection />
-        <Footer />
-      </div>
+      </main>
+      <Footer />
     </PageContainer>
   );
 }

@@ -6,23 +6,21 @@ import { PageContainer } from "../../components/containers/pageContainer";
 export default function Login() {
   return (
     <PageContainer>
-      <div className="bgGradientCustom">
-        <ScrollRestoration />
-        <NavBar
-          buyButton={{
-            isVisible: true,
-            isActive: true,
-            link: "/buy",
-          }}
-          logo={{
-            isMovable: false,
-          }}
-          activeKey={"login"}
-        />
-        <div className="animate-[fadein_1s]">
-          <LoginPageContainer type="login" />
-        </div>
-      </div>
+      <ScrollRestoration />
+      <NavBar
+        buyButton={{
+          isVisible: true,
+          isActive: true,
+          link: "/buy",
+        }}
+        logo={{
+          isMovable: false,
+        }}
+        activeKey={"login"}
+      />
+      <main className="animate-[fadein_1s] bgGradientCustom">
+        <LoginPageContainer type="login" />
+      </main>
     </PageContainer>
   );
 }

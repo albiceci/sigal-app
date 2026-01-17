@@ -36,7 +36,7 @@ export const Button = ({ buttonType, padding, fontStyle, children, icon, disable
 
   const showLottieIcon = () => {
     return (
-      <div>
+      <div className="w-fit">
         <Lottie
           lottieRef={lottieRef}
           style={{
@@ -82,7 +82,7 @@ export const Button = ({ buttonType, padding, fontStyle, children, icon, disable
         disabled ? "cursor-default" : "cursor-pointer hover:scale-105 active:scale-90"
       }`}
       onMouseOver={() => {
-        if (!disabled) {
+        if (!disabled && icon && icon.type === "lottie") {
           setIsHover(true);
           lottieRef.current?.play();
         }

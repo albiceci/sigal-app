@@ -10,20 +10,33 @@ export const formFields: FormInputs<{
 }> = {
   durationId: {
     name: "durationId",
+    placeholder: "form.placeholder.durationId",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   begDate: {
     name: "begDate",
-    placeholder: "Data e Fillimit",
+    placeholder: "form.placeholder.begDate",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   endDate: {
     name: "endDate",
-    placeholder: "Data e Mbarimit",
+    placeholder: "form.placeholder.endDate",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
 };
 
@@ -32,13 +45,13 @@ export const fieldsValidationObject: fieldValidationRules<keyof typeof formField
   durationId: [
     {
       type: "NOT_EMPTY",
-      error: "Periudha e sigurimit nuk mund te jete bosh",
+      error: "form.error.durationId.notEmpty",
     },
   ],
   begDate: [
     {
       type: "NOT_EMPTY",
-      error: "Data e fillimit nuk mund te jete bosh",
+      error: "form.error.begDate.notEmpty",
     },
   ],
   endDate: [],

@@ -10,6 +10,8 @@ import { bundleContext } from "../../bundleContext";
 import { BUNDLE_TYPE } from "../../formConstants";
 import { CATEGORY_INFO_TYPE } from "../../categoryConstants";
 import { Button } from "../../../ui/button/button";
+import { useTranslation } from "react-i18next";
+import { PopUp } from "../../../ui/popUp/popUp";
 
 const IoClose = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
@@ -21,17 +23,16 @@ type selectTypeProps = {
   optionData: PRODUCT_INFO_TYPE | CATEGORY_INFO_TYPE;
   type?: "bundle" | "product" | "category";
   bundleProduct?: string;
-  isMoreInfoExpanded: boolean;
 };
 
-export const SelectOption = ({ optionData, type, bundleProduct, isMoreInfoExpanded }: selectTypeProps) => {
+export const SelectOption = ({ optionData, type, bundleProduct }: selectTypeProps) => {
   const { bundleData } = useContext(bundleContext);
-
-  console.log(optionData);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
   const [isBundleOpen, setIsBundleOpen] = useState(false);
+  const [isAdditionalInfoOpen, setIsAdditionalInfoOpen] = useState(false);
 
   function getBundleProducts(bundles: BUNDLE_TYPE[]) {
     return bundles.map((bundle) => {
@@ -47,7 +48,7 @@ export const SelectOption = ({ optionData, type, bundleProduct, isMoreInfoExpand
   const getPossibleBundles = (bundles: BUNDLE_TYPE[]) => {
     const possibleBundles = getBundleProducts(bundles).filter((bundle) => {
       return (bundle.products as PRODUCT_INFO_TYPE[]).filter(
-        (bundleProduct) => bundleProduct.productId === (optionData as PRODUCT_INFO_TYPE).productId
+        (bundleProduct) => bundleProduct.productSiteId === (optionData as PRODUCT_INFO_TYPE).productSiteId
       ).length;
     });
     return possibleBundles
@@ -55,7 +56,7 @@ export const SelectOption = ({ optionData, type, bundleProduct, isMoreInfoExpand
       .map((bundle) => {
         return {
           ...(bundle.products as PRODUCT_INFO_TYPE[]).filter(
-            (product) => product.productId !== (optionData as PRODUCT_INFO_TYPE).productId
+            (product) => product.productSiteId !== (optionData as PRODUCT_INFO_TYPE).productSiteId
           )[0],
           percentOff: bundle.percentageOff,
           promoMessage: bundle.promoMessage,
@@ -63,8 +64,13 @@ export const SelectOption = ({ optionData, type, bundleProduct, isMoreInfoExpand
       });
   };
 
-  const onClickOption = (isForcesNav: boolean = false) => {
-    if (!getPossibleBundles(bundleData as BUNDLE_TYPE[]).length || isForcesNav || type === "bundle") {
+  const onMoreInfoClick = () => {
+    //@ts-ignore
+    if (optionData.moreInfo) navigate(optionData.moreInfo);
+  };
+
+  const onBuyClick = (isForcesNav: boolean = false) => {
+    if (type === "bundle" || !getPossibleBundles(bundleData as BUNDLE_TYPE[]).length || isForcesNav) {
       var url = "/buy";
 
       if (type === "product") {
@@ -85,12 +91,16 @@ export const SelectOption = ({ optionData, type, bundleProduct, isMoreInfoExpand
     <div className="max-w-full flex items-center justify-center">
       <div
         onClick={() => {
-          onClickOption();
+          if (type === "product") {
+            setIsAdditionalInfoOpen(true);
+          } else {
+            onBuyClick();
+          }
         }}
         className={`z-[2] completed-borders relative cursor-pointer flex flex-col items-center justify-center m-[10px] rounded-[5px] shadow-[gray_0px_10px_25px_-10px] hover:shadow-[rgba(0,102,179,255)_0px_10px_25px_-10px] hover:border hover:border-primary hover:scale-105 transition-transform ${
           type === "bundle"
-            ? "h-[175px] w-[100px] sm:h-[175px] sm:w-[120px] lg:h-[220px] lg:w-[140px] min-w-[100px] lg:min-w-[140px]"
-            : "h-[175px] w-[100px] sm:h-[250px] sm:w-[166px] lg:h-[300px] lg:w-[200px] min-w-[100px] sm:min-w-[166px] lg:min-w-[200px]"
+            ? "h-[150px] w-[100px] sm:h-[175px] sm:w-[120px] lg:h-[220px] lg:w-[140px] min-w-[100px] lg:min-w-[140px]"
+            : "h-[175px] w-[120px] sm:h-[250px] sm:w-[166px] lg:h-[300px] lg:w-[200px] min-w-[100px] sm:min-w-[166px] lg:min-w-[200px]"
         }`}
       >
         {(optionData as PRODUCT_INFO_TYPE).promoMessage ? (
@@ -100,67 +110,93 @@ export const SelectOption = ({ optionData, type, bundleProduct, isMoreInfoExpand
         ) : (
           ""
         )}
-        <div className="z-[-1] w-full h-[70%] flex items-center justify-center overflow-hidden">{optionData.image}</div>
+        <div className="z-[-1] w-full h-[70%] flex items-center justify-center overflow-hidden px-2 sm:px-4">
+          {optionData.image}
+        </div>
         <div className="z-[3] text-primary w-full h-[30%] flex flex-col items-center justify-center">
-          <span className="text-sm md:text-base font-semibold text-center uppercase px-1">{optionData.name}</span>
+          <span className="text-sm md:text-base font-semibold text-center uppercase px-1">{t(optionData.name)}</span>
         </div>
-        {getPossibleBundles(bundleData as BUNDLE_TYPE[]).length && isBundleOpen ? (
-          <Overlay>
-            <div className="w-[100vw] sm:w-[80vw] md:w-[70vw] lg:w-[50vw] flex flex-col rounded-md bg-white shadow-lg max-h-[80dvh]">
-              <div className="text-primary py-4 flex justify-between items-center px-4">
-                <div className="h4 font-semibold"></div>
-                <div
-                  onClick={() => {
-                    onClickOption(true);
-                  }}
-                  className="cursor-pointer text-white bg-primary rounded-full hover:bg-primarysub"
-                >
-                  <Suspense fallback={<div style={{ width: "25", height: "25" }}></div>}>
-                    <IoClose size={"25"} />
-                  </Suspense>
-                </div>
-              </div>
-              <div className="px-6 overflow-y-auto pb-3">
-                <SelectType
-                  products={getPossibleBundles(bundleData as BUNDLE_TYPE[])}
-                  message="Want to bundle your policy?"
-                  showMessage={true}
-                  type="bundle"
-                  bundleProduct={optionData.paramKey}
-                />
-              </div>
-              <div className="flex items-center justify-center py-6">
-                <div className="w-fit">
-                  <Button
-                    buttonType="secondary"
-                    onClick={() => {
-                      onClickOption(true);
-                    }}
-                  >
-                    Skip
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </Overlay>
-        ) : null}
       </div>
-      {isMoreInfoExpanded ? (
-        <div className="min-h-[175px] sm:min-h-[250px] lg:min-h-[300px] flex-grow m-[10px] flex">
-          <div className="flex items-center justify-center">
-            <div className="w-0 h-0 border-y-[10px] border-y-transparent border-r-[10px] border-r-gray-200"></div>
-          </div>
-          <div className="bg-gray-200 p-3 rounded-md flex-grow">
-            <div className="h-full w-full flex items-center justify-center">
-              <div className="text-presetgray text-sm md:text-base font-semibold">
-                {(optionData as PRODUCT_INFO_TYPE).moreInfo}
+      {type !== "bundle" && isAdditionalInfoOpen ? (
+        <PopUp
+          onClose={() => {
+            setIsAdditionalInfoOpen(false);
+          }}
+          bottomSection={
+            <div className="flex gap-3 items-center justify-center px-8">
+              <div className="flex-grow sm:flex-grow-0">
+                <Button
+                  buttonType="secondaryAlt"
+                  padding="py-2 px-4 sm:px-8"
+                  onClick={() => {
+                    onMoreInfoClick();
+                  }}
+                >
+                  {t("buy.button.moreInfo")}
+                </Button>
+              </div>
+              <div className="flex-grow sm:flex-grow-0">
+                <Button
+                  buttonType="secondary"
+                  padding="py-2 px-4 sm:px-8"
+                  onClick={() => {
+                    setIsAdditionalInfoOpen(false);
+                    onBuyClick();
+                  }}
+                >
+                  {t("buy.button.buyNow")}
+                </Button>
               </div>
             </div>
+          }
+        >
+          <div className="flex flex-col sm:flex-row gap-2 py-6">
+            <div className="flex flex-row sm:flex-col gap-4 bg-gray-100 p-4 rounded-md">
+              <div className="w-[150px]">{optionData.image}</div>
+              <div className="flex flex-col gap-2 items-center justify-center">
+                <span className="text-primary font-extrabold font-boldFamily text-3xl text-center">
+                  {t(optionData.name)}
+                </span>
+                <span className="text-green-500 font-bold text-lg">Price Range</span>
+              </div>
+            </div>
+            <div className="text-presetgray bg-gray-100 rounded-md p-3 sm:flex-grow">
+              {/* @ts-ignore */}
+              {optionData.moreInfoText ? t(optionData.moreInfoText) : ""}
+            </div>
           </div>
-        </div>
-      ) : (
-        ""
-      )}
+        </PopUp>
+      ) : null}
+      {type !== "bundle" && getPossibleBundles(bundleData as BUNDLE_TYPE[]).length && isBundleOpen ? (
+        <PopUp
+          onClose={() => {
+            setIsBundleOpen(false);
+          }}
+          bottomSection={
+            <div className="w-full flex items-center justify-center">
+              <div className="w-fit">
+                <Button
+                  buttonType="secondary"
+                  padding="py-2 px-10"
+                  onClick={() => {
+                    onBuyClick(true);
+                  }}
+                >
+                  {t("buy.button.skip")}
+                </Button>
+              </div>
+            </div>
+          }
+        >
+          <SelectType
+            products={getPossibleBundles(bundleData as BUNDLE_TYPE[])}
+            message="buy.bundle.title"
+            showMessage={true}
+            type="bundle"
+            bundleProduct={optionData.paramKey}
+          />
+        </PopUp>
+      ) : null}
     </div>
   );
 };

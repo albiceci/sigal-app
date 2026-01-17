@@ -3,13 +3,14 @@ import { fieldValidationRules, FormInputs, InputField } from "../../../ui/form/t
 import { useServer } from "../../../../util/useServer";
 import { useLoadingOverlay } from "../../../ui/loadingOverlay/loadingOverlay";
 import { useAlerter } from "../../../ui/alerter/useAlerter";
-import { useValidator } from "../../../ui/form/validator/useValidator";
 import { FormBody } from "../../../ui/form/formContainers/formBody";
 import { FormRow } from "../../../ui/form/formContainers/formRow";
 import { TextInput } from "../../../ui/form/inputs/textInput/textInput";
 import { DateInput } from "../../../ui/form/inputs/dateInput/dateInput";
 import { SelectInput } from "../../../ui/form/inputs/selectInput/selectInput";
 import { Button } from "../../../ui/button/button";
+import { useForm } from "../../../ui/form/useForm";
+import { getErrorMessage } from "../../../../helper/getErrorMessage";
 
 export const formFields: FormInputs<{
   name: InputField<"text">;
@@ -25,46 +26,74 @@ export const formFields: FormInputs<{
     placeholder: "Emri",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   surname: {
     name: "surname",
     placeholder: "Mbiemri",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   birthday: {
     name: "birthday",
     placeholder: "Datelindja",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   taxNumber: {
     name: "taxNumber",
     placeholder: "Nr. personal",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   gender: {
     name: "gender",
     placeholder: "Gjinia",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   phoneNumber: {
     name: "phoneNumber",
     placeholder: "Nr. i telefonit",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   email: {
     name: "email",
     placeholder: "Email",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
 };
 
-const FormFieldValidationRules: fieldValidationRules<keyof typeof formFields> = {
+const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
   name: [
     {
       type: "REGEX",
@@ -136,7 +165,6 @@ const FormFieldValidationRules: fieldValidationRules<keyof typeof formFields> = 
 
 export function PersonalInfo() {
   const [formData, setFormData] = useState(formFields);
-  const [isValid, setIsValid] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
 
   const customFetch = useServer();
@@ -144,30 +172,17 @@ export function PersonalInfo() {
   const alerter = useAlerter();
 
   ///////////////VALIDATION HOOK/////////////////////////////////////
-  const { formFieldsState, validateField, validateForm } = useValidator({
-    fields: (Object.keys(formFields) as Array<keyof typeof formFields>).reduce(
-      (a, v) => ({
-        ...a,
-        [v]: { ...formFields[v], value: formData[v].value },
-      }),
-      {}
-    ) as typeof formFields,
-    validationRules: FormFieldValidationRules,
+  const formHook = useForm<typeof formData, keyof typeof formFields>({
+    formData: formData,
+    formFields: formFields,
+    setFormData: setFormData,
+    fieldsValidationObject: fieldsValidationObject,
   });
 
   //////////////////////ON CHANGE///////////////////////////////
 
   const updateForm = (name: any, value: any, showErrors = false) => {
-    setFormData((prev) => {
-      return {
-        ...prev,
-        [name]: {
-          ...prev[name as keyof typeof formFields],
-          value: value,
-        },
-      };
-    });
-    validateField(name as keyof typeof formFields, value, showErrors);
+    formHook.changeFieldValue({ name: name as keyof typeof formFields, value, showErrors });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -182,24 +197,6 @@ export function PersonalInfo() {
 
   ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
 
-  const runValidation = (showErrors: boolean) => {
-    validateForm(showErrors);
-  };
-
-  useEffect(() => {
-    runValidation(false);
-  }, []);
-
-  useEffect(() => {
-    setIsValid((prev) => {
-      return (Object.keys(formFieldsState) as Array<keyof typeof formFieldsState>).filter(
-        (field) => !formFieldsState[field].isValid
-      ).length
-        ? false
-        : true;
-    });
-  }, [formFieldsState]);
-
   //////////////////////////CUSTOM FUCTIONS//////////////////////////////////
 
   const getPersonalInfo = async () => {
@@ -210,7 +207,7 @@ export function PersonalInfo() {
     });
 
     if (jsonData.status !== 200) {
-      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
+      alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
       Object.keys(jsonData.data).forEach((key) => {
         if (key === "birthday") {
@@ -254,7 +251,7 @@ export function PersonalInfo() {
       if (jsonData.field) {
         updateForm(jsonData.field, "", true);
       }
-      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
+      alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
       //window.location.href = "/";
       alerter.alertMessage({ description: null, message: "Information updated successfully", type: "success" });
@@ -294,21 +291,21 @@ export function PersonalInfo() {
               name={formFields.name.name}
               value={formData.name.value}
               placeholder={formData.name.placeholder as string}
-              isValid={formFieldsState["name"].isValid}
+              isValid={formData.name.state.isValid}
               onChange={(e) => {
                 handleChange(e);
               }}
-              errors={formFieldsState["name"].errors}
+              errors={formData.name.state.errors}
             />
             <TextInput
               name={formFields.surname.name}
               value={formData.surname.value}
               placeholder={formData.surname.placeholder as string}
-              isValid={formFieldsState["surname"].isValid}
+              isValid={formData.surname.state.isValid}
               onChange={(e) => {
                 handleChange(e);
               }}
-              errors={formFieldsState["surname"].errors}
+              errors={formData.surname.state.errors}
             />
           </FormRow>
           <FormRow>
@@ -316,23 +313,23 @@ export function PersonalInfo() {
               placeholder={formData.gender.placeholder as string}
               name={formData.gender.name}
               value={formData.gender.value}
-              isValid={formFieldsState["gender"].isValid}
+              isValid={formData.gender.state.isValid}
               options={[
                 { id: "Male", text: "Mashkull" },
                 { id: "Female", text: "Femer" },
               ]}
               onOptionChange={onSelectChange}
-              errors={formFieldsState["gender"].errors}
+              errors={formData.gender.state.errors}
             />
             <DateInput
               name={formFields.birthday.name}
               value={formData.birthday.value}
               placeholder={formData.birthday.placeholder as string}
-              isValid={formFieldsState["birthday"].isValid}
+              isValid={formData.birthday.state.isValid}
               onChange={(e) => {
                 handleChange(e);
               }}
-              errors={formFieldsState["birthday"].errors}
+              errors={formData.birthday.state.errors}
             />
           </FormRow>
           <FormRow>
@@ -340,21 +337,21 @@ export function PersonalInfo() {
               name={formFields.taxNumber.name}
               value={formData.taxNumber.value}
               placeholder={formData.taxNumber.placeholder as string}
-              isValid={formFieldsState["taxNumber"].isValid}
+              isValid={formData.taxNumber.state.isValid}
               onChange={(e) => {
                 handleChange(e);
               }}
-              errors={formFieldsState["taxNumber"].errors}
+              errors={formData.taxNumber.state.errors}
             />
             <TextInput
               name={formFields.phoneNumber.name}
               value={formData.phoneNumber.value}
               placeholder={formData.phoneNumber.placeholder as string}
-              isValid={formFieldsState["phoneNumber"].isValid}
+              isValid={formData.phoneNumber.state.isValid}
               onChange={(e) => {
                 handleChange(e);
               }}
-              errors={formFieldsState["phoneNumber"].errors}
+              errors={formData.phoneNumber.state.errors}
             />
           </FormRow>
           <FormRow>
@@ -362,8 +359,8 @@ export function PersonalInfo() {
               name={formFields.email.name}
               value={formData.email.value}
               placeholder={formData.email.placeholder as string}
-              isValid={formFieldsState["email"].isValid}
-              errors={formFieldsState["email"].errors}
+              isValid={formData.email.state.isValid}
+              errors={formData.email.state.errors}
             />
           </FormRow>
           <FormRow
@@ -377,12 +374,12 @@ export function PersonalInfo() {
               <Button
                 buttonType="secondary"
                 padding="px-10 py-2"
-                disabled={!(isValid && isChanged)}
+                disabled={!(formHook.isValid && isChanged)}
                 onClick={() => {
-                  if (isValid && isChanged) {
+                  if (formHook.isValid && isChanged) {
                     savePersonalInfo();
                   } else {
-                    runValidation(true);
+                    formHook.validateForm(true);
                   }
                 }}
               >

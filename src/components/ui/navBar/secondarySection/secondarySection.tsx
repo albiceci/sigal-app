@@ -1,24 +1,10 @@
 import { ScrollPosition } from "../../../../util/scrollPosition";
+import LanguageSelector from "../../languageSelector/LanguageSelector";
 import { RowMenu } from "../mainMenu/rowMenu/rowMenu";
-import { BuyButton } from "./buyButton/buyButton";
+import { NavBarItem } from "../navBarData";
 
 type secondarySectionProps = {
-  secondaryMenuItems: {
-    name: string;
-    link: string | null;
-    icons: {
-      primary: JSX.Element;
-      secondary: JSX.Element;
-    };
-    key: string;
-    subCategories:
-      | {
-          name: string;
-          link: string;
-          key: string;
-        }[]
-      | null;
-  }[];
+  secondaryMenuItems: NavBarItem[];
   activeKey?: string | null;
   isVisible: boolean;
   isActive: boolean;
@@ -37,12 +23,9 @@ export const SecondarySection = ({
   var scrollPosition: number = ScrollPosition();
   return (
     <div className="flex self-start h-[70px] relative items-center">
-      <div className={`hidden h-full items-center justify-center lg:flex `}>
-        <RowMenu
-          menuItems={secondaryMenuItems}
-          activeKey={activeKey}
-          theme={theme}
-        />
+      <div className={`hidden h-full items-center justify-center xl:flex gap-5`}>
+        <LanguageSelector />
+        <RowMenu menuItems={secondaryMenuItems} activeKey={activeKey} theme={theme} />
       </div>
     </div>
   );

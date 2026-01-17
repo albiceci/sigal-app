@@ -5,6 +5,8 @@ import "./bannerSwipper.css";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import React from "react";
 
+import img1 from "./../../../assets/freepik/bannerSwipper/img1.jpg";
+
 const BannerItem = ({ children, state, onClick }: { children: JSX.Element; state: string; onClick: () => void }) => {
   return (
     <>
@@ -34,14 +36,10 @@ const bannerItems = [
           Siguroni makinën dhe shtëpinë tuaj në Sigal IG dhe përfitoni ulje!
         </div>
         <div className="h-[50%] w-full sm:w-[50%] sm:h-full absolute z-10 bg-black bg-opacity-30 bannerBlur"></div>
-        <img
-          className="h-full object-cover w-full"
-          src={require("./../../../assets/freepik/bannerSwipper/img1.jpg")}
-          alt=""
-        />
+        <img className="h-full object-cover w-full" src={img1} alt="" />
       </div>
     ),
-    link: "/buy?type=form&subtype=tpl,fire",
+    link: "/buy?type=form&subtype=tpl,property",
     id: 0,
   },
   {
@@ -51,14 +49,10 @@ const bannerItems = [
           Siguroni makinën dhe shtëpinë tuaj në Sigal IG dhe përfitoni ulje!
         </div>
         <div className="h-[50%] w-full sm:w-[50%] sm:h-full absolute z-10 bg-black bg-opacity-30 bannerBlur"></div>
-        <img
-          className="h-full object-cover w-full"
-          src={require("./../../../assets/freepik/bannerSwipper/img1.jpg")}
-          alt=""
-        />
+        <img className="h-full object-cover w-full" src={img1} alt="" />
       </div>
     ),
-    link: "/buy",
+    link: "/buy?type=form&subtype=tpl,property",
     id: 1,
   },
   {
@@ -68,14 +62,10 @@ const bannerItems = [
           Siguroni makinën dhe shtëpinë tuaj në Sigal IG dhe përfitoni ulje!
         </div>
         <div className="h-[50%] w-full sm:w-[50%] sm:h-full absolute z-10 bg-black bg-opacity-30 bannerBlur"></div>
-        <img
-          className="h-full object-cover w-full"
-          src={require("./../../../assets/freepik/bannerSwipper/img1.jpg")}
-          alt=""
-        />
+        <img className="h-full object-cover w-full" src={img1} alt="" />
       </div>
     ),
-    link: "/buy",
+    link: "/buy?type=form&subtype=tpl,property",
     id: 2,
   },
   {
@@ -85,14 +75,10 @@ const bannerItems = [
           Siguroni makinën dhe shtëpinë tuaj në Sigal IG dhe përfitoni ulje!
         </div>
         <div className="h-[50%] w-full sm:w-[50%] sm:h-full absolute z-10 bg-black bg-opacity-30 bannerBlur"></div>
-        <img
-          className="h-full object-cover w-full"
-          src={require("./../../../assets/freepik/bannerSwipper/img1.jpg")}
-          alt=""
-        />
+        <img className="h-full object-cover w-full" src={img1} alt="" />
       </div>
     ),
-    link: "/buy",
+    link: "/buy?type=form&subtype=tpl,property",
     id: 3,
   },
 ];
@@ -167,7 +153,6 @@ export default function BannerSwipper() {
   };
 
   useEffect(() => {
-    console.log("test");
     resetInterval();
   }, [activeBannerItemState]);
 
@@ -205,7 +190,7 @@ export default function BannerSwipper() {
               cursor: "pointer",
             }}
             lottieRef={lottieRef1}
-            animationData={require("../../../assets/lottie/icons/leftArrowWhite.json")}
+            animationData={require("../../../assets/lottie/icons/leftArrowPresetBlack.json")}
             autoplay={true}
             loop={false}
             onComplete={(e) => {
@@ -256,7 +241,7 @@ export default function BannerSwipper() {
               cursor: "pointer",
             }}
             lottieRef={lottieRef2}
-            animationData={require("../../../assets/lottie/icons/rightArrowWhite.json")}
+            animationData={require("../../../assets/lottie/icons/rightArrowPresetBlack.json")}
             autoplay={true}
             loop={false}
             onComplete={(e) => {

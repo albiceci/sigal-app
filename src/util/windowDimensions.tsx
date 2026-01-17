@@ -9,9 +9,7 @@ function getWindowDimensions() {
 }
 
 export const WindowDimensions = (): { width: number; height: number } => {
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  );
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
   const handleResize = () => {
     setWindowDimensions(getWindowDimensions());

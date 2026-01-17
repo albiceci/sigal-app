@@ -8,6 +8,7 @@ import React from "react";
 import { FormDisclaimer } from "../../../../ui/form/formContainers/formDisclaimer";
 import { Reveal } from "../../../../../util/reveal";
 import { Button } from "../../../../ui/button/button";
+import { useForm } from "../../../../ui/form/useForm";
 
 const IoClose = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
@@ -15,7 +16,7 @@ const IoClose = React.lazy(() =>
   }))
 );
 
-export const cardFormFields: FormInputs<{
+export const formFields: FormInputs<{
   cardId: InputField<"text">;
   cardNumber: InputField<"text">;
   cardHolderName: InputField<"text">;
@@ -27,40 +28,64 @@ export const cardFormFields: FormInputs<{
     name: "cardId",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   cardNumber: {
     name: "cardNumber",
     placeholder: "Card Number",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   cardHolderName: {
     name: "cardHolderName",
     placeholder: "Holder Name",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   cardMonth: {
     name: "cardMonth",
     placeholder: "Month",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   cardYear: {
     name: "cardYear",
     placeholder: "Year",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   cardCVV: {
     name: "cardCVV",
     placeholder: "CVV",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
 };
 
-const cardFromFieldValidationRules: fieldValidationRules<keyof typeof cardFormFields> = {
+const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
   cardId: [],
   cardNumber: [
     {
@@ -99,69 +124,32 @@ export const CardForm = ({
   onClose,
   onSubmit,
 }: {
-  initialState?: {
-    [K in keyof typeof cardFormFields]: string | null;
-  };
+  initialState: typeof formFields;
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (cardInfo: typeof cardFormFields) => void;
+  onSubmit: (cardInfo: typeof formFields) => void;
 }) => {
   const getInitialState = () => {
     if (initialState) {
-      (Object.keys(initialState) as Array<keyof typeof initialState>).forEach((field) => {
-        cardFormFields[field].value = initialState[field] !== null ? (initialState[field] as string) : "";
-      });
-      return cardFormFields;
+      return formFields;
     } else {
-      return cardFormFields;
+      return formFields;
     }
   };
 
   const [formData, setFormData] = useState(getInitialState());
-  const [isValid, setIsValid] = useState(false);
 
   ///////////////VALIDATION HOOK/////////////////////////////////////
-  const { formFieldsState, validateField, validateForm } = useValidator({
-    fields: (Object.keys(cardFormFields) as Array<keyof typeof cardFormFields>).reduce(
-      (a, v) => ({
-        ...a,
-        [v]: { ...cardFormFields[v], value: formData[v].value },
-      }),
-      {}
-    ) as typeof cardFormFields,
-    validationRules: cardFromFieldValidationRules,
+  const formHook = useForm<typeof formData, keyof typeof formFields>({
+    formData: formData,
+    formFields: formFields,
+    setFormData: setFormData,
+    fieldsValidationObject: fieldsValidationObject,
   });
 
   //////////////////////ON CHANGE///////////////////////////////
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => {
-      return {
-        ...prev,
-        [e.target.name]: {
-          ...prev[e.target.name as keyof typeof cardFormFields],
-          value: e.target.value,
-        },
-      };
-    });
-    validateField(e.target.name as keyof typeof cardFormFields, e.target.value, true);
-  };
-
   ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
-
-  useEffect(() => {
-    validateForm(false);
-  }, []);
-
-  useEffect(() => {
-    setIsValid((prev) => {
-      return (Object.keys(formFieldsState) as Array<keyof typeof formFieldsState>).filter(
-        (field) => !formFieldsState[field].isValid
-      ).length
-        ? false
-        : true;
-    });
-  }, [formFieldsState]);
 
   return (
     <div className={`w-full h-full absolute flex items-center justify-center z-[5] ${isOpen ? "" : "hidden"}`}>
@@ -218,58 +206,58 @@ export const CardForm = ({
               </FormRow>
               <FormRow>
                 <TextInput
-                  name={cardFormFields.cardNumber.name}
-                  placeholder={cardFormFields.cardNumber.placeholder as string}
+                  name={formFields.cardNumber.name}
+                  placeholder={formFields.cardNumber.placeholder as string}
                   value={formData.cardNumber.value}
-                  isValid={formFieldsState["cardNumber"].isValid}
+                  isValid={formData.cardNumber.state.isValid}
                   onChange={(e) => {
-                    handleChange(e);
+                    formHook.handleInputChange(e);
                   }}
-                  errors={formFieldsState["cardNumber"].errors}
+                  errors={formData.cardNumber.state.errors}
                 />
               </FormRow>
               <FormRow>
                 <TextInput
-                  name={cardFormFields.cardMonth.name}
-                  placeholder={cardFormFields.cardMonth.placeholder as string}
+                  name={formFields.cardMonth.name}
+                  placeholder={formFields.cardMonth.placeholder as string}
                   value={formData.cardMonth.value}
-                  isValid={formFieldsState["cardMonth"].isValid}
+                  isValid={formData.cardMonth.state.isValid}
                   onChange={(e) => {
-                    handleChange(e);
+                    formHook.handleInputChange(e);
                   }}
-                  errors={formFieldsState["cardMonth"].errors}
+                  errors={formData.cardMonth.state.errors}
                 />
                 <TextInput
-                  name={cardFormFields.cardYear.name}
-                  placeholder={cardFormFields.cardYear.placeholder as string}
+                  name={formFields.cardYear.name}
+                  placeholder={formFields.cardYear.placeholder as string}
                   value={formData.cardYear.value}
-                  isValid={formFieldsState["cardYear"].isValid}
+                  isValid={formData.cardYear.state.isValid}
                   onChange={(e) => {
-                    handleChange(e);
+                    formHook.handleInputChange(e);
                   }}
-                  errors={formFieldsState["cardYear"].errors}
+                  errors={formData.cardYear.state.errors}
                 />
                 <TextInput
-                  name={cardFormFields.cardCVV.name}
-                  placeholder={cardFormFields.cardCVV.placeholder as string}
+                  name={formFields.cardCVV.name}
+                  placeholder={formFields.cardCVV.placeholder as string}
                   value={formData.cardCVV.value}
-                  isValid={formFieldsState["cardCVV"].isValid}
+                  isValid={formData.cardCVV.state.isValid}
                   onChange={(e) => {
-                    handleChange(e);
+                    formHook.handleInputChange(e);
                   }}
-                  errors={formFieldsState["cardCVV"].errors}
+                  errors={formData.cardCVV.state.errors}
                 />
               </FormRow>
               <FormRow>
                 <TextInput
-                  name={cardFormFields.cardHolderName.name}
-                  placeholder={cardFormFields.cardHolderName.placeholder as string}
+                  name={formFields.cardHolderName.name}
+                  placeholder={formFields.cardHolderName.placeholder as string}
                   value={formData.cardHolderName.value}
-                  isValid={formFieldsState["cardHolderName"].isValid}
+                  isValid={formData.cardHolderName.state.isValid}
                   onChange={(e) => {
-                    handleChange(e);
+                    formHook.handleInputChange(e);
                   }}
-                  errors={formFieldsState["cardHolderName"].errors}
+                  errors={formData.cardHolderName.state.errors}
                 />
               </FormRow>
             </FormBody>
@@ -278,13 +266,13 @@ export const CardForm = ({
             <div className="w-fit">
               <Button
                 buttonType="secondary"
-                disabled={isValid ? false : true}
+                disabled={formHook.isValid ? false : true}
                 onClick={() => {
-                  if (isValid) {
+                  if (formHook.isValid) {
                     onSubmit(formData);
                     onClose();
                   } else {
-                    validateForm(true);
+                    formHook.validateForm(true);
                   }
                 }}
               >
@@ -297,9 +285,9 @@ export const CardForm = ({
               <FormRow>
                 <FormDisclaimer>
                   <div className="text-center">
-                    Kompania SIGAL UNIQA Group AUSTRIA nuk do të përdorë të dhënat tuaja personale për qëllime të tjera
-                    përveç atyre te sigurimit të ofruar. Më shumë informacion rreth përpunimit të të dhënave personale
-                    në UNIQA, a.s. mund të gjenden në përpunimin www.sigal.com.al/privacy të dhënave personale.
+                    Kompania SIGAL IG nuk do të përdorë të dhënat tuaja personale për qëllime të tjera përveç atyre te
+                    sigurimit të ofruar. Më shumë informacion rreth përpunimit të të dhënave personale në SIGAL IG, a.s.
+                    mund të gjenden në përpunimin www.sigal.com.al/privacy të dhënave personale.
                   </div>
                 </FormDisclaimer>
               </FormRow>

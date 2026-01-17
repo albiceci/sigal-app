@@ -19,11 +19,11 @@ export function General() {
             <LinkAccount />
           </SectionContainer>
         </div>
-        <div>
+        {/* <div>
           <SectionContainer>
             <ProfilePicture />
           </SectionContainer>
-        </div>
+        </div> */}
       </div>
     </>
   );

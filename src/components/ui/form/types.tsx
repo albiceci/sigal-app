@@ -3,6 +3,7 @@ export type FormFieldTypes<S = any> = {
   checkbox: boolean;
   select: S;
   object: S;
+  file: File[];
 };
 
 export type InputField<T extends keyof FormFieldTypes<S>, S = any> = {
@@ -10,6 +11,7 @@ export type InputField<T extends keyof FormFieldTypes<S>, S = any> = {
   placeholder?: string;
   type: T;
   value: FormFieldTypes<S>[T];
+  state: formFieldStateType;
 };
 
 export type FormInputs<T extends Record<string, InputField<keyof FormFieldTypes<S>, S>>, S = any> = {
@@ -50,6 +52,16 @@ export type fieldValidationRule =
   | {
       type: "SAME_AS";
       value: string;
+      error: string;
+    }
+  | {
+      type: "DISABLE_RULES_IF_FALSE";
+      value: string;
+      error: string;
+    }
+  | {
+      type: "LENGTH_BIGGER_EQUAL_THAN";
+      value: number;
       error: string;
     };
 

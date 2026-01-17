@@ -13,7 +13,7 @@ function MainSection() {
           </h1>
           <div className="mt-[10px] text-center lg:text-left text-[15px] sm:text-[18px] font-medium font-subheader text-presetgray">
             Bashkë me siguracionin e makinës, përfitoni siguracione dhe shërbime të tjera. Përfitoni nga ofertat e SIGAL
-            UNIQA me blerjen e sigurimit TPL
+            IG me blerjen e sigurimit TPL
           </div>
           <div className="mt-[50px] py-[8px] w-fit">
             <Button

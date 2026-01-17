@@ -1,0 +1,318 @@
+{
+  "product": {
+    "tpl": {
+      "name": "TPL"
+    },
+    "casco": {
+      "name": "Casco"
+    },
+    "minicasco": {
+      "name": "Mini Casco"
+    },
+    "greencard": {
+      "name": "Green Card"
+    },
+    "autosos": {
+      "name": "Roadside Assistance"
+    },
+    "property": {
+      "name": "Property"
+    },
+    "travelAl": {
+      "name": "Xpat Travel"
+    },
+    "travel": {
+      "name": "Travel"
+    },
+    "privateHealth": {
+      "name": "Health"
+    },
+    "teleHealth": {
+      "name": "Tele-Health"
+    },
+    "antiTumor": {
+      "name": "Anti-Tumor"
+    },
+    "accident": {
+      "name": "Accident Protection"
+    },
+    "mvl": {
+      "name": "MVL"
+    }
+  },
+  "navigation": {
+    "myAccount": {
+      "name": "My Account"
+    }
+  },
+  "button": {
+    "fileClaim": {
+      "long": "Report a Claim"
+    },
+    "learnMore": "Learn more",
+    "seePrice": {
+      "long": "View prices"
+    },
+    "insure": {
+      "long": "Get Insured"
+    }
+  },
+  "category": {
+    "car": {
+      "name": "Car",
+      "subTitle": "Subtitle for Car"
+    },
+    "health": {
+      "name": "Health",
+      "subTitle": "Subtitle for Health"
+    },
+    "life": {
+      "name": "Life & Pensions",
+      "subTitle": "Subtitle for Life"
+    },
+    "marina": {
+      "name": "Marine",
+      "subTitle": "Subtitle for Marine"
+    },
+    "wealth": {
+      "name": "Wealth",
+      "subTitle": "Subtitle for Wealth"
+    }
+  },
+  "contact": {
+    "contact": {
+      "feature": "Free of Charge (FREE)",
+      "office": "SIGAL IG Offices",
+      "otherTitle": "Other contact methods:",
+      "title": "Contact Us:"
+    },
+    "form": {
+      "Disclaimer": "Your personal data will be used only for the purpose of providing additional information about SIGAL IG products",
+      "submit": "Contact Me"
+    },
+    "listItem": {
+      "1": "Learn about our product packages and benefits",
+      "2": "Receive a personalized offer",
+      "3": "Schedule a personal meeting",
+      "4": "Choose the right service for you"
+    },
+    "listTitle": "Our team of specialists will help you to:",
+    "subTitle": "Contact us!",
+    "title": "Would you like to know more about our products?"
+  },
+  "footer": {
+    "contact": {
+      "button": {
+        "submit": "Contact Us"
+      }
+    },
+    "items": {
+      "complaints": "Report a Complaint",
+      "cookies": "Cookies",
+      "privacy": "Privacy Policies"
+    }
+  },
+  "form": {
+    "controller": {
+      "back": "Back",
+      "next": "Continue",
+      "submit": "Finish"
+    },
+    "car": {
+      "title": "Vehicle",
+      "subTitle": "Fill in the vehicle details."
+    },
+    "driver": {
+      "title": "Driver",
+      "subTitle": "Fill in the driver details."
+    },
+    "person": {
+      "title": "Insured Person",
+      "subTitle": "Fill in personal details."
+    },
+    "package": {
+      "title": "Package",
+      "subTitle": "Select the desired package."
+    },
+    "property": {
+      "title": "Property",
+      "subTitle": "Fill in the property details."
+    },
+    "ownership": {
+      "title": "Ownership",
+      "subTitle": "Fill in the ownership details."
+    },
+    "payment": {
+      "title": "Payment",
+      "subTitle": "Choose the payment method.",
+      "transactionInfo": {
+        "title": "Review your products",
+        "subTotal": "Subtotal",
+        "discount": "Discount",
+        "total": "Total"
+      }
+    },
+    "multiStep": {
+      "step": "Step"
+    },
+    "premium": "Premium",
+    "minicasco": {
+      "title": "Mini Casco",
+      "subTotal": "Fill in Mini Casco details",
+      "endDateDisclaimer": "The end date will be the same as the end date of the accompanying policy."
+    },
+    "autosos": {
+      "title": "Roadside Assistance",
+      "subTotal": "Fill in Roadside Assistance details"
+    },
+    "bundle": {
+      "addRemoveButton": "Add/Remove Products",
+      "clickToRemove": "Click on the product to remove it.",
+      "clickToRemoveDisclaimer": "The entered data is saved, so you can re-add the product at any time.",
+      "clickToAdd": "Click on the product to add it and receive a discount.",
+      "noBundlesAvailable": "No other bundles available for this product combination"
+    },
+    "placeholder": {
+      "destination": "Destination",
+      "coverageAmountShort": "Coverage amount",
+      "coverageAmount": "Insured amount",
+      "profession": "Profession",
+      "flightConfirmationDate": "Flight confirmation date",
+      "email": "Email",
+      "nameSurname": "Full Name",
+      "phone": "Phone",
+      "licence": "License Plate",
+      "vin": "VIN",
+      "durationType": "Insurance period",
+      "begDate": "Start date",
+      "endDate": "End date",
+      "taxNumber": "Personal ID Number",
+      "name": "First Name",
+      "surname": "Last Name",
+      "gender": "Gender",
+      "birthday": "Date of Birth",
+      "isOwnerDriver": "The owner is also the driver.",
+      "type": "Type",
+      "model": "Model",
+      "power": "Power",
+      "color": "Color",
+      "year": "Year",
+      "peoplecapacity": "Seats",
+      "weightcapacity": "Total weight",
+      "category": "Category",
+      "parentPolicyProductId": "Accompanying policy",
+      "parentPolicySerial": "Serial Number",
+      "password": "Password",
+      "repeatPassword": "Repeat Password"
+    },
+    "option": {
+      "destination": {
+        "world": "Worldwide",
+        "worldExUSACANADA": "Worldwide excluding USA and Canada",
+        "europeExSwiss": "Europe excluding Switzerland",
+        "swiss": "Switzerland",
+        "turkey": "Turkey"
+      }
+    },
+    "carSearchForm": {
+      "search": "Search",
+      "popUp": {
+        "confirm": "Confirm",
+        "disclaimer": "Vehicle data comes from AMF and cannot be changed",
+        "title": "Vehicle Information"
+      },
+      "loading": {
+        "title": "Please wait!",
+        "subTitle": "Please wait while the system processes your data."
+      }
+    },
+    "duration": {
+      "day": "Daily",
+      "month": "Monthly",
+      "year": "Yearly"
+    },
+    "additionalPeople": {
+      "add": "Add",
+      "driver": "Driver",
+      "family": "Family Member",
+      "clickToChange": "Click on the person to change details",
+      "person": {
+        "owner": "Owner"
+      },
+      "personalInfoPopUp": {
+        "title": "Personal Information",
+        "disclaimer": "Your data is safe with us.",
+        "confirm": "Confirm"
+      }
+    }
+  },
+  "home": {
+    "main": {
+      "subtitle": "Protect your most important investment with SIGAL IG from every unexpected event.",
+      "title": "Protect what matters, yourself!"
+    }
+  },
+  "insuraceTypes": {
+    "subTitle": "Learn more about the insurance products offered by SIGAL",
+    "title": "A world of insurance"
+  },
+  "nav": {
+    "page": {
+      "Innovation": "Innovation",
+      "about": "About SIGAL",
+      "career": "Careers",
+      "media": "Media",
+      "responsibility": "Social Responsibility"
+    },
+    "type": {
+      "information": "Information",
+      "insurance": "Insurance"
+    }
+  },
+  "whySigal": {
+    "clients": "million clients",
+    "countries": "countries",
+    "description": "SIGAL Insurance Group is a regional insurance group with 8 Life and Non-Life insurance companies, Reinsurance and Pension Funds. SIGAL is the only company offering all insurance classes with over 50 products, more than 2,400 employees and agents, and over 1,200 offices operating in 3 countries: Albania, Kosovo, and North Macedonia.",
+    "employees": "employees and agents",
+    "title": "Why choose SIGAL?"
+  },
+  "buy": {
+    "category": {
+      "title": "What do you want to protect?"
+    },
+    "product": {
+      "title": "Choose the insurance you need!"
+    },
+    "bundle": {
+      "title": "Combine your insurance and get discounts:"
+    },
+    "button": {
+      "moreInfo": "More info",
+      "buyNow": "Buy now",
+      "skip": "Continue"
+    }
+  },
+  "account": {
+    "login": {
+      "title": "Login",
+      "forgotPassword": "Forgot your password?",
+      "submit": "Login",
+      "or": "or",
+      "with": "Login with",
+      "noAccount": "Don’t have an account yet?"
+    },
+    "register": {
+      "title": "Register",
+      "submit": "Register",
+      "or": "or",
+      "with": "Register with",
+      "haveAccount": "Already have an account?"
+    },
+    "recovery": {
+      "title": "Lost password",
+      "disclaimer": "Forgot your password? Please enter your username or email. You will receive a link to create a new password.",
+      "send": "Send",
+      "sent": "Email sent"
+    }
+  }
+}

@@ -9,9 +9,7 @@ export const Overlay = ({ children }: { children: ReactNode }) => {
     <>
       {overlayContainer
         ? createPortal(
-            <div
-              className={`w-full h-[100dvh] top-0 fixed flex items-center justify-center z-[10]`}
-            >
+            <div className={`w-full h-[100dvh] top-0 fixed flex items-center justify-center z-[100]`}>
               <div className="absolute h-full w-full bg-presetgray opacity-50 z-[-1] blur-lg"></div>
               <Reveal delay={0} duration={0.5}>
                 {children}

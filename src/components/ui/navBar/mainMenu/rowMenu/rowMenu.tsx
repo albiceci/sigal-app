@@ -1,24 +1,10 @@
 import { useContext } from "react";
 import { MenuItem } from "./menuItem/menuItem";
 import { sessionContext } from "../../../../../util/sessionContainer";
+import { NavBarItem } from "../../navBarData";
 
 type rowMenuProps = {
-  menuItems: {
-    name: string;
-    link: string | null;
-    icons: {
-      primary: JSX.Element;
-      secondary: JSX.Element;
-    };
-    key: string;
-    subCategories:
-      | {
-          name: string;
-          link: string;
-          key: string;
-        }[]
-      | null;
-  }[];
+  menuItems: NavBarItem[];
   activeKey?: string | null;
   theme: "primary" | "white";
 };
@@ -26,10 +12,10 @@ type rowMenuProps = {
 export const RowMenu = ({ menuItems, activeKey, theme }: rowMenuProps) => {
   const { sessionData } = useContext(sessionContext);
   return (
-    <div className="hidden h-[70px] lg:flex gap-5 xl:gap-6">
-      {menuItems.map((item) => {
-        return <MenuItem itemData={item} activeKey={activeKey} theme={theme} />;
+    <nav className="hidden h-[70px] xl:flex xl:gap-3 2xl:gap-5">
+      {menuItems.map((item, index) => {
+        return <MenuItem key={index} itemData={item} activeKey={activeKey} theme={theme} />;
       })}
-    </div>
+    </nav>
   );
 };

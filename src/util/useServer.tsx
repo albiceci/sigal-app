@@ -2,7 +2,7 @@ import { useCallback, useContext } from "react";
 import { sessionContext } from "./sessionContainer";
 
 export const useServer = () => {
-  const server_url = "https://cfd8b2046fdb.ngrok.app";
+  const server_url = "/api";
   const { sessionData } = useContext(sessionContext);
 
   const customFetch = useCallback(
@@ -12,7 +12,8 @@ export const useServer = () => {
         headers?: HeadersInit;
         body?: object;
         method: "GET" | "POST" | "PUT" | "DELETE";
-      }
+      },
+      isJsonResponse: boolean = true
     ) => {
       const res = await fetch(server_url + url, {
         method: options.method,
@@ -31,11 +32,15 @@ export const useServer = () => {
         };
       }
 
-      const jsonResponse = await res.json();
+      if (isJsonResponse) {
+        const jsonResponse = await res.json();
 
-      if (jsonResponse.status === 401) window.location.href = "/";
-      else if (jsonResponse.status === 403) window.location.href = "/login";
-      return jsonResponse;
+        if (jsonResponse.status === 401) window.location.href = "/";
+        else if (jsonResponse.status === 403) window.location.href = "/login";
+        return jsonResponse;
+      } else {
+        return res;
+      }
     },
     [sessionData?.id]
   );

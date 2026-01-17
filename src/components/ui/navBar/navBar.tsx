@@ -25,11 +25,11 @@ function NavBar({ buyButton, logo = { isMovable: true }, activeKey, theme = "whi
   var scrollPosition: number = ScrollPosition();
   return (
     <>
-      <div
+      <header
         className={`will-change-[height] flex px-[20px] justify-between fixed w-full h-[70px] z-40 border-b transition-[height] duration-[.2s] ${
           scrollPosition < 50 && logo.isMovable
-            ? "lg:h-[100px] bg-transparent border-b-transparent"
-            : "lg:h-[70px] border-b-gray-300 shadow-navbar transition-[background-color] duration-[.5s] bg-white"
+            ? "xl:h-[100px] bg-transparent border-b-transparent"
+            : "xl:h-[70px] border-b-gray-300 shadow-navbar transition-[background-color] duration-[.5s] bg-white"
         }`}
       >
         <MainMenu menuItems={navBarValues} activeKey={activeKey} theme={scrollPosition < 50 ? theme : "white"} />
@@ -55,7 +55,7 @@ function NavBar({ buyButton, logo = { isMovable: true }, activeKey, theme = "whi
           </div>
           <BuyButton isVisible={buyButton.isVisible} isActive={buyButton.isActive} link={buyButton.link} />
         </div>
-      </div>
+      </header>
       <BottomBar activeKey={activeKey} />
     </>
   );

@@ -2,6 +2,7 @@ import { Suspense, useState } from "react";
 import { Link } from "react-router-dom";
 import { MenuSubItem } from "./menuSubItem/menuSubItem";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const MdOutlineKeyboardArrowDown = React.lazy(() =>
   import("react-icons/md").then((module) => ({
@@ -35,6 +36,7 @@ type menuItemProps = {
 };
 
 export const MenuItem = ({ itemData, activeKey = null }: menuItemProps) => {
+  const { t } = useTranslation();
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
   return (
     <div className="relative h-full inline-block items-center justify-center">
@@ -49,7 +51,7 @@ export const MenuItem = ({ itemData, activeKey = null }: menuItemProps) => {
           }}
         >
           {itemData.icons.primary}
-          <span>{itemData.name}</span>
+          <span>{t(itemData.name)}</span>
           {itemData.subCategories ? (
             <div className="absolute bottom-0">
               {isMouseOver ? (
@@ -95,7 +97,7 @@ export const MenuItem = ({ itemData, activeKey = null }: menuItemProps) => {
           preventScrollReset={false}
         >
           {isMouseOver ? itemData.icons.primary : itemData.icons.secondary}
-          <span>{itemData.name}</span>
+          <span>{t(itemData.name)}</span>
           {itemData.subCategories ? (
             <div className="absolute bottom-0">
               {isMouseOver ? (
@@ -139,7 +141,7 @@ export const MenuItem = ({ itemData, activeKey = null }: menuItemProps) => {
           }}
         >
           {isMouseOver ? itemData.icons.primary : itemData.icons.secondary}
-          <span>{itemData.name}</span>
+          <span>{t(itemData.name)}</span>
           {itemData.subCategories ? (
             <div className="absolute bottom-0">
               {isMouseOver ? (
@@ -183,8 +185,8 @@ export const MenuItem = ({ itemData, activeKey = null }: menuItemProps) => {
             setIsMouseOver(false);
           }}
         >
-          {itemData.subCategories.map((item) => {
-            return <MenuSubItem itemData={item} activeKey={activeKey} />;
+          {itemData.subCategories.map((item, index) => {
+            return <MenuSubItem itemData={item} key={index} activeKey={activeKey} />;
           })}
         </div>
       ) : null}

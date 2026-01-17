@@ -5,8 +5,13 @@ import PseSigalSection from "../../components/homePage/pseSigalSection/pseSigalS
 import { PageContainer } from "../../components/containers/pageContainer";
 import ContactSection from "../../components/common/contactSection/contactSection";
 import InsuranceTypes from "../../components/common/insuranceTypes/insuranceTypes";
-import InfoSection from "../../components/homePage/infoSection/infoSection";
 import Footer from "../../components/common/footer/footer";
+import carCategory from "../../assets/sigal/category/car.svg";
+import wealthCategory from "../../assets/sigal/category/wealth.svg";
+import lifeCategory from "../../assets/sigal/category/life.svg";
+import healthCategory from "../../assets/sigal/category/health.svg";
+import marinaCategory from "../../assets/sigal/category/marina.svg";
+import { ScrollPosition } from "../../util/scrollPosition";
 
 export default function Home() {
   return (
@@ -17,81 +22,52 @@ export default function Home() {
           isActive: true,
           link: "/buy",
         }}
-        theme="primary"
+        theme="white"
         activeKey={"home"}
       />
 
-      <div className="animate-[fadein_1s]">
+      <main className="animate-[fadein_1s]">
         <MainSection />
         <InsuranceTypes
           insuranceTypes={[
             {
-              title: "MAKINA",
-              subTitle: "subTitle per Makinen",
-              link: "/",
-              image: (
-                <img
-                  className="imgBlur"
-                  src={require("./../../assets/freepik/buyPage/carCategory.jpg")}
-                  alt=""
-                />
-              ),
+              title: "category.car.name",
+              subTitle: "category.car.subTitle",
+              link: "/car",
+              image: <img className="h-full" src={carCategory} alt="" />,
             },
             {
-              title: "PRONA",
-              subTitle: "subTitle per Pronen",
-              link: "/",
-              image: (
-                <img
-                  className="imgBlur"
-                  src={require("./../../assets/freepik/buyPage/propertyCategory.jpg")}
-                  alt=""
-                />
-              ),
+              title: "category.wealth.name",
+              subTitle: "category.wealth.subTitle",
+              link: "/wealth",
+              image: <img className="h-full" src={wealthCategory} alt="" />,
             },
             {
-              title: "JETA",
-              subTitle: "subTitle per Jeten",
-              link: "/",
-              image: (
-                <img
-                  className="imgBlur scale-125 mt-[14px]"
-                  src={require("./../../assets/freepik/buyPage/lifeCategory.jpg")}
-                  alt=""
-                />
-              ),
+              title: "category.health.name",
+              subTitle: "category.health.subTitle",
+              link: "/health",
+              image: <img className="h-full" src={healthCategory} alt="" />,
+            },
+
+            {
+              title: "category.marina.name",
+              subTitle: "category.marina.subTitle",
+              link: "/marina",
+              image: <img className="h-full" src={marinaCategory} alt="" />,
             },
             {
-              title: "UDHETIMI",
-              subTitle: "subTitle per Udhetimin",
-              link: "/",
-              image: (
-                <img
-                  className="imgBlur scale-[.8]"
-                  src={require("./../../assets/freepik/buyPage/healthCategory.jpg")}
-                  alt=""
-                />
-              ),
-            },
-            {
-              title: "SHENDETI",
-              subTitle: "subTitle per Shendetin",
-              link: "/",
-              image: (
-                <img
-                  className="imgBlur scale-[.9]"
-                  src={require("./../../assets/freepik/buyPage/travelCategory.jpg")}
-                  alt=""
-                />
-              ),
+              title: "category.life.name",
+              subTitle: "category.life.subTitle",
+              link: "/life",
+              image: <img className="h-full" src={lifeCategory} alt="" />,
             },
           ]}
         />
         <PseSigalSection />
-        <InfoSection />
+        {/* <InfoSection /> */}
         <ContactSection />
-        <Footer />
-      </div>
+      </main>
+      <Footer />
     </PageContainer>
   );
 }

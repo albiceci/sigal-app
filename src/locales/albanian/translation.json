@@ -1,0 +1,649 @@
+{
+  "product": {
+    "tpl": {
+      "name": "TPL",
+      "moreInfo": "SIGAL Insurance Group është një grup rajonal sigurimesh, me 8 kompani sigurimi Jetë dhe Jo-Jetë, Risigurime dhe Fond Pensionesh. SIGAL është kompania e vetme që ofron të gjitha klasat e sigurimit me mbi 50 produkte, me mbi 2,400 punonjës dhe agjentë, dhe mbi 1,200 zyra ku ajo operon dhe zhvillon aktivitetin e saj në 3 shtete: Shqipëri, Kosovë dhe Maqedoninë e Veriut."
+    },
+    "casco": {
+      "name": "Kasko"
+    },
+    "minicasco": {
+      "name": "MiniKasko"
+    },
+    "greencard": {
+      "name": "Kartoni Jeshil"
+    },
+    "autosos": {
+      "name": "Autosos"
+    },
+    "property": {
+      "name": "Prona"
+    },
+    "travelAl": {
+      "name": "Xpat Travel"
+    },
+    "travel": {
+      "name": "Udhëtimi"
+    },
+    "privateHealth": {
+      "name": "Shëndeti"
+    },
+    "teleHealth": {
+      "name": "Tele-Shëndeti"
+    },
+    "antiTumor": {
+      "name": "Anti-Tumor"
+    },
+    "accident": {
+      "name": "Mbrojtje nga Aksidenti"
+    },
+    "mvl": {
+      "name": "MVL"
+    }
+  },
+  "navigation": {
+    "myAccount": {
+      "name": "Llogaria ime"
+    }
+  },
+  "button": {
+    "fileClaim": {
+      "long": "Raporto Dëm"
+    },
+    "learnMore": "Mëso më shumë",
+    "seePrice": {
+      "long": "Shiko cmimet"
+    },
+    "insure": {
+      "long": "Sigurohu"
+    }
+  },
+  "category": {
+    "car": {
+      "name": "Makina",
+      "subTitle": "subTitle për Makinën"
+    },
+    "health": {
+      "name": "Shëndeti",
+      "subTitle": "subTitle për Shëndetin"
+    },
+    "life": {
+      "name": "Jeta & Pensione",
+      "subTitle": "subTitle për Jetën"
+    },
+    "marina": {
+      "name": "Marina",
+      "subTitle": "subTitle për Marinën"
+    },
+    "wealth": {
+      "name": "Pasuria",
+      "subTitle": "subTitle për Pasurinë"
+    }
+  },
+  "contact": {
+    "contact": {
+      "feature": "Pa Kosto (FALAS)",
+      "office": "Zyrat SIGAL IG",
+      "otherTitle": "Metoda të tjera kontakti:",
+      "title": "Na Kontaktoni:"
+    },
+    "form": {
+      "Disclaimer": "Të dhënat tuaja personale do të përdoren vetëm për qëllimin e ofrimit të informacionit shtesë rreth produkteve të SIGAL IG",
+      "submit": "Më Kontaktoni"
+    },
+    "listItem": {
+      "1": "Mësoni për paketat dhe përfitimet e produkteve tona",
+      "2": "Merrni një ofertë individuale",
+      "3": "Planifikoni një takim personal",
+      "4": "Zgjidhni shërbimin e duhur për ju"
+    },
+    "listTitle": "Ekipi ynë i specialistëve do t'ju ndihmojë të:",
+    "subTitle": "Na kontaktoni!",
+    "title": "Dëshironi të dini më shumë për produktet tona?"
+  },
+  "footer": {
+    "contact": {
+      "button": {
+        "submit": "Na Kontaktoni"
+      }
+    },
+    "items": {
+      "complaints": "Raporto Ankesë",
+      "cookies": "Cookies",
+      "privacy": "Politikat e Privatësisë"
+    }
+  },
+  "form": {
+    "controller": {
+      "back": "Kthehu",
+      "next": "Vazhdo",
+      "submit": "Perfundo"
+    },
+    "car": {
+      "title": "Mjeti",
+      "subTitle": "Plotësoni të dhënat e mjetit."
+    },
+    "driver": {
+      "title": "Drejtuesi",
+      "subTitle": "Plotësoni të dhënat e drejtuesit."
+    },
+    "person": {
+      "title": "I siguruari",
+      "subTitle": "Plotësoni të dhënat personale."
+    },
+    "package": {
+      "title": "Paketa",
+      "subTitle": "Zgjidhni paketën e dëshiruar."
+    },
+    "property": {
+      "title": "Prona",
+      "subTitle": "Plotësoni të dhënat e pronës."
+    },
+    "ownership": {
+      "title": "Pronësia",
+      "subTitle": "Plotësoni të dhënat e pronësisë."
+    },
+    "payment": {
+      "title": "Pagesa",
+      "subTitle": "Zgjidhni metodën e pagesës.",
+      "transactionInfo": {
+        "title": "Rishikoni produktet tuaja",
+        "subTotal": "NënTotali",
+        "discount": "Zbritja",
+        "total": "Totali"
+      }
+    },
+    "multiStep": {
+      "step": "Hapi"
+    },
+    "premium": "Primi",
+    "minicasco": {
+      "title": "MiniKasko",
+      "subTotal": "Plotësoni të dhënat e MiniKasko",
+      "endDateDisclaimer": "Data e mbarimit do të jetë e njëjtë me datën e mbarimit të policës shoqëruese."
+    },
+    "autosos": {
+      "title": "Autosos",
+      "subTotal": "Plotësoni të dhënat e Autosos"
+    },
+    "bundle": {
+      "addRemoveButton": "Shto/Hiq Produkte",
+      "clickToRemove": "Klikoni mbi produkt për ta hequr atë.",
+      "clickToRemoveDisclaimer": "Të dhënat e plotësuara ruhen, kështu që ju mund ta rishtoni produktin në cdo kohë.",
+      "clickToAdd": "Klikoni mbi produkt për ta shtuar atë dhe përfitoni ulje.",
+      "noBundlesAvailable": "Nuk ka paketa të tjera për këtë kombinim produktesh"
+    },
+    "placeholder": {
+      "destination": "Destinacioni",
+      "coverageAmountShort": "Masa e mbulimit",
+      "coverageAmount": "Shuma e siguruar",
+      "profession": "Profesioni",
+      "flightConfirmationDate": "Data e konfirmimit të fluturimit",
+      "email": "Email",
+      "nameSurname": "Emër Mbiemër",
+      "phone": "Telefon",
+      "licence": "Targa",
+      "vin": "Vin",
+      "durationId": "Periudha e sigurimit",
+      "begDate": "Data e fillimit",
+      "endDate": "Data e mbarimit",
+      "taxNumber": "Nr. Personal",
+      "name": "Emri",
+      "surname": "Mbiemri",
+      "gender": "Gjinia",
+      "birthday": "Datëlindja",
+      "isOwnerDriver": "Pronari është dhe drejtues i mjetit.",
+      "type": "Tipi",
+      "model": "Modeli",
+      "power": "Fuqia",
+      "color": "Ngjyra",
+      "year": "Viti",
+      "peoplecapacity": "Vende",
+      "weightcapacity": "Pesha totale",
+      "category": "Kategoria",
+      "parentPolicyProductId": "Polica shoqëruese",
+      "parentPolicySerial": "Nr. Serial",
+      "password": "Fjalëkalimi",
+      "repeatPassword": "Përsërit Fjalëkalimin"
+    },
+    "error": {
+      "vehicleSelected": {
+        "isTrue": "Ju duhet te kërkoni mjetin."
+      },
+      "licence": {
+        "wrongFormat": "Targa nuk është në formatin e duhur.",
+        "notEmpty": "Targa nuk mund të jetë bosh."
+      },
+      "durationId": {
+        "notEmpty": "Zgjidhni periudhën e sigurimit."
+      },
+      "begDate": {
+        "notEmpty": "Data e fillimit nuk mund të jetë bosh"
+      },
+      "endDate": {
+        "notEmpty": "Data e mbarimit nuk mund të jetë bosh"
+      },
+      "parentPolicyProductId": {
+        "notEmpty": "Zgjidhni llojin e polices shoqëruese"
+      },
+      "parentPolicySerial": {
+        "notEmpty": "Nr. serial i policës shoqëruese nuk mund të jetë bosh"
+      },
+      "name": {
+        "notEmpty": "Emri nuk mund të jetë bosh",
+        "moreThan2Character": "Emri duhet të ketë më shumë se 2 karaktere"
+      },
+      "surname": {
+        "notEmpty": "Mbiemri nuk mund të jetë bosh",
+        "moreThan2Character": "Mbiemri duhet të ketë më shumë se 2 karaktere"
+      },
+      "gender": {
+        "notEmpty": "Gjinia nuk mund të jetë bosh"
+      },
+      "birthday": {
+        "notEmpty": "Datëlindja nuk mund të jetë bosh"
+      },
+      "taxNumber": {
+        "notEmpty": "Nr. personal nuk mund të jetë bosh",
+        "wrongFormat": "Nr. personal nuk është në formatin e duhur.",
+        "duplicateValue": "Nr. personal është në përdorim."
+      },
+      "email": {
+        "notEmpty": "Emaili nuk mund të jetë bosh",
+        "wrongFormat": "Emaili nuk është në formatin e duhur."
+      },
+      "phone": {
+        "notEmpty": "Nr. i telefonit nuk mund të jetë bosh"
+      }
+    },
+    "option": {
+      "destination": {
+        "world": "Gjithë bota",
+        "worldExUSACANADA": "Gjithë bota përjashtuar USA dhe Kanada",
+        "europeExSwiss": "Gjithë Europa përjashtuar Zvicrën",
+        "swiss": "Zvicër",
+        "turkey": "Turqi"
+      }
+    },
+    "carSearchForm": {
+      "search": "Kërko",
+      "popUp": {
+        "confirm": "Konfirmo",
+        "disclaimer": "Të dhënat e mjetit kanë ardhur nga AMF dhe nuk mund të ndryshohen",
+        "title": "Informacioni i Mjetit"
+      },
+      "loading": {
+        "title": "Ju lutem prisni!",
+        "subTitle": "Ju lutem prisni teksa sistemi përpunon të dhënat tuaja."
+      }
+    },
+    "premiumOverlay": {
+      "loading": {
+        "title": "Ju lutem prisni!",
+        "subTitle": "Duke llogaritur primin tuaj."
+      }
+    },
+    "duration": {
+      "day": "Ditore",
+      "month": "Mujore",
+      "year": "Vjecare"
+    },
+    "additionalPeople": {
+      "add": "Shto",
+      "driver": "Shofer",
+      "family": "Familiar",
+      "clickToChange": "Klikoni mbi personin për të ndryshuar të dhënat",
+      "person": {
+        "owner": "Pronari"
+      },
+      "personalInfoPopUp": {
+        "title": "Informacioni Personal",
+        "disclaimer": "Te dhënat tuaja janë të sigurta me ne.",
+        "confirm": "Konfirmo"
+      }
+    }
+  },
+  "home": {
+    "main": {
+      "subtitle": "Siguroni investimin tuaj më të rëndësishëm në SIGAL IG nga çdo e papritur.",
+      "title": "Mbroni atë që mundeni, vetë!"
+    }
+  },
+  "insuraceTypes": {
+    "subTitle": "Mësoni më shumë për produktet e sigurimit që ofron SIGAL",
+    "title": "Një botë me siguracione"
+  },
+  "nav": {
+    "page": {
+      "Innovation": "Inovacion",
+      "about": "Rreth SIGAL",
+      "career": "Karriera",
+      "media": "Media",
+      "responsibility": "Përgjegjësia Sociale"
+    },
+    "type": {
+      "information": "Informacion",
+      "insurance": "Siguracione"
+    }
+  },
+  "whySigal": {
+    "clients": "milionë klientë",
+    "countries": "shtete",
+    "description": "SIGAL Insurance Group është një grup rajonal sigurimesh, me 8 kompani sigurimi Jetë dhe Jo-Jetë, Risigurime dhe Fond Pensionesh. SIGAL është kompania e vetme që ofron të gjitha klasat e sigurimit me mbi 50 produkte, me mbi 2,400 punonjës dhe agjentë, dhe mbi 1,200 zyra ku ajo operon dhe zhvillon aktivitetin e saj në 3 shtete: Shqipëri, Kosovë dhe Maqedoninë e Veriut.",
+    "employees": "punonjës dhe agjentë",
+    "title": "Pse të zgjedh SIGAL?"
+  },
+  "buy": {
+    "category": {
+      "title": "Cfarë kërkoni të mbroni?"
+    },
+    "product": {
+      "title": "Zgjidhni sigurimin që ju duhet!"
+    },
+    "bundle": {
+      "title": "Kombinoni sigurimin tuaj dhe përfitoni ulje:"
+    },
+    "button": {
+      "moreInfo": "Më shumë",
+      "buyNow": "Bli tani",
+      "skip": "Vazhdo"
+    }
+  },
+  "account": {
+    "login": {
+      "title": "Hyr",
+      "forgotPassword": "Humbët fjalëkalimin?",
+      "submit": "Hyr",
+      "or": "ose",
+      "with": "Hyr me",
+      "noAccount": "Nuk keni ende një llogari?"
+    },
+    "register": {
+      "title": "Regjistrohu",
+      "submit": "Regjistrohu",
+      "or": "ose",
+      "with": "Regjistrohu me",
+      "haveAccount": "Keni një llogari?"
+    },
+    "recovery": {
+      "title": "Fjalëkalimi i humbur",
+      "disclaimer": "Humbët fjalëkalimin? Ju lutemi shkruani emrin e përdoruesit ose email-in. Do të merrni një link për të krijuar një fjalëkalim të ri.",
+      "send": "Dërgo",
+      "sent": "Emaili u dërgua"
+    }
+  },
+  "error": {
+    "validation": {
+      "error": {
+        "message": "Të dhënat tuaja nuk janë të sakta.",
+        "description": "Ju lutem kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "internalException": {
+      "somethingWentWrong": {
+        "message": "Dicka shkoi keq.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "claim": {
+      "notFound": {
+        "message": "Raportimi nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "userNotMatch": {
+        "message": "Ky raportim nuk ka ardhur nga kjo llogari.",
+        "description": ""
+      }
+    },
+    "policy": {
+      "notFound": {
+        "message": "Polica nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "typeNotFound": {
+        "message": "Ky lloj police nuk ekziston.",
+        "description": ""
+      }
+    },
+    "recovery": {
+      "notFound": {
+        "message": "Seanca e ndryshimit te passwordit nuk u gjet.",
+        "description": "Ju lutem provoni perseri."
+      },
+      "expired": {
+        "message": "Kjo seancë e ndryshimit te passwordit ka perfunduar.",
+        "description": "Ju lutem krijoni një seancë tjeter."
+      }
+    },
+    "session": {
+      "notFound": {
+        "message": "Seanca nuk u gjet.",
+        "description": "Ju lutem rifreskoni faqen."
+      },
+      "expired": {
+        "message": "Seanca ka perfunduar.",
+        "description": "Ju lutem rifreskoni faqen."
+      }
+    },
+    "auth": {
+      "notLoggedIn": {
+        "message": "Ju nuk jeni i loguar.",
+        "description": "Ju lutem hyni në llogarin tuaj ose regjistrohuni."
+      }
+    },
+    "transaction": {
+      "notFound": {
+        "message": "Transaksioni nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "paymentNotFound": {
+        "message": "Hapi i pagesës nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "productsNotFound": {
+        "message": "Produktet e transaksionit nuk u gjetën.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "transactionStep": {
+      "notFound": {
+        "message": "Hapi i transaksioni nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "product": {
+      "notFound": {
+        "message": "Ky produkt nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "duration": {
+      "notFound": {
+        "message": "Periudha e sigurimit nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "destination": {
+      "notFound": {
+        "message": "Destinacioni nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "step": {
+      "parentTransactionStepNotSuccessful": {
+        "message": "Polica prind nuk përfundoi me sukses.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "template": {
+      "notFound": {
+        "message": "Paketa nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "businessRules": {
+      "notFound": {
+        "message": "Rregullat e produktit nuk u gjetën.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "currency": {
+      "notFound": {
+        "message": "Valuta nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "premium": {
+      "notFound": {
+        "message": "Primi nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "intervals": {
+      "notFound": {
+        "message": "Nuk u gjetën numra serial për këtë produkt.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "parentPolicy": {
+      "notFound": {
+        "message": "Polica shoqëruese nuk u gjet.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "licence": {
+      "validationFailed": {
+        "message": "Targa nuk është e saktë.",
+        "description": "Ju lutem sigurohuni që informacioni është i saktë."
+      }
+    },
+    "esig": {
+      "badData": {
+        "message": "Dicka shkoi keq.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "notFound": {
+        "message": "Dicka shkoi keq.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "HTTPError": {
+        "message": "Dicka shkoi keq.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "policyIssueError": {
+        "message": "Dicka shkoi keq me nxjerrjen e policës tuaj.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "parentPolicyValidationIssue": {
+        "message": "Dicka shkoi keq me validimin e policës shoqëruse.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "customerIdNotFound": {
+        "message": "Nuk u gjet një ID për llogarin tuaj.",
+        "description": "Ju lutem sigurohuni që informacioni juaj personal është i saktë."
+      }
+    },
+    "user": {
+      "notFound": {
+        "message": "Nuk u gjet asnjë llogari me këtë email.",
+        "description": "Ju lutem sigurohuni që informacioni është i saktë."
+      },
+      "emailAlreadyInUse": {
+        "message": "Ky email është në përdorim.",
+        "description": "Ju lutem hyni në llogarin tuaj ose përdorni një email tjetër."
+      }
+    },
+    "localAuth": {
+      "notFound": {
+        "message": "Nuk u gjet një password per këtë llogari.",
+        "description": "Provoni te hyni me një nga llogarit tuaja sociale."
+      },
+      "incorrectPassword": {
+        "message": "Passwordi nuk është i saktë.",
+        "description": "Ju lutem sigurohuni që informacioni është i saktë."
+      }
+    },
+    "google": {
+      "authCodeNotFound": {
+        "message": "Dicka shkoi keq në lidhjen me Google.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "authHTTPError": {
+        "message": "Dicka shkoi keq në lidhjen me Google.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "authBadResponse": {
+        "message": "Dicka shkoi keq në lidhjen me Google.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "authClientIdMissmatch": {
+        "message": "Dicka shkoi keq në lidhjen me Google.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "notFound": {
+        "message": "Nuk u gjet asnjë llogari e lidhur me këtë llogari Google.",
+        "description": "Ju lutem sigurohuni që informacioni është i saktë."
+      },
+      "emailNotFound": {
+        "message": "Nuk u gjet asnjë llogari me këtë email.",
+        "description": "Ju lutem sigurohuni që informacioni është i saktë."
+      },
+      "alreadyInUse": {
+        "message": "Kjo llogari Google është aktualisht e lidhur me një llogari.",
+        "description": "Ju lutem hyni në llogarin tuaj ose provoni një tjetër llogari Google."
+      },
+      "alreadyConnected": {
+        "message": "Kjo llogari është e lidhur me një llogari Google.",
+        "description": "Ju mund ta lidhni llogarin tuaj vetëm me një llogari Google."
+      }
+    },
+    "facebook": {
+      "authBadResponse": {
+        "message": "Dicka shkoi keq në lidhjen me Facebook.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "authInternalError": {
+        "message": "Dicka shkoi keq në lidhjen me Facebook.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "notFound": {
+        "message": "Nuk u gjet asnjë llogari e lidhur me këtë llogari Facebook.",
+        "description": "Ju lutem sigurohuni që informacioni është i saktë."
+      },
+      "emailNotFound": {
+        "message": "Dicka shkoi keq në lidhjen me Facebook.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "alreadyInUse": {
+        "message": "Kjo llogari Facebook është aktualisht e lidhur me një llogari.",
+        "description": "Ju lutem hyni në llogarin tuaj ose provoni një tjetër llogari Facebook."
+      },
+      "alreadyConnected": {
+        "message": "Kjo llogari është e lidhur me një llogari Facebook.",
+        "description": "Ju mund ta lidhni llogarin tuaj vetëm me një llogari Facebook."
+      }
+    },
+    "apple": {
+      "authBadResponse": {
+        "message": "Dicka shkoi keq në lidhjen me Apple.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "notFound": {
+        "message": "Nuk u gjet asnjë llogari e lidhur me këtë llogari Apple.",
+        "description": "Ju lutem sigurohuni që informacioni është i saktë."
+      },
+      "emailNotFound": {
+        "message": "Dicka shkoi keq në lidhjen me Apple.",
+        "description": "Ju lutem provoni më vonë ose kontaktoni supportin për më shumë informacion."
+      },
+      "alreadyInUse": {
+        "message": "Kjo llogari Apple është aktualisht e lidhur me një llogari.",
+        "description": "Ju lutem hyni në llogarin tuaj ose provoni një tjetër llogari Apple."
+      },
+      "alreadyConnected": {
+        "message": "Kjo llogari është e lidhur me një llogari Apple.",
+        "description": "Ju mund ta lidhni llogarin tuaj vetëm me një llogari Apple."
+      }
+    }
+  }
+}

@@ -19,18 +19,19 @@ const CarType = React.lazy(() =>
   }))
 );
 const WealthType = React.lazy(() =>
-  import("../../components/buyPagePOC/wealthType/wealthType").then(
-    (module) => ({
-      default: module.WealthType,
-    })
-  )
+  import("../../components/buyPagePOC/wealthType/wealthType").then((module) => ({
+    default: module.WealthType,
+  }))
 );
 const HealthType = React.lazy(() =>
-  import("../../components/buyPagePOC/healthType/healthType").then(
-    (module) => ({
-      default: module.HealthType,
-    })
-  )
+  import("../../components/buyPagePOC/healthType/healthType").then((module) => ({
+    default: module.HealthType,
+  }))
+);
+const MarinaType = React.lazy(() =>
+  import("../../components/buyPagePOC/marinaType/marinaType").then((module) => ({
+    default: module.MarinaType,
+  }))
 );
 // function renderSwitch(param: string | null) {
 //   switch (param) {
@@ -60,6 +61,7 @@ function renderSwitch(param: string | null): JSX.Element {
           <FormBuilder />
         </Suspense>
       );
+
     case "car":
       return (
         <Suspense fallback={<div></div>}>
@@ -76,6 +78,12 @@ function renderSwitch(param: string | null): JSX.Element {
       return (
         <Suspense fallback={<div></div>}>
           <HealthType />
+        </Suspense>
+      );
+    case "marina":
+      return (
+        <Suspense fallback={<div></div>}>
+          <MarinaType />
         </Suspense>
       );
   }

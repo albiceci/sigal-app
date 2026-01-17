@@ -23,8 +23,8 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 0; /* Remove scrollbar space */
-  background: transparent; /* Optional: just make scrollbar invisible */
+  width: 0;
+  background: transparent;
 }
 
 .h4 {
@@ -40,7 +40,7 @@ body {
 
 .h2 {
   font-size: 3rem /* 30px */;
-  line-height: 2.25rem /* 36px */;
+  line-height: 3rem /* 36px */;
   font-weight: 600;
   font-family: "Proxima Nova Bold", sans-serif;
 }
@@ -57,10 +57,10 @@ body {
     font-size: 3.5rem;
   }
   .h2 {
-    font-size: 2rem /* 30px */;
+    font-size: 2.7rem;
   }
   .h3 {
-    font-size: 1.6rem /* 30px */;
+    font-size: 1.75rem;
   }
 }
 
@@ -69,13 +69,10 @@ body {
     font-size: 3rem;
   }
   .h2 {
-    font-size: 1.8rem /* 30px */;
+    font-size: 2.4rem /* 30px */;
   }
   .h3 {
-    font-size: 1.2rem /* 30px */;
-  }
-  .h4 {
-    font-size: 0.7rem /* 30px */;
+    font-size: 1.5rem /* 30px */;
   }
 }
 
@@ -84,18 +81,15 @@ body {
     font-size: 2.5rem;
   }
   .h2 {
-    font-size: 1.8rem /* 30px */;
+    font-size: 2.1rem /* 30px */;
   }
   .h3 {
-    font-size: 1.2rem /* 30px */;
-  }
-  .h4 {
-    font-size: 0.9rem /* 30px */;
+    font-size: 1.25rem /* 30px */;
   }
 }
 
 .bgGradientCustom {
-  background: radial-gradient(ellipse at top, rgba(147, 214, 245, 0.753), transparent);
+  background: radial-gradient(ellipse at top, rgba(161, 216, 248), transparent);
 }
 
 .bgGradientPrimary {
@@ -112,4 +106,9 @@ body {
 
 .seeMoreBlur {
   mask-image: linear-gradient(black, black, rgba(255, 255, 255, 0));
+}
+
+input[type="date"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }

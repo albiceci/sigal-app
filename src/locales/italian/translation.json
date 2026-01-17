@@ -1,0 +1,318 @@
+{
+  "product": {
+    "tpl": {
+      "name": "TPL"
+    },
+    "casco": {
+      "name": "Casco"
+    },
+    "minicasco": {
+      "name": "Mini Casco"
+    },
+    "greencard": {
+      "name": "Carta Verde"
+    },
+    "autosos": {
+      "name": "Assistenza Stradale"
+    },
+    "property": {
+      "name": "Proprietà"
+    },
+    "travelAl": {
+      "name": "Xpat Travel"
+    },
+    "travel": {
+      "name": "Viaggio"
+    },
+    "privateHealth": {
+      "name": "Salute"
+    },
+    "teleHealth": {
+      "name": "Tele-Salute"
+    },
+    "antiTumor": {
+      "name": "Anti-Tumore"
+    },
+    "accident": {
+      "name": "Protezione contro gli Infortuni"
+    },
+    "mvl": {
+      "name": "MVL"
+    }
+  },
+  "navigation": {
+    "myAccount": {
+      "name": "Il Mio Account"
+    }
+  },
+  "button": {
+    "fileClaim": {
+      "long": "Denuncia Sinistro"
+    },
+    "learnMore": "Scopri di più",
+    "seePrice": {
+      "long": "Visualizza prezzi"
+    },
+    "insure": {
+      "long": "Assicurati"
+    }
+  },
+  "category": {
+    "car": {
+      "name": "Auto",
+      "subTitle": "Sottotitolo per Auto"
+    },
+    "health": {
+      "name": "Salute",
+      "subTitle": "Sottotitolo per Salute"
+    },
+    "life": {
+      "name": "Vita e Pensioni",
+      "subTitle": "Sottotitolo per Vita"
+    },
+    "marina": {
+      "name": "Marittimo",
+      "subTitle": "Sottotitolo per Marittimo"
+    },
+    "wealth": {
+      "name": "Patrimonio",
+      "subTitle": "Sottotitolo per Patrimonio"
+    }
+  },
+  "contact": {
+    "contact": {
+      "feature": "Senza costi (GRATIS)",
+      "office": "Uffici SIGAL IG",
+      "otherTitle": "Altri metodi di contatto:",
+      "title": "Contattaci:"
+    },
+    "form": {
+      "Disclaimer": "I tuoi dati personali saranno utilizzati esclusivamente allo scopo di fornire ulteriori informazioni sui prodotti SIGAL IG",
+      "submit": "Contattami"
+    },
+    "listItem": {
+      "1": "Scopri i pacchetti e i vantaggi dei nostri prodotti",
+      "2": "Ricevi un’offerta personalizzata",
+      "3": "Pianifica un incontro personale",
+      "4": "Scegli il servizio più adatto a te"
+    },
+    "listTitle": "Il nostro team di specialisti ti aiuterà a:",
+    "subTitle": "Contattaci!",
+    "title": "Vuoi saperne di più sui nostri prodotti?"
+  },
+  "footer": {
+    "contact": {
+      "button": {
+        "submit": "Contattaci"
+      }
+    },
+    "items": {
+      "complaints": "Segnala un Reclamo",
+      "cookies": "Cookie",
+      "privacy": "Politiche sulla Privacy"
+    }
+  },
+  "form": {
+    "controller": {
+      "back": "Indietro",
+      "next": "Continua",
+      "submit": "Completa"
+    },
+    "car": {
+      "title": "Veicolo",
+      "subTitle": "Compila i dati del veicolo."
+    },
+    "driver": {
+      "title": "Conducente",
+      "subTitle": "Compila i dati del conducente."
+    },
+    "person": {
+      "title": "Assicurato",
+      "subTitle": "Compila i dati personali."
+    },
+    "package": {
+      "title": "Pacchetto",
+      "subTitle": "Seleziona il pacchetto desiderato."
+    },
+    "property": {
+      "title": "Proprietà",
+      "subTitle": "Compila i dati della proprietà."
+    },
+    "ownership": {
+      "title": "Proprietà",
+      "subTitle": "Compila i dati di proprietà."
+    },
+    "payment": {
+      "title": "Pagamento",
+      "subTitle": "Scegli il metodo di pagamento.",
+      "transactionInfo": {
+        "title": "Rivedi i tuoi prodotti",
+        "subTotal": "Subtotale",
+        "discount": "Sconto",
+        "total": "Totale"
+      }
+    },
+    "multiStep": {
+      "step": "Passaggio"
+    },
+    "premium": "Premio",
+    "minicasco": {
+      "title": "Mini Casco",
+      "subTotal": "Compila i dati del Mini Casco",
+      "endDateDisclaimer": "La data di scadenza sarà la stessa della polizza accompagnatoria."
+    },
+    "autosos": {
+      "title": "Assistenza Stradale",
+      "subTotal": "Compila i dati dell’Assistenza Stradale"
+    },
+    "bundle": {
+      "addRemoveButton": "Aggiungi/Rimuovi Prodotti",
+      "clickToRemove": "Clicca sul prodotto per rimuoverlo.",
+      "clickToRemoveDisclaimer": "I dati inseriti vengono salvati, quindi puoi riaggiungere il prodotto in qualsiasi momento.",
+      "clickToAdd": "Clicca sul prodotto per aggiungerlo e ottenere uno sconto.",
+      "noBundlesAvailable": "Non ci sono altri pacchetti disponibili per questa combinazione di prodotti"
+    },
+    "placeholder": {
+      "destination": "Destinazione",
+      "coverageAmountShort": "Importo di copertura",
+      "coverageAmount": "Somma assicurata",
+      "profession": "Professione",
+      "flightConfirmationDate": "Data di conferma del volo",
+      "email": "Email",
+      "nameSurname": "Nome e Cognome",
+      "phone": "Telefono",
+      "licence": "Targa",
+      "vin": "VIN",
+      "durationType": "Periodo assicurativo",
+      "begDate": "Data di inizio",
+      "endDate": "Data di fine",
+      "taxNumber": "Codice Fiscale",
+      "name": "Nome",
+      "surname": "Cognome",
+      "gender": "Genere",
+      "birthday": "Data di nascita",
+      "isOwnerDriver": "Il proprietario è anche il conducente.",
+      "type": "Tipo",
+      "model": "Modello",
+      "power": "Potenza",
+      "color": "Colore",
+      "year": "Anno",
+      "peoplecapacity": "Posti",
+      "weightcapacity": "Peso totale",
+      "category": "Categoria",
+      "parentPolicyProductId": "Polizza accompagnatoria",
+      "parentPolicySerial": "Numero di serie",
+      "password": "Password",
+      "repeatPassword": "Ripeti password"
+    },
+    "option": {
+      "destination": {
+        "world": "Tutto il mondo",
+        "worldExUSACANADA": "Tutto il mondo esclusi USA e Canada",
+        "europeExSwiss": "Europa esclusa la Svizzera",
+        "swiss": "Svizzera",
+        "turkey": "Turchia"
+      }
+    },
+    "carSearchForm": {
+      "search": "Cerca",
+      "popUp": {
+        "confirm": "Conferma",
+        "disclaimer": "I dati del veicolo provengono da AMF e non possono essere modificati",
+        "title": "Informazioni sul Veicolo"
+      },
+      "loading": {
+        "title": "Attendere prego!",
+        "subTitle": "Attendere mentre il sistema elabora i tuoi dati."
+      }
+    },
+    "duration": {
+      "day": "Giornaliero",
+      "month": "Mensile",
+      "year": "Annuale"
+    },
+    "additionalPeople": {
+      "add": "Aggiungi",
+      "driver": "Conducente",
+      "family": "Familiare",
+      "clickToChange": "Clicca sulla persona per modificare i dati",
+      "person": {
+        "owner": "Proprietario"
+      },
+      "personalInfoPopUp": {
+        "title": "Informazioni Personali",
+        "disclaimer": "I tuoi dati sono al sicuro con noi.",
+        "confirm": "Conferma"
+      }
+    }
+  },
+  "home": {
+    "main": {
+      "subtitle": "Proteggi il tuo investimento più importante con SIGAL IG da ogni imprevisto.",
+      "title": "Proteggi ciò che conta, te stesso!"
+    }
+  },
+  "insuraceTypes": {
+    "subTitle": "Scopri di più sui prodotti assicurativi offerti da SIGAL",
+    "title": "Un mondo di assicurazioni"
+  },
+  "nav": {
+    "page": {
+      "Innovation": "Innovazione",
+      "about": "Chi siamo",
+      "career": "Carriere",
+      "media": "Media",
+      "responsibility": "Responsabilità Sociale"
+    },
+    "type": {
+      "information": "Informazioni",
+      "insurance": "Assicurazioni"
+    }
+  },
+  "whySigal": {
+    "clients": "milioni di clienti",
+    "countries": "paesi",
+    "description": "SIGAL Insurance Group è un gruppo assicurativo regionale con 8 compagnie di assicurazione Vita e Danni, Riassicurazioni e Fondi Pensione. SIGAL è l’unica compagnia che offre tutte le classi assicurative con oltre 50 prodotti, più di 2.400 dipendenti e agenti e oltre 1.200 uffici operativi in 3 paesi: Albania, Kosovo e Macedonia del Nord.",
+    "employees": "dipendenti e agenti",
+    "title": "Perché scegliere SIGAL?"
+  },
+  "buy": {
+    "category": {
+      "title": "Cosa desideri proteggere?"
+    },
+    "product": {
+      "title": "Scegli l’assicurazione di cui hai bisogno!"
+    },
+    "bundle": {
+      "title": "Combina la tua assicurazione e ottieni sconti:"
+    },
+    "button": {
+      "moreInfo": "Maggiori informazioni",
+      "buyNow": "Acquista ora",
+      "skip": "Continua"
+    }
+  },
+  "account": {
+    "login": {
+      "title": "Accedi",
+      "forgotPassword": "Password dimenticata?",
+      "submit": "Accedi",
+      "or": "o",
+      "with": "Accedi con",
+      "noAccount": "Non hai ancora un account?"
+    },
+    "register": {
+      "title": "Registrati",
+      "submit": "Registrati",
+      "or": "o",
+      "with": "Registrati con",
+      "haveAccount": "Hai già un account?"
+    },
+    "recovery": {
+      "title": "Password dimenticata",
+      "disclaimer": "Hai dimenticato la password? Inserisci il nome utente o l’email. Riceverai un link per creare una nuova password.",
+      "send": "Invia",
+      "sent": "Email inviata"
+    }
+  }
+}

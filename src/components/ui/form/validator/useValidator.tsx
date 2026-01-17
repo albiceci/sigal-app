@@ -1,19 +1,20 @@
-import { useState } from "react";
+import { FormFieldTypes, InputField, FormInputs, fieldValidationRules } from "../types";
 
-import { FormFieldTypes, InputField, FormInputs, fieldValidationRules, formFieldsStateType } from "../types";
-
-type useValidatorProps<T extends Record<string, InputField<keyof FormFieldTypes>>> = {
-  fields: FormInputs<T>;
-  validationRules: fieldValidationRules<keyof T>;
+type useValidatorProps<T extends Record<string, InputField<keyof FormFieldTypes>>, S extends keyof T> = {
+  formData: FormInputs<T>;
+  formFields: FormInputs<Pick<T, S>>;
+  fieldsValidationObject: fieldValidationRules<S>;
+  setFormData: React.Dispatch<React.SetStateAction<FormInputs<T>>>;
 };
 
-export function useValidator<T extends Record<string, InputField<keyof FormFieldTypes>>>({
-  fields,
-  validationRules,
-}: useValidatorProps<T>) {
-  const _validateField = (name: keyof typeof validationRules, value: any, showErrors: boolean) => {
-    const validationObject = validationRules[name];
-
+export function useValidator<T extends Record<string, InputField<keyof FormFieldTypes>>, S extends keyof T>({
+  formData,
+  formFields,
+  setFormData,
+  fieldsValidationObject,
+}: useValidatorProps<T, S>) {
+  const _validateField = (name: keyof typeof fieldsValidationObject, value: any, showErrors: boolean) => {
+    const validationObject = fieldsValidationObject[name];
     if (validationObject.length) {
       var errors: string[] = [];
       validationObject.forEach((rule) => {
@@ -29,20 +30,10 @@ export function useValidator<T extends Record<string, InputField<keyof FormField
         if (rule.type === "IS_TRUE" && value === false) {
           errors.push(rule.error);
         }
-        if (rule.type === "SAME_AS" && value !== fields[rule.value].value) {
+        if (rule.type === "LENGTH_BIGGER_EQUAL_THAN" && value.length < rule.value) {
           errors.push(rule.error);
         }
       });
-
-      if (
-        validationObject.filter((rule) => rule.type === "DEPENDS").length &&
-        formFieldsState[
-          //@ts-ignore
-          validationObject.filter((rule) => rule.type === "DEPENDS")[0].value
-        ].isValid
-      ) {
-        errors = [];
-      }
 
       if (errors.length) {
         return { isValid: false, errors: showErrors ? errors : [] };
@@ -54,29 +45,9 @@ export function useValidator<T extends Record<string, InputField<keyof FormField
     }
   };
 
-  const setInitialFormFieldsState = () => {
-    return Object.keys(fields).reduce(
-      (a, v) => ({ ...a, [v]: _validateField(v, fields[v].value, false) }),
-      {}
-    ) as formFieldsStateType<keyof typeof fields>;
+  const validateField = (name: keyof typeof fieldsValidationObject, value: any, showErrors: boolean) => {
+    return _validateField(name, value, showErrors);
   };
 
-  const [formFieldsState, setFormFieldsState] = useState(setInitialFormFieldsState());
-
-  const validateForm = (showErrors: boolean) => {
-    (Object.keys(formFieldsState) as Array<keyof typeof formFieldsState>).forEach((field) => {
-      validateField(field, fields[field].value, showErrors);
-    });
-  };
-
-  const validateField = (name: keyof typeof validationRules, value: any, showErrors: boolean) => {
-    setFormFieldsState((prev) => {
-      return {
-        ...prev,
-        [name]: _validateField(name, value, showErrors),
-      } as formFieldsStateType<keyof typeof fields>;
-    });
-  };
-
-  return { formFieldsState, validateField, validateForm };
+  return { validateField };
 }

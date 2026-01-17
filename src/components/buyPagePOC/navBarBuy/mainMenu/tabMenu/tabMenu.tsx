@@ -5,6 +5,7 @@ import { MenuItem } from "./menuItem/menuItem";
 import { useContext } from "react";
 
 import { SidebarContext } from "../../../../containers/buyPageContainer";
+import LanguageSelector from "../../../../ui/languageSelector/LanguageSelector";
 
 type tabMenuProps = {
   menuItems: {
@@ -59,19 +60,17 @@ export const TabMenu = ({ menuItems, activeKey }: tabMenuProps) => {
               <OutsideAlerter clickHandle={setsideBarActive}>
                 <div
                   className={`z-[1] absolute top-[5vh] left-[5vw] py-10 bg-primary w-[250px] rounded-md transition-[transform,box-shadow] duration-[1s] delay-500 ${
-                    sideBarActive
-                      ? "translate-x-[0] shadow-[0px_0px_25px_1px_rgba(0,102,179,255)]"
-                      : "translate-x-[0]"
+                    sideBarActive ? "translate-x-[0] shadow-[0px_0px_25px_1px_rgba(0,102,179,255)]" : "translate-x-[0]"
                   }`}
                 >
                   <div className="flex flex-col">
-                    {menuItems.products.map((item) => {
-                      return <MenuItem itemData={item} activeKey={activeKey} />;
+                    {menuItems.products.map((item, index) => {
+                      return <MenuItem key={index} itemData={item} activeKey={activeKey} />;
                     })}
                   </div>
                   <div className="pt-[70px] flex flex-col">
-                    {menuItems.secondary.map((item) => {
-                      return <MenuItem itemData={item} activeKey={activeKey} />;
+                    {menuItems.secondary.map((item, index) => {
+                      return <MenuItem key={index} itemData={item} activeKey={activeKey} />;
                     })}
                   </div>
                 </div>

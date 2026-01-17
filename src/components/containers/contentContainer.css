@@ -1,7 +1,5 @@
-
-
 @media (min-width: 1380px) {
-    .contentContainer{
-        width: 1280px;
-    }
+  .contentContainer {
+    width: 1280px;
+  }
 }

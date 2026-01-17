@@ -6,6 +6,8 @@ import { TextInput } from "../../../../ui/form/inputs/textInput/textInput";
 import React from "react";
 import { FormDisclaimer } from "../../../../ui/form/formContainers/formDisclaimer";
 import { Button } from "../../../../ui/button/button";
+import { useTranslation } from "react-i18next";
+import { PopUp } from "../../../../ui/popUp/popUp";
 
 const IoClose = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
@@ -27,68 +29,109 @@ export const carInfoFormFields: FormInputs<{
 }> = {
   licence: {
     name: "licence",
-    placeholder: "Targa",
+    placeholder: "form.placeholder.licence",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   vin: {
     name: "vin",
-    placeholder: "Vin",
+    placeholder: "form.placeholder.vin",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   type: {
     name: "type",
-    placeholder: "Tipi",
+    placeholder: "form.placeholder.type",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   model: {
     name: "model",
-    placeholder: "Modeli",
+    placeholder: "form.placeholder.model",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   power: {
     name: "power",
-    placeholder: "Power",
+    placeholder: "form.placeholder.power",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   year: {
     name: "year",
-    placeholder: "Viti",
+    placeholder: "form.placeholder.year",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   weightcapacity: {
     name: "weightcapacity",
-    placeholder: "Kpc Mbartes",
+    placeholder: "form.placeholder.weightcapacity",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   peoplecapacity: {
     name: "peoplecapacity",
-    placeholder: "Nr vendeve",
+    placeholder: "form.placeholder.peoplecapacity",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   color: {
     name: "color",
-    placeholder: "Ngjyra",
+    placeholder: "form.placeholder.color",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   category: {
     name: "category",
-    placeholder: "Kategoria",
+    placeholder: "form.placeholder.category",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
 };
 
 export const useCarInfoForm = ({ onSubmit, onClose }: { onSubmit: (value: boolean) => void; onClose: () => void }) => {
   const [formData, setFormData] = useState(carInfoFormFields);
+  const { t } = useTranslation();
 
   ///////////////VALIDATION HOOK/////////////////////////////////////
 
@@ -114,158 +157,148 @@ export const useCarInfoForm = ({ onSubmit, onClose }: { onSubmit: (value: boolea
 
   return {
     render: (
-      <div className="w-[95vw] sm:w-[80vw] md:w-[70vw] lg:w-[50vw] rounded-md bg-white shadow-lg">
-        <div className="text-primary py-3 flex justify-between items-center border-b px-6">
-          <div className="h4 font-semibold">CAR INFORMATION</div>
-          <div
-            onClick={() => {
-              onClose();
-            }}
-            className="cursor-pointer text-white bg-primary rounded-full hover:bg-primarysub"
-          >
-            <Suspense fallback={<div style={{ width: "25", height: "25" }}></div>}>
-              <IoClose size={"25"} />
-            </Suspense>
-          </div>
-        </div>
-        <div className="px-6">
-          <FormBody>
-            <FormRow>
-              <FormDisclaimer
-                style={{
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
+      <PopUp
+        title={t("form.carSearchForm.popUp.title")}
+        onClose={onClose}
+        bottomSection={
+          <div className="w-full flex items-center justify-center">
+            <div className="w-fit">
+              <Button
+                buttonType="secondary"
+                disabled={false}
+                icon={{
+                  type: "lottie",
+                  animationData: require("../../../../../assets/lottie/icons/checkIconWhite.json"),
+                  style: { height: 25, width: 25 },
+                  placement: "before",
+                }}
+                onClick={() => {
+                  onSubmit(true);
+                  onClose();
                 }}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className="w-[17px] h-[17px] min-w-[17px] min-h-[17px]"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="M12 16v-4"></path>
-                  <path d="M12 8h.01"></path>
-                </svg>
-                <span className="w-fit">Te dhenat e mjetit kane ardhur nga AMF dhe nuk mund te ndryshohen.</span>
-              </FormDisclaimer>
-            </FormRow>
-            <FormRow>
-              <TextInput
-                name={formData.licence.name}
-                placeholder={formData.licence.placeholder as string}
-                value={formData.licence.value}
-                isValid={true}
-                onChange={() => {}}
-                errors={[]}
-              />
-              <TextInput
-                name={formData.vin.name}
-                placeholder={formData.vin.placeholder as string}
-                value={formData.vin.value}
-                isValid={true}
-                onChange={() => {}}
-                errors={[]}
-              />
-            </FormRow>
-            <FormRow>
-              <TextInput
-                name={formData.type.name}
-                placeholder={formData.type.placeholder as string}
-                value={formData.type.value}
-                isValid={true}
-                onChange={() => {}}
-                errors={[]}
-              />
-              <TextInput
-                name={formData.model.name}
-                placeholder={formData.model.placeholder as string}
-                value={formData.model.value}
-                isValid={true}
-                onChange={() => {}}
-                errors={[]}
-              />
-              <TextInput
-                name={formData.power.name}
-                placeholder={formData.power.placeholder as string}
-                value={formData.power.value}
-                isValid={true}
-                onChange={() => {}}
-                errors={[]}
-              />
-            </FormRow>
-            <FormRow>
-              <TextInput
-                name={formData.color.name}
-                placeholder={formData.color.placeholder as string}
-                value={formData.color.value}
-                isValid={true}
-                onChange={() => {}}
-                errors={[]}
-              />
-              <TextInput
-                name={formData.year.name}
-                placeholder={formData.year.placeholder as string}
-                value={formData.year.value}
-                isValid={true}
-                onChange={() => {}}
-                errors={[]}
-              />
-            </FormRow>
-            <FormRow>
-              <TextInput
-                name={formData.peoplecapacity.name}
-                placeholder={formData.peoplecapacity.placeholder as string}
-                value={formData.peoplecapacity.value}
-                isValid={true}
-                onChange={() => {}}
-                errors={[]}
-              />
-              <TextInput
-                name={formData.weightcapacity.name}
-                placeholder={formData.weightcapacity.placeholder as string}
-                value={formData.weightcapacity.value}
-                isValid={true}
-                onChange={() => {}}
-                errors={[]}
-              />
-              <TextInput
-                name={formData.category.name}
-                placeholder={formData.category.placeholder as string}
-                value={formData.category.value}
-                isValid={true}
-                onChange={() => {}}
-                errors={[]}
-              />
-            </FormRow>
-          </FormBody>
-        </div>
-        <div className="flex-grow flex items-center justify-center pb-6">
-          <div className="w-fit">
-            <Button
-              buttonType="secondary"
-              disabled={false}
-              icon={{
-                type: "lottie",
-                animationData: require("../../../../../assets/lottie/icons/checkIconWhite.json"),
-                style: { height: 25, width: 25 },
-                placement: "before",
-              }}
-              onClick={() => {
-                onSubmit(true);
-                onClose();
+                {t("form.carSearchForm.popUp.confirm")}
+              </Button>
+            </div>
+          </div>
+        }
+      >
+        <FormBody>
+          <FormRow>
+            <FormDisclaimer
+              style={{
+                display: "flex",
+                gap: 2,
+                alignItems: "center",
               }}
             >
-              Konfirmo
-            </Button>
-          </div>
-        </div>
-      </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="w-[17px] h-[17px] min-w-[17px] min-h-[17px]"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 16v-4"></path>
+                <path d="M12 8h.01"></path>
+              </svg>
+              <span className="w-fit">{t("form.carSearchForm.popUp.disclaimer")}</span>
+            </FormDisclaimer>
+          </FormRow>
+          <FormRow>
+            <TextInput
+              name={formData.licence.name}
+              placeholder={formData.licence.placeholder as string}
+              value={formData.licence.value}
+              isValid={true}
+              onChange={() => {}}
+              errors={[]}
+            />
+            <TextInput
+              name={formData.vin.name}
+              placeholder={formData.vin.placeholder as string}
+              value={formData.vin.value}
+              isValid={true}
+              onChange={() => {}}
+              errors={[]}
+            />
+          </FormRow>
+          <FormRow>
+            <TextInput
+              name={formData.type.name}
+              placeholder={formData.type.placeholder as string}
+              value={formData.type.value}
+              isValid={true}
+              onChange={() => {}}
+              errors={[]}
+            />
+            <TextInput
+              name={formData.model.name}
+              placeholder={formData.model.placeholder as string}
+              value={formData.model.value}
+              isValid={true}
+              onChange={() => {}}
+              errors={[]}
+            />
+            <TextInput
+              name={formData.power.name}
+              placeholder={formData.power.placeholder as string}
+              value={formData.power.value}
+              isValid={true}
+              onChange={() => {}}
+              errors={[]}
+            />
+          </FormRow>
+          <FormRow>
+            <TextInput
+              name={formData.color.name}
+              placeholder={formData.color.placeholder as string}
+              value={formData.color.value}
+              isValid={true}
+              onChange={() => {}}
+              errors={[]}
+            />
+            <TextInput
+              name={formData.year.name}
+              placeholder={formData.year.placeholder as string}
+              value={formData.year.value}
+              isValid={true}
+              onChange={() => {}}
+              errors={[]}
+            />
+          </FormRow>
+          <FormRow>
+            <TextInput
+              name={formData.peoplecapacity.name}
+              placeholder={formData.peoplecapacity.placeholder as string}
+              value={formData.peoplecapacity.value}
+              isValid={true}
+              onChange={() => {}}
+              errors={[]}
+            />
+            <TextInput
+              name={formData.weightcapacity.name}
+              placeholder={formData.weightcapacity.placeholder as string}
+              value={formData.weightcapacity.value}
+              isValid={true}
+              onChange={() => {}}
+              errors={[]}
+            />
+            <TextInput
+              name={formData.category.name}
+              placeholder={formData.category.placeholder as string}
+              value={formData.category.value}
+              isValid={true}
+              onChange={() => {}}
+              errors={[]}
+            />
+          </FormRow>
+        </FormBody>
+      </PopUp>
     ),
     updateFormData: updateFormData,
   };

@@ -35,12 +35,12 @@ const questionData = [
     question:
       "Ku mund ta blej sigurimin e mjetit tim dhe a mund ta printoj sigurimin e mjetit tim nga faqja juaj online?",
     answer:
-      "Ju mund të pajiseni me sigurimin TPL/KJ/Kufitare, ne çdo zyrë SIGAL UNIQA, duke paraqitur lejen e qarkullimit të mjetit dhe një mjet identifikimi.\nMund të pajiseni me sigurimin TPL/KJ/Kufitare, në aplikacionin për Samrt Phone apo PC, apo dhe duke vizituar faqen tonë të internetit SIGAL.com.al, në rubriken Bli Online.",
+      "Ju mund të pajiseni me sigurimin TPL/KJ/Kufitare, ne çdo zyrë SIGAL IG, duke paraqitur lejen e qarkullimit të mjetit dhe një mjet identifikimi.\nMund të pajiseni me sigurimin TPL/KJ/Kufitare, në aplikacionin për Samrt Phone apo PC, apo dhe duke vizituar faqen tonë të internetit SIGAL.com.al, në rubriken Bli Online.",
   },
   {
     question: "Çfarë duhet të bëj nëse humb siguracionin e makinës?",
     answer:
-      "I siguruari duhet të njoftojë kompaninë e sigurimit për humbjen e siguracionit dhe të pajiset me një dublikatë pranë pikave të shitjes SIGAL UNIQA.",
+      "I siguruari duhet të njoftojë kompaninë e sigurimit për humbjen e siguracionit dhe të pajiset me një dublikatë pranë pikave të shitjes SIGAL IG.",
   },
 ];
 
@@ -53,7 +53,7 @@ function groupByThree<T>(arr: T[]): T[][] {
 }
 
 const RowContainer = ({ children }: { children: JSX.Element }) => {
-  return <div className="w-full">{children}</div>;
+  return <>{children}</>;
 };
 
 const QuestionContainer = ({
@@ -89,32 +89,20 @@ const QuestionContainer = ({
       }`}
     >
       <div className="flex justify-between items-center">
-        <div className="text-presetgray text-lg font-semibold font-header">
-          {question}
-        </div>
+        <strong className="text-presetgray text-lg font-semibold font-header">{question}</strong>
         <div className="lg:hidden">
           {isExpanded ? (
-            <Suspense
-              fallback={<div style={{ height: "30px", width: "30px" }}></div>}
-            >
+            <Suspense fallback={<div style={{ height: "30px", width: "30px" }}></div>}>
               <MdOutlineKeyboardArrowUp size={30} />
             </Suspense>
           ) : (
-            <Suspense
-              fallback={<div style={{ height: "30px", width: "30px" }}></div>}
-            >
+            <Suspense fallback={<div style={{ height: "30px", width: "30px" }}></div>}>
               <MdOutlineKeyboardArrowDown size={30} />
             </Suspense>
           )}
         </div>
       </div>
-      <div
-        className={`text-presetgray ${
-          isExpanded ? "block" : "hidden lg:block"
-        }`}
-      >
-        {answer}
-      </div>
+      <p className={`text-presetgray ${isExpanded ? "block" : "hidden lg:block"}`}>{answer}</p>
     </div>
   );
 };
@@ -125,18 +113,17 @@ export default function QnASection() {
   var windowDimensions = WindowDimensions();
 
   return (
-    <div className="w-full flex items-center justify-center py-20 bg-gray-100">
+    <article className="w-full flex items-center justify-center py-20 bg-gray-100">
       <ContentContainer>
         <Reveal width="100%">
           <div className="flex flex-col gap-10">
             <div className="flex items-center justify-center">
               <div className="flex flex-col items-center justify-center gap-3">
-                <div className="h2 text-presetgray">Pyetjet me te shpeshta</div>
-                <div className="h5 font-semibold text-presetgray max-w-[800px] text-center">
-                  Këtu do të gjeni përgjigje për disa nga pyetjet me te shpeshta
-                  që lidhen me politikat, pretendimet, pagesat, shërbimet online
-                  dhe të tjera.
-                </div>
+                <h2 className="h2 text-presetgray">Pyetjet me te shpeshta</h2>
+                <p className="h5 font-semibold text-presetgray max-w-[800px] text-center">
+                  Këtu do të gjeni përgjigje për disa nga pyetjet me te shpeshta që lidhen me politikat, pretendimet,
+                  pagesat, shërbimet online dhe të tjera.
+                </p>
               </div>
             </div>
             <div className="flex flex-col gap-7">
@@ -147,13 +134,7 @@ export default function QnASection() {
                       {group.map((question, index) => {
                         return (
                           <div className="lg:min-w-[27%] lg:max-w-[27%] min-h-full">
-                            <Reveal
-                              width="100%"
-                              height="100%"
-                              delay={
-                                windowDimensions.width >= 1024 ? 0.5 * index : 0
-                              }
-                            >
+                            <Reveal width="100%" height="100%" delay={windowDimensions.width >= 1024 ? 0.5 * index : 0}>
                               <QuestionContainer
                                 question={question.question}
                                 answer={question.answer}
@@ -172,6 +153,6 @@ export default function QnASection() {
           </div>
         </Reveal>
       </ContentContainer>
-    </div>
+    </article>
   );
 }

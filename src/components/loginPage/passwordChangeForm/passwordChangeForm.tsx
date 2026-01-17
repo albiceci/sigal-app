@@ -11,6 +11,8 @@ import { useLoadingOverlay } from "../../ui/loadingOverlay/loadingOverlay";
 import { useAlerter } from "../../ui/alerter/useAlerter";
 import { FormDisclaimer } from "../../ui/form/formContainers/formDisclaimer";
 import { Button } from "../../ui/button/button";
+import { useForm } from "../../ui/form/useForm";
+import { getErrorMessage } from "../../../helper/getErrorMessage";
 
 export const formFields: FormInputs<{
   password: InputField<"text">;
@@ -18,19 +20,27 @@ export const formFields: FormInputs<{
 }> = {
   password: {
     name: "password",
-    placeholder: "Password",
+    placeholder: "form.placeholder.password",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
   repeatPassword: {
     name: "repeatPassword",
-    placeholder: "Repeat Password",
+    placeholder: "form.placeholder.repeatPassword",
     type: "text",
     value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
   },
 };
 
-const cardFromFieldValidationRules: fieldValidationRules<keyof typeof formFields> = {
+const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
   password: [
     {
       type: "NOT_EMPTY",
@@ -61,55 +71,16 @@ export const PasswordChangeForm = () => {
   const [searchParams] = useSearchParams();
 
   ///////////////VALIDATION HOOK/////////////////////////////////////
-  const { formFieldsState, validateField, validateForm } = useValidator({
-    fields: (Object.keys(formFields) as Array<keyof typeof formFields>).reduce(
-      (a, v) => ({
-        ...a,
-        [v]: { ...formFields[v], value: formData[v].value },
-      }),
-      {}
-    ) as typeof formFields,
-    validationRules: cardFromFieldValidationRules,
+  const formHook = useForm<typeof formData, keyof typeof formFields>({
+    formData: formData,
+    formFields: formFields,
+    setFormData: setFormData,
+    fieldsValidationObject: fieldsValidationObject,
   });
 
   //////////////////////ON CHANGE///////////////////////////////
 
-  const updateForm = (name: any, value: any, showErrors = false) => {
-    setFormData((prev) => {
-      return {
-        ...prev,
-        [name]: {
-          ...prev[name as keyof typeof formFields],
-          value: value,
-        },
-      };
-    });
-    validateField(name as keyof typeof formFields, value, showErrors);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateForm(e.target.name, e.target.value, true);
-  };
-
   ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
-
-  const runValidation = (showErrors: boolean) => {
-    validateForm(showErrors);
-  };
-
-  useEffect(() => {
-    runValidation(false);
-  }, []);
-
-  useEffect(() => {
-    setIsValid((prev) => {
-      return (Object.keys(formFieldsState) as Array<keyof typeof formFieldsState>).filter(
-        (field) => !formFieldsState[field].isValid
-      ).length
-        ? false
-        : true;
-    });
-  }, [formFieldsState]);
 
   //////////////////////////CUSTOM FUCTIONS//////////////////////////////////
 
@@ -159,9 +130,13 @@ export const PasswordChangeForm = () => {
 
     if (jsonData.status !== 200) {
       if (jsonData.field) {
-        updateForm(jsonData.field, "", true);
+        formHook.changeFieldValue({
+          name: jsonData.field as keyof typeof formFields,
+          value: "",
+          showErrors: true,
+        });
       }
-      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
+      alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
       window.location.href = "/login";
     }
@@ -170,6 +145,14 @@ export const PasswordChangeForm = () => {
   useEffect(() => {
     checkInstance(searchParams.get("id"));
   }, [searchParams]);
+
+  const isPasswordValid = () => {
+    return formData.password.value === formData.repeatPassword.value;
+  };
+
+  const isFormValid = () => {
+    return formHook.isValid && isPasswordValid;
+  };
 
   return (
     <>
@@ -192,11 +175,11 @@ export const PasswordChangeForm = () => {
               name={formFields.password.name}
               value={formData.password.value}
               placeholder={formData.password.placeholder as string}
-              isValid={formFieldsState["password"].isValid}
+              isValid={formData.password.state.isValid}
               onChange={(e) => {
-                handleChange(e);
+                formHook.handleInputChange(e);
               }}
-              errors={formFieldsState["password"].errors}
+              errors={formData.password.state.errors}
             />
           </FormRow>
           <FormRow>
@@ -204,11 +187,17 @@ export const PasswordChangeForm = () => {
               name={formFields.repeatPassword.name}
               value={formData.repeatPassword.value}
               placeholder={formData.repeatPassword.placeholder as string}
-              isValid={formFieldsState["repeatPassword"].isValid}
+              isValid={formData.repeatPassword.state.isValid && isPasswordValid()}
               onChange={(e) => {
-                handleChange(e);
+                formHook.handleInputChange(e);
               }}
-              errors={formFieldsState["repeatPassword"].errors}
+              errors={(() => {
+                if (isPasswordValid()) {
+                  return;
+                } else {
+                  return [...formData.repeatPassword.state.errors, "Password does not match"];
+                }
+              })()}
             />
           </FormRow>
           <FormRow
@@ -221,12 +210,12 @@ export const PasswordChangeForm = () => {
             <div className="py-4">
               <Button
                 buttonType="secondary"
-                disabled={!isValid}
+                disabled={!isFormValid()}
                 onClick={() => {
-                  if (isValid) {
+                  if (isFormValid()) {
                     onSubmit();
                   } else {
-                    runValidation(true);
+                    formHook.validateForm(true);
                   }
                 }}
               >

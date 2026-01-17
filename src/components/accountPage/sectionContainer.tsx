@@ -27,7 +27,7 @@ export const SectionContainer = ({
     <div className="w-full">
       <div
         className={`z-[20] relative py-3 px-2 flex justify-between border rounded-md transition-all duration-300 cursor-pointer ${
-          isOpen ? "bg-primary text-white" : "bg-white text-primary"
+          isOpen ? "bg-primary text-white rounded-b-none" : "bg-white text-primary"
         }`}
         onClick={() => {
           setIsOpen((prev) => {
@@ -38,36 +38,23 @@ export const SectionContainer = ({
         <div className=" font-medium">{sectionName}</div>
         <div>
           {isOpen ? (
-            <Suspense
-              fallback={<div style={{ height: "25px", width: "25px" }}></div>}
-            >
+            <Suspense fallback={<div style={{ height: "25px", width: "25px" }}></div>}>
               <MdOutlineKeyboardArrowUp size={25} />
             </Suspense>
           ) : (
-            <Suspense
-              fallback={<div style={{ height: "25px", width: "25px" }}></div>}
-            >
+            <Suspense fallback={<div style={{ height: "25px", width: "25px" }}></div>}>
               <MdOutlineKeyboardArrowDown size={25} />
             </Suspense>
           )}
         </div>
       </div>
-      <div className="px-3">
-        {isOpen ? (
-          <Reveal
-            width="100%"
-            height="100%"
-            type={"y"}
-            delay={0}
-            distance={-70}
-            duration={0.5}
-          >
+      {isOpen && (
+        <div className="px-3 bg-white border border-t-0 rounded-t-none rounded-md">
+          <Reveal width="100%" height="100%" type={"y"} delay={0} distance={-70} duration={0.3}>
             {children}
           </Reveal>
-        ) : (
-          ""
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

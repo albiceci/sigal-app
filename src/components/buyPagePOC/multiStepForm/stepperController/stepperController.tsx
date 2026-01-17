@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Button } from "../../../ui/button/button";
 
 export const StepperController = ({
@@ -11,11 +12,13 @@ export const StepperController = ({
   isNextSubmit: boolean;
   isBackValid: boolean;
 }) => {
+  const { t } = useTranslation();
   return (
-    <div className="flex gap-3">
-      <div>
+    <div className="flex gap-3 w-full md:w-fit">
+      <div className="flex-grow">
         <Button
           buttonType="secondaryAlt"
+          padding="py-3 px-4 md:px-8"
           onClick={() => {
             if (isBackValid) handleClick("back");
           }}
@@ -30,12 +33,13 @@ export const StepperController = ({
             placement: "before",
           }}
         >
-          Back
+          {t("form.controller.back")}
         </Button>
       </div>
-      <div>
+      <div className="flex-grow">
         <Button
           buttonType="secondary"
+          padding="py-3 px-4 md:px-8"
           onClick={() => {
             handleClick("next");
           }}
@@ -54,7 +58,7 @@ export const StepperController = ({
           //   paddingLeft: 10,
           // }}
         >
-          {isNextSubmit ? "Submit" : "Next"}
+          {isNextSubmit ? t("form.controller.submit") : t("form.controller.next")}
         </Button>
       </div>
     </div>

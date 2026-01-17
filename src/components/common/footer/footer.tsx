@@ -1,209 +1,88 @@
-const FooterSectionContainer = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  return <div className="w-[343px] sm:w-[275px] xl:w-[264px]">{children}</div>;
-};
-
-const MarketingLinkTitle = ({ children }: { children: React.ReactNode }) => {
-  return <div className="font-semibold text-base">{children}</div>;
-};
-
-const MarketingLink = ({ children }: { children: React.ReactNode }) => {
-  return <div className="pl-4 sm:pl-0 font-normal text-base">{children}</div>;
-};
-
-const MarketingLinkContainer = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  return <div className="flex flex-col gap-3">{children}</div>;
-};
-
-const SocialMediaIcon = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="w-12 h-12 min-w-12 flex items-center justify-center bg-white shadow-md rounded-full">
-      {children}
-    </div>
-  );
-};
-
-const BaseLink = ({ children }: { children: React.ReactNode }) => {
-  return <div className="text-[13.33px]">{children}</div>;
-};
+import logo from "../../../assets/sigal/logo/logoSigalWhite.svg";
+import facebook from "../../../assets/sigal/footer/facebook.svg";
+import instagram from "../../../assets/sigal/footer/instagram.svg";
+import x from "../../../assets/sigal/footer/x.svg";
+import linkedin from "../../../assets/sigal/footer/linkedin.svg";
+import tiktok from "../../../assets/sigal/footer/tiktok.svg";
+import youtube from "../../../assets/sigal/footer/youtube.svg";
+import { Button } from "../../ui/button/button";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
   return (
-    <div className="pt-[80px] sm:pt-[140px] flex flex-col items-center">
-      <div className="w-fit">
-        <div>
-          <div className="flex gap-8 flex-col xl:flex-row">
-            <div className="flex gap-8 flex-col sm:flex-row">
-              <FooterSectionContainer>
-                <div className="flex flex-col gap-8">
-                  <div>
-                    <img
-                      alt="UNIQA Logo"
-                      src={require("./../../../assets/sigal/footer/UniqaLogo.png")}
-                    />
-                  </div>
-                  <div className="hidden flex-col gap-4 sm:flex">
-                    <div className="flex gap-4">
-                      <SocialMediaIcon>
-                        <img
-                          alt="Facebook Logo"
-                          src={require("./../../../assets/sigal/footer/FacebookLogo.png")}
-                        />
-                      </SocialMediaIcon>
-                      <SocialMediaIcon>
-                        <img
-                          alt="Instagram Logo"
-                          src={require("./../../../assets/sigal/footer/InstagramLogo.png")}
-                        />
-                      </SocialMediaIcon>
-                      <SocialMediaIcon>
-                        <img
-                          alt="Youtube Logo"
-                          src={require("./../../../assets/sigal/footer/YoutubeLogo.png")}
-                        />
-                      </SocialMediaIcon>
-                      <SocialMediaIcon>
-                        <img
-                          alt="Linkedin Logo"
-                          src={require("./../../../assets/sigal/footer/LinkedinLogo.png")}
-                        />
-                      </SocialMediaIcon>
-                    </div>
-                    <div>
-                      <SocialMediaIcon>
-                        <img
-                          alt="Pinterest Logo"
-                          src={require("./../../../assets/sigal/footer/PinterestLogo.png")}
-                        />
-                      </SocialMediaIcon>
-                    </div>
-                  </div>
-                  <div className="hidden sm:flex flex-col gap-3">
-                    <MarketingLinkTitle>myUNIQA App</MarketingLinkTitle>
-                    <div className="flex gap-4">
-                      <div>
-                        <img
-                          alt="AppStore"
-                          src={require("./../../../assets/sigal/footer/AppStore.png")}
-                        />
-                      </div>
-                      <div>
-                        <img
-                          alt="GooglePlay"
-                          src={require("./../../../assets/sigal/footer/GooglePlay.png")}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </FooterSectionContainer>
-              <FooterSectionContainer>
-                <MarketingLinkContainer>
-                  <MarketingLinkTitle>Contact and Services</MarketingLinkTitle>
-                  <MarketingLink>Contact</MarketingLink>
-                  <MarketingLink>Consultant Request</MarketingLink>
-                  <MarketingLink>Location Search</MarketingLink>
-                  <MarketingLink>Claims Services</MarketingLink>
-                  <MarketingLink>myUNIQA Portal</MarketingLink>
-                  <MarketingLink>Newsletter</MarketingLink>
-                  <MarketingLink>Online Insurances</MarketingLink>
-                </MarketingLinkContainer>
-              </FooterSectionContainer>
-            </div>
-            <div className="flex gap-8 flex-col sm:flex-row">
-              <FooterSectionContainer>
-                <MarketingLinkContainer>
-                  <MarketingLinkTitle>Contentworld</MarketingLinkTitle>
-                  <MarketingLink>medUNIQA</MarketingLink>
-                  <MarketingLink>CarpeDiem</MarketingLink>
-                  <MarketingLink>Podcast</MarketingLink>
-                  <MarketingLink>Insurance Encyclopedia</MarketingLink>
-                </MarketingLinkContainer>
-              </FooterSectionContainer>
-              <FooterSectionContainer>
-                <MarketingLinkContainer>
-                  <MarketingLinkTitle>Company</MarketingLinkTitle>
-                  <MarketingLink>About Us</MarketingLink>
-                  <MarketingLink>Career</MarketingLink>
-                  <MarketingLink>Sustainability</MarketingLink>
-                  <MarketingLink>Investor Relations</MarketingLink>
-                  <MarketingLink>UNIQA Group</MarketingLink>
-                  <MarketingLink>Broker Service</MarketingLink>
-                  <MarketingLink>Corporations</MarketingLink>
-                </MarketingLinkContainer>
-              </FooterSectionContainer>
-              <div className="flex sm:hidden flex-col gap-3">
-                <MarketingLinkTitle>myUNIQA App</MarketingLinkTitle>
-                <div className="flex gap-4">
-                  <div>
-                    <img
-                      alt="AppStore"
-                      src={require("./../../../assets/sigal/footer/AppStore.png")}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      alt="GooglePlay"
-                      src={require("./../../../assets/sigal/footer/GooglePlay.png")}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-4 sm:hidden">
-                <div className="flex gap-4 justify-between">
-                  <SocialMediaIcon>
-                    <img
-                      alt="Facebook Logo"
-                      src={require("./../../../assets/sigal/footer/FacebookLogo.png")}
-                    />
-                  </SocialMediaIcon>
-                  <SocialMediaIcon>
-                    <img
-                      alt="Instagram Logo"
-                      src={require("./../../../assets/sigal/footer/InstagramLogo.png")}
-                    />
-                  </SocialMediaIcon>
-                  <SocialMediaIcon>
-                    <img
-                      alt="Youtube Logo"
-                      src={require("./../../../assets/sigal/footer/YoutubeLogo.png")}
-                    />
-                  </SocialMediaIcon>
-                  <SocialMediaIcon>
-                    <img
-                      alt="Linkedin Logo"
-                      src={require("./../../../assets/sigal/footer/LinkedinLogo.png")}
-                    />
-                  </SocialMediaIcon>
-                  <SocialMediaIcon>
-                    <img
-                      alt="Pinterest Logo"
-                      src={require("./../../../assets/sigal/footer/PinterestLogo.png")}
-                    />
-                  </SocialMediaIcon>
-                </div>
-              </div>
-            </div>
+    <footer className=" flex overflow-hidden pb-[400px] lg:pb-0 relative bg-[#ecf6ff] text-presetblack">
+      <div className="flex-grow px-6 lg:px-20 py-12 flex flex-col gap-8 items-center justify-center lg:pr-[400px]">
+        <div className="flex gap-14 sm:gap-20 md:gap-20 lg:gap-32 xl:gap-52 text-lg">
+          <div className="flex flex-col gap-3">
+            <Link to="/#insurance-types" className="font-bold">
+              {t("nav.type.insurance")}
+            </Link>
+            <Link to="/life">{t("category.life.name")}</Link>
+            <Link to="/health">{t("category.health.name")}</Link>
+            <Link to="/wealth">{t("category.wealth.name")}</Link>
+            <Link to="/car">{t("category.car.name")}</Link>
+            <Link to="/marina">{t("category.marina.name")}</Link>
+          </div>
+          <div className="flex flex-col gap-3">
+            <div className="font-bold">{t("nav.type.information")}</div>
+            <div>{t("nav.page.about")}</div>
+            <div>{t("nav.page.responsibility")}</div>
+            <div>{t("nav.page.career")}</div>
+            <div>{t("nav.page.media")}</div>
+            <div>{t("nav.page.Innovation")}</div>
           </div>
         </div>
-        <div className="border-t pt-4 mt-8 mb-16 sm:mt-16 sm:mb-12 flex flex-col gap-4 items-center sm:items-start">
-          <div className="font-normal">© UNIQA 2023</div>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-6">
-            <BaseLink>Imprint</BaseLink>
-            <BaseLink>Legal Protection</BaseLink>
-            <BaseLink>Cookies</BaseLink>
-            <BaseLink>Legal Notice</BaseLink>
-            <BaseLink>Sitemap</BaseLink>
+        <div className="flex items-center gap-6 justify-center font-bold flex-col xl:flex-row">
+          <div className="h-[40px] flex gap-2 w-fit">
+            <div className="h-full">
+              <img className="h-full" src={facebook} alt="" />
+            </div>
+            <div className="h-full">
+              <img className="h-full" src={instagram} alt="" />
+            </div>
+            <div className="h-full">
+              <img className="h-full" src={x} alt="" />
+            </div>
+            <div className="h-full">
+              <img className="h-full" src={linkedin} alt="" />
+            </div>
+            <div className="h-full">
+              <img className="h-full" src={tiktok} alt="" />
+            </div>
+            <div className="h-full">
+              <img className="h-full" src={youtube} alt="" />
+            </div>
+          </div>
+          <div className="flex flex-row gap-6 flex-wrap items-center justify-center">
+            <div>{t("footer.items.privacy")}</div>
+            <div>{t("footer.items.complaints")}</div>
+            <div>{t("footer.items.cookies")}</div>
+            <div>©SIGAL IG</div>
           </div>
         </div>
       </div>
-    </div>
+      <div className="bg-primary pt-20 lg:pl-20 rounded-full lg:p-52 absolute w-[1200px] h-[1200px] lg:w-[800px] lg:h-[800px] bottom-0 lg:bottom-auto right-0 lg:m-0 translate-y-[800px] lg:-translate-y-[200px] translate-x-[500px] lg:translate-x-[400px] ">
+        <div className="flex flex-col gap-8 absolute w-fit left-[400px] lg:left-auto lg:top-[270px] text-white">
+          <img src={logo} alt="" />
+          <div className="flex flex-col gap-1 text-base font-bold">
+            <div>SIGAL Bussiness Center,</div>
+            <div>Blv. "Zogu I", Nr.1, 1001</div>
+            <div>Tirane, Shqiperi</div>
+          </div>
+          <div>
+            <Button
+              buttonType="secondary"
+              padding="px-7 py-2"
+              fontStyle="font-regularFamily font-black text-base tracking-wide"
+              onClick={() => {}}
+            >
+              {t("footer.contact.button.submit")}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }

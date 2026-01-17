@@ -1,179 +1,189 @@
-import {
-  forwardRef,
-  Suspense,
-  useContext,
-  useEffect,
-  useImperativeHandle,
-} from "react";
+import { forwardRef, useContext, useEffect, useImperativeHandle, useRef } from "react";
 import { Reveal } from "../../../../../util/reveal";
-
-import { useValidator } from "../../../../ui/form/validator/useValidator";
 import { FormBody } from "../../../../ui/form/formContainers/formBody";
 import { FormRow } from "../../../../ui/form/formContainers/formRow";
-import { TextInput } from "../../../../ui/form/inputs/textInput/textInput";
 import { formFields, fieldsValidationObject } from "./secondFormTypes";
-import { travelALContext } from "../../travelALType/travelALContext";
-import { PackageOption } from "../packageOption/packageOption";
-import React from "react";
+import { DateInput } from "../../../../ui/form/inputs/dateInput/dateInput";
+import { PackageOption } from "../../../packages/packageOption";
+import { PRODUCT_DATA_TYPE } from "../../../formConstants";
+import { useForm } from "../../../../ui/form/useForm";
 
-const FaMoneyBillWave = React.lazy(() =>
-  import("react-icons/fa").then((module) => ({
-    default: module.FaMoneyBillWave,
-  }))
-);
+import option1 from "./option1.svg";
+import option1Selected from "./option1Selected.svg";
+import option2 from "./option2.svg";
+import option2Selected from "./option2Selected.svg";
 
-const SecondForm = forwardRef((_, ref) => {
-  const { formData, setFormData } = useContext(travelALContext);
+import { useServer } from "../../../../../util/useServer";
+import { useLoadingOverlay } from "../../../../ui/loadingOverlay/loadingOverlay";
+import { useAlerter } from "../../../../ui/alerter/useAlerter";
+import { Premium } from "../../../premium/premium";
+import { travelALContext } from "../travelALContext";
+import { PackageList } from "../../../packages/packageList";
+import { getErrorMessage } from "../../../../../helper/getErrorMessage";
 
-  ///////////////VALIDATION HOOK/////////////////////////////////////
-  const { formFieldsState, validateField, validateForm } = useValidator({
-    fields: (Object.keys(formFields) as Array<keyof typeof formFields>).reduce(
-      (a, v) => ({
-        ...a,
-        [v]: { ...formFields[v], value: formData[v].value },
-      }),
-      {}
-    ) as typeof formFields,
-    validationRules: fieldsValidationObject,
-  });
+const packageOptionsData: {
+  name: string;
+  icon: JSX.Element;
+  selectedIcon: JSX.Element;
+  colorTheme?: string;
+  value: "b27b1c33-4c40-ef11-b9a8-00505692fbbd" | "9c499509-4c40-ef11-b9a8-00505692fbbd";
+}[] = [
+  {
+    name: "Mbulimi 10000 €",
+    value: "b27b1c33-4c40-ef11-b9a8-00505692fbbd",
+    icon: <img className="h-full" src={option2} alt="" />,
+    selectedIcon: <img className="h-full" src={option2Selected} alt="" />,
+  },
+  {
+    name: "Mbulimi 5000 €",
+    value: "9c499509-4c40-ef11-b9a8-00505692fbbd",
+    icon: <img className="h-full" src={option1} alt="" />,
+    selectedIcon: <img className="h-full" src={option1Selected} alt="" />,
+  },
+];
 
-  //////////////////////ON CHANGE///////////////////////////////
+const SecondForm = forwardRef(
+  (
+    props: {
+      product: PRODUCT_DATA_TYPE;
+    },
+    ref
+  ) => {
+    const { formData, setFormData } = useContext(props.product.context as typeof travelALContext);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => {
-      return {
-        ...prev,
-        [e.target.name]: {
-          ...prev[e.target.name as keyof typeof formFields],
-          value: e.target.value,
-        },
-      };
+    const hasMounted = useRef(false);
+
+    const formHook = useForm<typeof formData, keyof typeof formFields>({
+      formData: formData,
+      formFields: formFields,
+      setFormData: setFormData,
+      fieldsValidationObject: fieldsValidationObject,
     });
-    validateField(
-      e.target.name as keyof typeof formFields,
-      e.target.value,
-      true
-    );
-  };
 
-  const changePackageOption = (value: typeof formData.packageOption.value) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      packageOption: {
-        ...prevState.packageOption,
-        value: value,
-      },
+    const customFetch = useServer();
+    const loadingOverlay = useLoadingOverlay();
+    const alerter = useAlerter();
+
+    ///////////////VALIDATION HOOK/////////////////////////////////////
+
+    //////////////////////ON CHANGE///////////////////////////////
+
+    ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
+
+    useImperativeHandle(ref, () => ({
+      runValidation: formHook.validateForm,
+      isValid: formHook.isValid,
     }));
 
-    validateField("packageOption", value, true);
-  };
+    const getPremium = async () => {
+      const body = {
+        data: formData,
+        productId: props.product.productId,
+      };
 
-  ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
+      loadingOverlay.open("Please wait", "Calculation premium...");
 
-  const runValidation = (showErrors: boolean) => {
-    console.log(`validating Form with type ${showErrors}`);
-    validateForm(showErrors);
-  };
+      const jsonData = await customFetch("/form/premium", {
+        method: "POST",
+        body: body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  useImperativeHandle(ref, () => ({
-    runValidation: runValidation,
-    isValid: (
-      Object.keys(formFieldsState) as Array<keyof typeof formFieldsState>
-    ).filter((field) => !formFieldsState[field].isValid).length
-      ? false
-      : true,
-  }));
+      loadingOverlay.close();
 
-  useEffect(() => {
-    runValidation(false);
-  }, []);
+      if (jsonData.status !== 200) {
+        alerter.alertMessage(getErrorMessage(jsonData.message));
+      } else {
+        setFormData((prev) => {
+          return {
+            ...prev,
+            premium: {
+              ...prev.premium,
+              value: jsonData.data.premiumGross,
+            },
+            premiumCurrency: {
+              ...prev.premiumCurrency,
+              value: jsonData.data.premiumCurrency,
+            },
+          };
+        });
+      }
+    };
 
-  return (
-    <div>
-      <Reveal width="100%" delay={0}>
-        <FormBody>
-          <FormRow>
-            <TextInput
-              name={formFields.begDate.name}
-              value={formData.begDate.value}
-              helper="Ketu duhet te vendosni daten e fillimit te udhetimit"
-              placeholder={formData.begDate.placeholder as string}
-              isValid={formFieldsState["begDate"].isValid}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              errors={formFieldsState["begDate"].errors}
-            />
-            <TextInput
-              name={formFields.endDate.name}
-              value={formData.endDate.value}
-              helper="Ketu duhet te vendosni daten e mbarimit te udhetimit"
-              placeholder={formData.endDate.placeholder as string}
-              isValid={formFieldsState["endDate"].isValid}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              errors={formFieldsState["endDate"].errors}
-            />
-          </FormRow>
-          <FormRow>
-            <div className="w-full flex flex-col items-center justify-center gap-5 py-5">
-              <div>
-                <span className="text-primary text-lg font-bold">
-                  Zgjidhni mbulimin e deshiruar
-                </span>
-              </div>
-              <div className="flex gap-6 items-center justify-center w-full min-h-36 sm:min-h-36 md:min-h-36 lg:min-h-36">
-                <PackageOption
-                  name="Mbulim €10000"
-                  isSelected={formData.packageOption.value === "1"}
-                  icon={
-                    <Suspense
-                      fallback={
-                        <div style={{ width: "100%", height: "100%" }}></div>
-                      }
-                    >
-                      <FaMoneyBillWave size={"80"} />
-                    </Suspense>
-                  }
-                  onClick={() => {
-                    changePackageOption("1");
-                  }}
-                />
-                <PackageOption
-                  name="Mbulim €5000"
-                  icon={
-                    <Suspense
-                      fallback={
-                        <div style={{ width: "100%", height: "100%" }}></div>
-                      }
-                    >
-                      <FaMoneyBillWave size={"80"} />
-                    </Suspense>
-                  }
-                  isSelected={formData.packageOption.value === "2"}
-                  onClick={() => {
-                    changePackageOption("2");
-                  }}
-                />
-              </div>
-              <div>
-                {formFieldsState.packageOption.errors.length
-                  ? formFieldsState.packageOption.errors.map((error) => {
-                      return (
-                        <span className="text-red-400 font-semibold text-sm">
-                          &#x25cf; {error}
-                        </span>
-                      );
-                    })
-                  : ""}
-              </div>
-            </div>
-          </FormRow>
-        </FormBody>
-      </Reveal>
-    </div>
-  );
-});
+    useEffect(() => {
+      if (hasMounted.current) {
+        if (formData.templateId.value && formData.begDate.state.isValid && formData.endDate.state.isValid) {
+          getPremium();
+        }
+      } else {
+        hasMounted.current = true; // Skip the first run
+      }
+    }, [formData.templateId.value, formData.begDate.value, formData.endDate.value]);
+
+    return (
+      <div>
+        {loadingOverlay.render}
+        {alerter.render}
+        <Reveal width="100%" delay={0}>
+          <FormBody>
+            <FormRow>
+              <DateInput
+                name={formFields.begDate.name}
+                value={formData.begDate.value}
+                helper="Ketu duhet te vendosni daten e fillimit te udhetimit"
+                placeholder={formData.begDate.placeholder as string}
+                isValid={formData.begDate.state.isValid}
+                onChange={(e) => {
+                  formHook.handleInputChange(e);
+                }}
+                errors={formData.begDate.state.errors}
+              />
+              <DateInput
+                name={formFields.endDate.name}
+                value={formData.endDate.value}
+                helper="Ketu duhet te vendosni daten e mbarimit te udhetimit"
+                placeholder={formData.endDate.placeholder as string}
+                isValid={formData.endDate.state.isValid}
+                onChange={(e) => {
+                  formHook.handleInputChange(e);
+                }}
+                errors={formData.endDate.state.errors}
+              />
+            </FormRow>
+            <FormRow>
+              <PackageList
+                packageList={packageOptionsData.map((packageData, index) => {
+                  return {
+                    name: packageData.name,
+                    isSelected: formData.templateId.value === packageData.value,
+                    focus:
+                      formData.templateId.value !== null ? formData.templateId.value === packageData.value : undefined,
+                    icon: packageData.icon,
+                    selectedIcon: packageData.selectedIcon,
+                    colorTheme: packageData.colorTheme,
+                    onClick: () => {
+                      formHook.changeFieldValue({
+                        name: "templateId",
+                        value: packageData.value,
+                      });
+                    },
+                  };
+                })}
+              />
+            </FormRow>
+            <FormRow>
+              <></>
+            </FormRow>
+            <FormRow>
+              <Premium value={formData.premium.value} currency={formData.premiumCurrency.value} />
+            </FormRow>
+          </FormBody>
+        </Reveal>
+      </div>
+    );
+  }
+);
 
 export default SecondForm;

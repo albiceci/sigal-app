@@ -1,48 +1,55 @@
-import Lottie from "react-lottie";
-
-import MainImage from "../../../assets/lottie/carPageMain.json";
 import { useNavigate } from "react-router-dom";
+
+import heroImage from "./heroImage.svg";
 import { Button } from "../../ui/button/button";
+import Lottie from "lottie-react";
+import React from "react";
+import { ScrollPosition } from "../../../util/scrollPosition";
 
 function MainSection() {
   const navigate = useNavigate();
+  var scrollPosition: number = ScrollPosition();
   return (
-    <div className="h-[100vh] w-[100vw] min-h-[800px] max-h-[800px] flex relative overflow-hidden m-0 sm:min-h-[850px] sm:max-h-[1025px]">
-      <div className="w-full h-[500px] mt-[50px] flex flex-col items-center justify-center z-[5] absolute">
-        <h1 className="max-w-[350px] text-3xl mb-0 text-center font-header text-presetgray font-normal sm:max-w-[600px] sm:text-5xl">
-          Catch Phrase For Car
-        </h1>
-        <div className="mt-[10px] text-[15px] font-normal font-header text-presetgray text-center">
-          Sub title for car page!
+    <article className="w-[100vw] min-h-[800px] relative overflowx-hidden m-0 sm:min-h-[max(100vh,800px)] flex justify-center">
+      <div className="h-fit w-full flex items-center justify-center bottom-0 absolute">
+        <img src={heroImage} className="min-w-[1200px] sm:min-w-[1300px] lg:w-[100%] h-auto" alt="heroImage" />
+      </div>
+      <div className="absolute mt-[150px] flex flex-col gap-6 items-center z-10 max-w-[350px] md:max-w-[500px] lg:max-w-[600px]">
+        <div className="flex flex-col gap-4 items-center justify-center">
+          <div className="h2 text-primary text-center">Mbrojtja maksimale për automjetin tuaj</div>
+          <div className="text-center text-[15px] sm:text-[18px] font-medium font-subheader text-presetblack max-w-[300px] md:max-w-[450px] lg:max-w-[550px]">
+            Llogarit online siguracionin e makinës me një klik
+          </div>
         </div>
-        <div className="mt-[50px] py-[8px]">
+        <div className="w-fit">
           <Button
             buttonType="primary"
-            style={{
-              fontWeight: "550",
-              fontSize: "17px",
-              letterSpacing: "1px",
-            }}
+            fontStyle="font-regularFamily font-black tracking-widest"
             onClick={() => {
               navigate("/buy?type=car");
             }}
           >
-            SHIKO CMIMET
+            SIGUROHU
           </Button>
         </div>
       </div>
-      <div className="absolute translate-x-[-50%] left-[50%] z-0 bottom-0 w-[1000px] h-[650px] sm:w-[1300px] sm:h-[800px] lg:w-[1800px] lg:h-[1000px]">
+      <div
+        className={`flex w-full items-center justify-center bottom-14 lg:bottom-8 z-10 ${
+          scrollPosition > 50 ? "hidden" : "fixed"
+        }`}
+      >
         <Lottie
-          style={{ cursor: "default" }}
-          options={{
-            loop: true,
-            autoplay: true,
-            animationData: MainImage,
+          style={{
+            pointerEvents: "none",
+            height: 80,
+            width: 80,
           }}
-          isClickToPauseDisabled={true}
+          animationData={require("../../../assets/lottieFlow/icons/downArrowPresetBlack.json")}
+          autoplay={true}
+          loop={true}
         />
       </div>
-    </div>
+    </article>
   );
 }
 

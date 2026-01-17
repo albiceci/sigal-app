@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import { tabType } from "../../../pages/accountPage/accountPage";
 import { useServer } from "../../../util/useServer";
 import { useAlerter } from "../../ui/alerter/useAlerter";
+import { getErrorMessage } from "../../../helper/getErrorMessage";
 
 const FaChevronRight = React.lazy(() =>
   import("react-icons/fa6").then((module) => ({
@@ -44,7 +45,7 @@ export const MainMenu = ({ tabData, activeTab }: { tabData: tabType[]; activeTab
     });
 
     if (jsonData.status !== 200) {
-      alerter.alertMessage({ description: null, message: jsonData.message, type: "error" });
+      alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
       setUserInfo((prev) => {
         return {

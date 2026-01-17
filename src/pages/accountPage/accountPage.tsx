@@ -28,9 +28,14 @@ const IoMdSettings = React.lazy(() =>
   }))
 );
 
-const Subscriptions = React.lazy(() =>
-  import("../../components/accountPage/subscriptions/subscriptions").then((module) => ({
-    default: module.Subscriptions,
+const Policies = React.lazy(() =>
+  import("../../components/accountPage/policies/policies").then((module) => ({
+    default: module.Policies,
+  }))
+);
+const Claims = React.lazy(() =>
+  import("../../components/accountPage/claims/claims").then((module) => ({
+    default: module.Claims,
   }))
 );
 const IoDocumentText = React.lazy(() =>
@@ -47,7 +52,7 @@ export type tabType = {
 
 const tabData: tabType[] = [
   {
-    name: "General",
+    name: "Profili im",
     paramKey: "general",
     icon: (
       <div className="mb-1">
@@ -58,8 +63,8 @@ const tabData: tabType[] = [
     ),
   },
   {
-    name: "Subscriptions",
-    paramKey: "subscriptions",
+    name: "Sigurimet e mia",
+    paramKey: "policies",
     icon: (
       <div className="">
         <Suspense fallback={<div style={{ height: "19px", width: "19px" }}></div>}>
@@ -69,7 +74,7 @@ const tabData: tabType[] = [
     ),
   },
   {
-    name: "My Claims",
+    name: "Raportimet e mia",
     paramKey: "claims",
     icon: (
       <div className="">
@@ -79,19 +84,19 @@ const tabData: tabType[] = [
       </div>
     ),
   },
+  // {
+  //   name: "Payment",
+  //   paramKey: "payment",
+  //   icon: (
+  //     <div className="">
+  //       <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
+  //         <BsCreditCard2FrontFill size={18} />
+  //       </Suspense>
+  //     </div>
+  //   ),
+  // },
   {
-    name: "Payment",
-    paramKey: "payment",
-    icon: (
-      <div className="">
-        <Suspense fallback={<div style={{ height: "18px", width: "18px" }}></div>}>
-          <BsCreditCard2FrontFill size={18} />
-        </Suspense>
-      </div>
-    ),
-  },
-  {
-    name: "Settings",
+    name: "Cilësimet",
     paramKey: "settings",
     icon: (
       <div className="">
@@ -107,10 +112,16 @@ function renderSwitch(param: string | null) {
   switch (param) {
     case null:
       return <></>;
-    case "subscriptions":
+    case "policies":
       return (
         <Suspense fallback={<div style={{ height: "100%", width: "100%" }}></div>}>
-          <Subscriptions />
+          <Policies />
+        </Suspense>
+      );
+    case "claims":
+      return (
+        <Suspense fallback={<div style={{ height: "100%", width: "100%" }}></div>}>
+          <Claims />
         </Suspense>
       );
     case "general":

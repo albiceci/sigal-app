@@ -9,7 +9,7 @@ export const BuyButton = ({ isVisible, isActive, link }: { isVisible: boolean; i
   var windowDimensions = WindowDimensions();
   return (
     <div
-      className={`flex h-full items-center justify-center ${
+      className={`flex h-full py-2 items-center justify-center ${
         (scrollPosition > 500 || isVisible) && isActive
           ? "-translate-y-0 transition-transform duration-300"
           : "-translate-y-24 transition-transform duration-300"
@@ -18,12 +18,17 @@ export const BuyButton = ({ isVisible, isActive, link }: { isVisible: boolean; i
       <div className={`${(scrollPosition > 500 || isVisible) && isActive ? "animate-[bounce2_4s_ease_infinite]" : ""}`}>
         <Button
           buttonType="primary"
-          style={windowDimensions.width < 1200 ? { padding: "12px", fontSize: "14px" } : { fontSize: "14px" }}
+          padding="px-6 py-2"
+          style={
+            windowDimensions.width < 1200
+              ? { padding: "12px", paddingTop: "8px", paddingBottom: "8px", fontSize: "14px" }
+              : { fontSize: "14px" }
+          }
           onClick={() => {
             navigate(link);
           }}
         >
-          {windowDimensions.width > 1200 ? "SHIKO CMIMET" : "CMIMET"}
+          {windowDimensions.width > 1200 ? "SHIKO CMIMET" : "SIGUROHU"}
         </Button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { CSSProperties, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const FaRegQuestionCircle = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
@@ -47,6 +48,7 @@ export const SelectInput: React.FC<dateInputType> = ({
   style = {},
   ...props
 }) => {
+  const { t } = useTranslation();
   const [isFocus, setIsFocus] = useState(false);
   const [isHelperHover, setIsHelperHover] = useState(false);
 
@@ -55,13 +57,13 @@ export const SelectInput: React.FC<dateInputType> = ({
       <div className="flex w-full">
         <div className="w-full">
           <div
-            className={`py-2 px-3 pr-10 lg:pr-7 border-[1px] rounded-md min-w-[100%] cursor-pointer ${
+            className={`py-[10px] px-3 pr-10 lg:pr-7 border-[1px] rounded-md w-full min-w-[150px] cursor-pointer ${
               errors.length
                 ? "border-red-400 focus:border-red-500 bg-red-50"
                 : isValid
-                ? "border-primary focus:border-primarysub bg-blue-50"
-                : "border-gray-200 focus:border-gray-400 bg-gray-100"
-            }`}
+                ? "border-primary focus:border-primarysub bg-[#f6f9fd]"
+                : "border-gray-200 focus:border-gray-400 bg-gray-50"
+            } ${isFocus && "rounded-b-none border-[2px] m-0"}`}
             {...props}
             style={{ ...style }}
             onClick={() => {
@@ -73,12 +75,12 @@ export const SelectInput: React.FC<dateInputType> = ({
                 errors.length ? "text-red-500" : isValid ? "text-primary" : "text-gray-400"
               }`}
             >
-              {options.filter((x) => x.id === value).length ? options.filter((x) => x.id === value)[0].text : "/"}
+              {options.filter((x) => x.id === value).length ? t(options.filter((x) => x.id === value)[0].text) : "/"}
             </div>
           </div>
 
           {isFocus ? (
-            <div className="z-20 absolute bg-gray-50 w-full border-[1px] rounded-md max-h-36 overflow-auto">
+            <div className="z-20 absolute bg-gray-50 w-full border-[1px] rounded-md rounded-t-none max-h-36 overflow-auto">
               {options.map((option) => {
                 return (
                   <div
@@ -88,7 +90,7 @@ export const SelectInput: React.FC<dateInputType> = ({
                       setIsFocus(false);
                     }}
                   >
-                    {option.text}
+                    {t(option.text)}
                   </div>
                 );
               })}
@@ -100,7 +102,7 @@ export const SelectInput: React.FC<dateInputType> = ({
             errors.length ? "text-red-500" : isValid ? "text-primary" : "text-gray-400"
           }`}
           style={{
-            paddingTop: style.paddingTop ? Number(style.paddingTop) + 2 : 10,
+            paddingTop: style.paddingTop ? Number(style.paddingTop) + 2 : 12,
           }}
           onClick={() => {
             setIsFocus(!isFocus);
@@ -159,18 +161,18 @@ export const SelectInput: React.FC<dateInputType> = ({
                 background: "linear-gradient(to top, transparent, white, transparent)",
               }
             : {
-                paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 10,
+                paddingTop: style.paddingTop ? Number(style.paddingTop) + 4 : 12,
                 cursor: "text",
                 fontSize: style.fontSize ? style.fontSize : 16,
               }
         }
       >
-        {placeholder}
+        {t(placeholder)}
       </label>
       <div className="flex flex-col px-1">
         {errors.length
           ? errors.map((error) => {
-              return <span className="text-red-400 font-semibold text-sm">&#x25cf; {error}</span>;
+              return <span className="text-red-400 font-semibold text-sm">&#x25cf; {t(error)}</span>;
             })
           : ""}
       </div>

@@ -19,7 +19,7 @@ type stepperProps = {
 
 export const Stepper = ({ stepsData, currStep, onClick }: stepperProps) => {
   return (
-    <div className="h-fit flex justify-between sm:flex-col sm:h-full sm:min-h-[500px]">
+    <div className="h-fit flex justify-between md:flex-col md:h-full md:min-h-[500px]">
       {stepsData.map((item, index) => {
         return (
           <Reveal key={item.id} width="100%" height="100%" delay={0.1 * index}>
