@@ -1,10 +1,9 @@
-import { forwardRef, useContext, useEffect, useImperativeHandle, useRef } from "react";
+import { forwardRef, useContext, useImperativeHandle } from "react";
 import { Reveal } from "../../../../../util/reveal";
 import { FormBody } from "../../../../ui/form/formContainers/formBody";
 import { FormRow } from "../../../../ui/form/formContainers/formRow";
 import { formFields, fieldsValidationObject } from "./secondFormTypes";
 import { DateInput } from "../../../../ui/form/inputs/dateInput/dateInput";
-import { PackageOption } from "../../../packages/packageOption";
 import { PRODUCT_DATA_TYPE } from "../../../formConstants";
 import { useForm } from "../../../../ui/form/useForm";
 
@@ -13,13 +12,9 @@ import option1Selected from "./option1Selected.svg";
 import option2 from "./option2.svg";
 import option2Selected from "./option2Selected.svg";
 
-import { useServer } from "../../../../../util/useServer";
-import { useLoadingOverlay } from "../../../../ui/loadingOverlay/loadingOverlay";
-import { useAlerter } from "../../../../ui/alerter/useAlerter";
 import { Premium } from "../../../premium/premium";
 import { travelALContext } from "../travelALContext";
 import { PackageList } from "../../../packages/packageList";
-import { getErrorMessage } from "../../../../../helper/getErrorMessage";
 
 const packageOptionsData: {
   name: string;
@@ -47,11 +42,9 @@ const SecondForm = forwardRef(
     props: {
       product: PRODUCT_DATA_TYPE;
     },
-    ref
+    ref,
   ) => {
     const { formData, setFormData } = useContext(props.product.context as typeof travelALContext);
-
-    const hasMounted = useRef(false);
 
     const formHook = useForm<typeof formData, keyof typeof formFields>({
       formData: formData,
@@ -59,10 +52,6 @@ const SecondForm = forwardRef(
       setFormData: setFormData,
       fieldsValidationObject: fieldsValidationObject,
     });
-
-    const customFetch = useServer();
-    const loadingOverlay = useLoadingOverlay();
-    const alerter = useAlerter();
 
     ///////////////VALIDATION HOOK/////////////////////////////////////
 
@@ -75,81 +64,62 @@ const SecondForm = forwardRef(
       isValid: formHook.isValid,
     }));
 
-    const getPremium = async () => {
-      const body = {
-        data: formData,
-        productId: props.product.productId,
-      };
-
-      loadingOverlay.open("Please wait", "Calculation premium...");
-
-      const jsonData = await customFetch("/form/premium", {
-        method: "POST",
-        body: body,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      loadingOverlay.close();
-
-      if (jsonData.status !== 200) {
-        alerter.alertMessage(getErrorMessage(jsonData.message));
-      } else {
-        setFormData((prev) => {
-          return {
-            ...prev,
-            premium: {
-              ...prev.premium,
-              value: jsonData.data.premiumGross,
-            },
-            premiumCurrency: {
-              ...prev.premiumCurrency,
-              value: jsonData.data.premiumCurrency,
-            },
-          };
-        });
-      }
-    };
-
-    useEffect(() => {
-      if (hasMounted.current) {
-        if (formData.templateId.value && formData.begDate.state.isValid && formData.endDate.state.isValid) {
-          getPremium();
-        }
-      } else {
-        hasMounted.current = true; // Skip the first run
-      }
-    }, [formData.templateId.value, formData.begDate.value, formData.endDate.value]);
-
     return (
       <div>
-        {loadingOverlay.render}
-        {alerter.render}
         <Reveal width="100%" delay={0}>
           <FormBody>
             <FormRow>
               <DateInput
                 name={formFields.begDate.name}
                 value={formData.begDate.value}
-                helper="Ketu duhet te vendosni daten e fillimit te udhetimit"
                 placeholder={formData.begDate.placeholder as string}
                 isValid={formData.begDate.state.isValid}
                 onChange={(e) => {
                   formHook.handleInputChange(e);
                 }}
                 errors={formData.begDate.state.errors}
+                selfState={true}
+                min={(() => {
+                  if (
+                    props.product.config &&
+                    props.product.config.beginDate &&
+                    props.product.config.beginDate.minValue !== undefined
+                  ) {
+                    const currentDate = new Date();
+
+                    currentDate.setDate(currentDate.getDate() + props.product.config.beginDate.minValue);
+
+                    return `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
+                      2,
+                      "0",
+                    )}-${String(currentDate.getDate()).padStart(2, "0")}`;
+                  }
+                  return undefined;
+                })()}
               />
               <DateInput
                 name={formFields.endDate.name}
                 value={formData.endDate.value}
-                helper="Ketu duhet te vendosni daten e mbarimit te udhetimit"
                 placeholder={formData.endDate.placeholder as string}
                 isValid={formData.endDate.state.isValid}
                 onChange={(e) => {
                   formHook.handleInputChange(e);
                 }}
                 errors={formData.endDate.state.errors}
+                selfState={true}
+                min={(() => {
+                  if (formData.begDate.value) {
+                    const currentDate = new Date(formData.begDate.value);
+
+                    currentDate.setDate(currentDate.getDate() + 1);
+
+                    return `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
+                      2,
+                      "0",
+                    )}-${String(currentDate.getDate()).padStart(2, "0")}`;
+                  }
+                  return undefined;
+                })()}
               />
             </FormRow>
             <FormRow>
@@ -183,7 +153,7 @@ const SecondForm = forwardRef(
         </Reveal>
       </div>
     );
-  }
+  },
 );
 
 export default SecondForm;

@@ -10,7 +10,7 @@ type alertMessageType = {
 
 function uuidv4() {
   return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
-    (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16)
+    (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16),
   );
 }
 
@@ -106,7 +106,7 @@ export const useAlerter = () => {
    * ------------------------- */
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const pageContainer = document.getElementById("alerterContainer");
+  const pageContainer = useMemo(() => document.getElementById("alerterContainer"), []);
 
   /* -------------------------
    * Stable handlers
@@ -116,7 +116,6 @@ export const useAlerter = () => {
   }, []);
 
   const alertMessage = useCallback((messageData: alertMessageType) => {
-    console.log(messageData);
     setMessages((prev) => [...prev, { ...messageData, id: uuidv4() }]);
   }, []);
 
@@ -161,8 +160,8 @@ export const useAlerter = () => {
               index={index - messages.length + 1}
               onClick={removeCurrentAlert}
             />,
-            pageContainer
-          )
+            pageContainer,
+          ),
         )}
       </>
     );
@@ -176,6 +175,6 @@ export const useAlerter = () => {
       alertMessage,
       render,
     }),
-    [alertMessage, render]
+    [alertMessage, render],
   );
 };

@@ -33,6 +33,9 @@ export function useValidator<T extends Record<string, InputField<keyof FormField
         if (rule.type === "LENGTH_BIGGER_EQUAL_THAN" && value.length < rule.value) {
           errors.push(rule.error);
         }
+        if (rule.type === "NUMBER_BIGGER_EQUAL_THAN" && !(!isNaN(value) && Number(value) >= rule.value)) {
+          errors.push(rule.error);
+        }
       });
 
       if (errors.length) {

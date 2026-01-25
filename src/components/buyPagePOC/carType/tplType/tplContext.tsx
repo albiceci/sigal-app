@@ -11,6 +11,7 @@ import { useAlerter } from "../../../ui/alerter/useAlerter";
 import { PRODUCT_INFO } from "../../productConstants";
 import { useTranslation } from "react-i18next";
 import { getErrorMessage } from "../../../../helper/getErrorMessage";
+import { roundToTwoDecimals } from "../../../../helper/roundToTwoDecimals";
 
 //////////JOIN ALL FIELDS ON THE FORMS//////////////////////
 
@@ -19,7 +20,7 @@ function mergeForms(
   form2: typeof secondFormFields,
   form3: typeof carSearchFormFields,
   form4: typeof durationFormFields,
-  form5: typeof additionalPeopleFields
+  form5: typeof additionalPeopleFields,
 ) {
   return { ...form1, ...form2, ...form3, ...form4, ...form5 };
 }
@@ -29,7 +30,7 @@ const combinedFormFields = mergeForms(
   secondFormFields,
   carSearchFormFields,
   durationFormFields,
-  additionalPeopleFields
+  additionalPeopleFields,
 );
 
 const tplContext = createContext<{
@@ -87,7 +88,7 @@ const TplContextProvider = ({ children }: { children: JSX.Element }) => {
           ...prev,
           premium: {
             ...prev.premium,
-            value: jsonData.data.premiumGross,
+            value: String(roundToTwoDecimals(jsonData.data.premiumGross)),
           },
           premiumCurrency: {
             ...prev.premiumCurrency,

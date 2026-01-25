@@ -4,8 +4,6 @@
 import { fieldValidationRules, FormInputs, InputField } from "../../../../ui/form/types";
 
 export const formFields: FormInputs<{
-  begDate: InputField<"text">;
-  endDate: InputField<"text">;
   templateId: InputField<
     "select",
     | "e0bcc8d1-e05b-f011-b9b4-00505692fbbd"
@@ -17,26 +15,6 @@ export const formFields: FormInputs<{
   premium: InputField<"text">;
   premiumCurrency: InputField<"text">;
 }> = {
-  begDate: {
-    name: "begDate",
-    placeholder: "form.placeholder.begDate",
-    type: "text",
-    value: "",
-    state: {
-      isValid: false,
-      errors: [],
-    },
-  },
-  endDate: {
-    name: "endDate",
-    placeholder: "form.placeholder.endDate",
-    type: "text",
-    value: "",
-    state: {
-      isValid: false,
-      errors: [],
-    },
-  },
   templateId: {
     name: "templateId",
     type: "select",
@@ -70,22 +48,10 @@ export const formFields: FormInputs<{
 
 ///////////VALIDATION RULES/////////////////////////
 export const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
-  begDate: [
-    {
-      type: "NOT_EMPTY",
-      error: "Zgjidhni daten e fillimit te urdhetimit",
-    },
-  ],
-  endDate: [
-    {
-      type: "NOT_EMPTY",
-      error: "Zgjidhni daten e mbarimit te urdhetimit",
-    },
-  ],
   templateId: [
     {
       type: "NOT_NULL",
-      error: "Ju duhet te zgjidhni nje nga opsionet",
+      error: "form.error.templateId.notNull",
     },
   ],
   premium: [],

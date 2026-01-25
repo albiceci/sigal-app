@@ -2,7 +2,7 @@ import { formFields } from "./durationFormTypes";
 import { fieldsValidationObject } from "./durationFormTypes";
 
 import { FormRow } from "../../ui/form/formContainers/formRow";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { DateInput } from "../../ui/form/inputs/dateInput/dateInput";
 import { SelectInput } from "../../ui/form/inputs/selectInput/selectInput";
 import { PRODUCT_DATA_TYPE } from "../formConstants";
@@ -23,9 +23,11 @@ export const useDurationForm = ({
 }) => {
   const { formData, setFormData } = useContext(
     //@ts-ignore
-    product.context as typeof tplContext
+    product.context as typeof tplContext,
   );
   const [durations, setDurations] = useState(null);
+  const [isDurationLoading, setIsDurationLoading] = useState(true);
+  const [isDurationError, setIsDurationError] = useState(false);
 
   const { t } = useTranslation();
 
@@ -34,7 +36,10 @@ export const useDurationForm = ({
   const alerter = useAlerter();
 
   ///////////////FORM HOOK/////////////////////////////////////
-  const formHook = useForm<typeof formData, keyof typeof formFields>({
+  const { changeFieldValue, handleInputChange, validateForm, isValid } = useForm<
+    typeof formData,
+    keyof typeof formFields
+  >({
     formData: formData,
     formFields: formFields,
     setFormData: setFormData,
@@ -44,10 +49,14 @@ export const useDurationForm = ({
   //////////////////////ON CHANGE///////////////////////////////
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    formHook.handleInputChange(e);
-    if (e.target.name === "begDate") {
-      calculateEndDate(formData.durationId.value, e.target.value);
-    }
+    handleInputChange(e);
+  };
+
+  const handleDurationIdChange = (value: string) => {
+    changeFieldValue({
+      name: "durationId",
+      value: value,
+    });
   };
 
   ////////////FORM VALIDATION TRIGGERS//////////////////////////////////
@@ -59,20 +68,21 @@ export const useDurationForm = ({
   ///////////CUSTOM FUNCTIONS/////////////////////////////////////////////
 
   const getDurations = async () => {
+    setIsDurationLoading(true);
     const jsonData = await customFetch(`/form/durations?productSiteId=${product.productSiteId}`, {
       method: "GET",
     });
 
     if (jsonData.status !== 200) {
+      setIsDurationError(true);
       alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
+      setIsDurationError(false);
       setDurations(jsonData.data);
+      setIsDurationLoading(false);
 
       if (jsonData.data.length === 1) {
-        formHook.changeFieldValue({
-          name: "durationId",
-          value: jsonData.data[0].id,
-        });
+        handleDurationIdChange(jsonData.data[0].id);
       }
     }
   };
@@ -106,13 +116,13 @@ export const useDurationForm = ({
     }
   };
 
-  const calculateEndDate = (durationIdValue: string, begDateValue: string) => {
-    if (begDateValue && durationIdValue && durations) {
-      var begDate = new Date(begDateValue);
+  const calculateEndDate = useCallback(() => {
+    if (formData.begDate.value && formData.durationId.value && durations) {
+      var begDate = new Date(formData.begDate.value);
       //@ts-ignore
       const selectedDuration = durations.filter(
         //@ts-ignore
-        (x) => x.id === durationIdValue
+        (x) => x.id === formData.durationId.value,
       )[0];
 
       begDate.setDate(begDate.getDate() + selectedDuration.days);
@@ -120,15 +130,19 @@ export const useDurationForm = ({
       begDate.setFullYear(begDate.getFullYear() + selectedDuration.years);
 
       const endDate = `${begDate.getFullYear()}-${String(begDate.getMonth() + 1).padStart(2, "0")}-${String(
-        begDate.getDate()
+        begDate.getDate(),
       ).padStart(2, "0")}`;
 
-      formHook.changeFieldValue({
+      changeFieldValue({
         name: "endDate",
         value: endDate,
       });
     }
-  };
+  }, [formData.begDate.value, formData.durationId.value, durations]);
+
+  useEffect(() => {
+    calculateEndDate();
+  }, [calculateEndDate]);
 
   return {
     render: (
@@ -141,16 +155,13 @@ export const useDurationForm = ({
             name={formData.durationId.name}
             value={formData.durationId.value}
             isValid={formData.durationId.state.isValid}
-            options={createOption()}
+            options={durations ? createOption() : undefined}
             onOptionChange={(name: string, value: string) => {
-              formHook.changeFieldValue({
-                name: "durationId",
-                value: value,
-                showErrors: true,
-              });
-              calculateEndDate(value, formData.begDate.value);
+              handleDurationIdChange(value);
             }}
             errors={formData.durationId.state.errors}
+            isLoading={isDurationLoading}
+            isError={isDurationError}
           />
         </FormRow>
         <FormRow>
@@ -170,7 +181,7 @@ export const useDurationForm = ({
                 currentDate.setDate(currentDate.getDate() + product.config.beginDate.minValue);
 
                 return `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}-${String(
-                  currentDate.getDate()
+                  currentDate.getDate(),
                 ).padStart(2, "0")}`;
               }
               return undefined;
@@ -190,7 +201,7 @@ export const useDurationForm = ({
         </FormRow>
       </>
     ),
-    runValidation: formHook.validateForm,
-    isValid: formHook.isValid,
+    runValidation: validateForm,
+    isValid: isValid,
   };
 };

@@ -7,7 +7,7 @@ import { SelectInput } from "../form/inputs/selectInput/selectInput";
 const MdOutlineKeyboardArrowDown = React.lazy(() =>
   import("react-icons/md").then((module) => ({
     default: module.MdOutlineKeyboardArrowDown,
-  }))
+  })),
 );
 
 const languages = [
@@ -85,7 +85,6 @@ export default function LanguageSelector({
       {isPopUpOpen && (
         <LanguageSelectorPopUp
           onClose={() => {
-            console.log("test");
             setIsPopUpOpen(false);
           }}
           onSubmit={changeLanguage}

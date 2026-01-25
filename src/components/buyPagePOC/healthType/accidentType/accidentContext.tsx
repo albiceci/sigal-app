@@ -8,13 +8,15 @@ import { useLoadingOverlay } from "../../../ui/loadingOverlay/loadingOverlay";
 import { useAlerter } from "../../../ui/alerter/useAlerter";
 import { PRODUCT_INFO } from "../../productConstants";
 import { getErrorMessage } from "../../../../helper/getErrorMessage";
+import { useTranslation } from "react-i18next";
+import { roundToTwoDecimals } from "../../../../helper/roundToTwoDecimals";
 
 //////////JOIN ALL FIELDS ON THE FORMS//////////////////////
 
 function mergeForms(
   form1: typeof firstFormFields,
   form2: typeof secondFormFields,
-  form3: typeof additionalPeopleFields
+  form3: typeof additionalPeopleFields,
 ) {
   return { ...form1, ...form2, ...form3 };
 }
@@ -22,7 +24,7 @@ function mergeForms(
 const combinedFormFields = mergeForms(
   firstFormFields,
   secondFormFields,
-  JSON.parse(JSON.stringify(additionalPeopleFields))
+  JSON.parse(JSON.stringify(additionalPeopleFields)),
 );
 
 const accidentContext = createContext<{
@@ -31,6 +33,7 @@ const accidentContext = createContext<{
 }>({ formData: JSON.parse(JSON.stringify(combinedFormFields)), setFormData: () => {} });
 
 const AccidentContextProvider = ({ children }: { children: JSX.Element }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState(combinedFormFields);
   // provider logic here
 
@@ -46,7 +49,7 @@ const AccidentContextProvider = ({ children }: { children: JSX.Element }) => {
       productSiteId: PRODUCT_INFO.ACCIDENT.productSiteId,
     };
 
-    loadingOverlay.open("Please wait", "Calculation premium...");
+    loadingOverlay.open(t("form.premiumOverlay.loading.title"), t("form.premiumOverlay.loading.subTitle"));
 
     const jsonData = await customFetch("/form/premium", {
       method: "POST",
@@ -60,13 +63,26 @@ const AccidentContextProvider = ({ children }: { children: JSX.Element }) => {
 
     if (jsonData.status !== 200) {
       alerter.alertMessage(getErrorMessage(jsonData.message));
+      setFormData((prev) => {
+        return {
+          ...prev,
+          profession: {
+            ...prev.profession,
+            value: "",
+            state: {
+              errors: [],
+              isValid: false,
+            },
+          },
+        };
+      });
     } else {
       setFormData((prev) => {
         return {
           ...prev,
           premium: {
             ...prev.premium,
-            value: jsonData.data.premiumGross,
+            value: String(roundToTwoDecimals(jsonData.data.premiumGross)),
           },
           premiumCurrency: {
             ...prev.premiumCurrency,
@@ -77,21 +93,36 @@ const AccidentContextProvider = ({ children }: { children: JSX.Element }) => {
     }
   };
 
+  const removePremium = async () => {
+    setFormData((prev) => {
+      return {
+        ...prev,
+        premium: {
+          ...prev.premium,
+          value: "",
+        },
+        premiumCurrency: {
+          ...prev.premiumCurrency,
+          value: "",
+        },
+      };
+    });
+  };
+
   useEffect(() => {
     if (hasMounted.current) {
       if (
         formData.templateId.value &&
         formData.begDate.state.isValid &&
         formData.endDate.state.isValid &&
-        formData.name.state.isValid &&
-        formData.surname.state.isValid &&
         formData.birthday.state.isValid &&
         formData.gender.state.isValid &&
-        formData.taxNumber.state.isValid &&
-        formData.profession.state.isValid &&
-        formData.coverage.state.isValid
+        formData.coverage.value &&
+        formData.profession.value
       ) {
         getPremium();
+      } else {
+        removePremium();
       }
     } else {
       hasMounted.current = true; // Skip the first run
@@ -103,11 +134,8 @@ const AccidentContextProvider = ({ children }: { children: JSX.Element }) => {
     formData.additionalPeople.value,
     formData.gender.value,
     formData.birthday.value,
-    formData.profession.value,
     formData.coverage.value,
-    formData.name.state.isValid,
-    formData.surname.state.isValid,
-    formData.taxNumber.state.isValid,
+    formData.profession.value,
   ]);
   return (
     <accidentContext.Provider value={{ formData: formData, setFormData: setFormData }}>

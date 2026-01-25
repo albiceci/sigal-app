@@ -103,7 +103,7 @@ export const MultiStepForm = React.memo(({ title, stepsData, onSubmit }: multiSt
 
     if (product.type === "bundle") {
       parentProduct = stepsData.filter(
-        (step) => step.product.category === product.category && step.product.type === "product"
+        (step) => step.product.category === product.category && step.product.type === "product",
       )[0].product;
     } else if (product.config && product.config.dataSharing) {
       for (var i = 0; i < stepsData.length; i++) {
@@ -113,7 +113,7 @@ export const MultiStepForm = React.memo(({ title, stepsData, onSubmit }: multiSt
 
         if (
           Object.keys(product.config?.dataSharing as Partial<Record<PRODUCT_SITE_ID, DATA_SHARING_TYPE>>).includes(
-            stepsData[i].product.productSiteId
+            stepsData[i].product.productSiteId,
           )
         ) {
           parentProduct = stepsData[i].product;
@@ -132,11 +132,10 @@ export const MultiStepForm = React.memo(({ title, stepsData, onSubmit }: multiSt
 
     //Updates the step validation state, or create a step validation state if it doesn't exist.
     //For example when the current step is from a new product added through bundle
-    setStepState((prev) => {
-      //@ts-ignore
-      prev[stepsData[currStep - 1].id] = currentChildRef.current?.isValid ?? false;
-      return prev;
-    });
+    setStepState((prev) => ({
+      ...prev,
+      [stepsData[currStep - 1].id]: currentChildRef.current?.isValid ?? false,
+    }));
   }, [currStep, currentChildRef.current?.isValid]);
 
   /**

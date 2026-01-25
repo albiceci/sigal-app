@@ -45,7 +45,7 @@ export const fieldsValidationObject: fieldValidationRules<keyof typeof formField
   coverage: [
     {
       type: "NOT_EMPTY",
-      error: "Zgjidhni shumen e siguruar",
+      error: "form.error.coverage.notEmpty",
     },
   ],
   premium: [],

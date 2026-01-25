@@ -1,7 +1,9 @@
+import { useTranslation } from "react-i18next";
 import { useAlerter } from "../../ui/alerter/useAlerter";
 import { Button } from "../../ui/button/button";
 
 export const CheckoutPayment = ({ paymentObject }: { paymentObject: any }) => {
+  const { t } = useTranslation();
   const alerter = useAlerter();
   const startPayment = () => {
     const form = document.createElement("form");
@@ -28,14 +30,14 @@ export const CheckoutPayment = ({ paymentObject }: { paymentObject: any }) => {
     <div>
       {alerter.render}
       <Button
-        buttonType="secondaryAlt"
+        buttonType="secondary"
         style={{
-          paddingTop: 4,
-          paddingBottom: 4,
+          paddingTop: 12,
+          paddingBottom: 12,
         }}
         onClick={startPayment}
       >
-        Vazhdo me pagesen
+        {t("transaction.button.continueWithPayment")}
       </Button>
     </div>
   );

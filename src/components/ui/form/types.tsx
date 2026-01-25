@@ -63,6 +63,11 @@ export type fieldValidationRule =
       type: "LENGTH_BIGGER_EQUAL_THAN";
       value: number;
       error: string;
+    }
+  | {
+      type: "NUMBER_BIGGER_EQUAL_THAN";
+      value: number;
+      error: string;
     };
 
 export type fieldValidationRules<fields extends string | number | symbol> = {

@@ -10,6 +10,8 @@ import { useServer } from "../../../../util/useServer";
 import { useLoadingOverlay } from "../../../ui/loadingOverlay/loadingOverlay";
 import { useAlerter } from "../../../ui/alerter/useAlerter";
 import { getErrorMessage } from "../../../../helper/getErrorMessage";
+import { useTranslation } from "react-i18next";
+import { roundToTwoDecimals } from "../../../../helper/roundToTwoDecimals";
 
 //////////JOIN ALL FIELDS ON THE FORMS//////////////////////
 
@@ -18,7 +20,7 @@ function mergeForms(
   form2: typeof secondFormFields,
   form3: typeof additionalPeopleFields,
   form4: typeof durationFormFields,
-  form5: typeof vehicleFormFields
+  form5: typeof vehicleFormFields,
 ) {
   return { ...form1, ...form2, ...form3, ...form4, ...form5 };
 }
@@ -28,7 +30,7 @@ const combinedFormFields = mergeForms(
   secondFormFields,
   additionalPeopleFields,
   durationFormFields,
-  vehicleFormFields
+  vehicleFormFields,
 );
 
 const mvlContext = createContext<{
@@ -37,6 +39,7 @@ const mvlContext = createContext<{
 }>({ formData: combinedFormFields, setFormData: () => {} });
 
 const MVLContextProvider = ({ children }: { children: JSX.Element }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState(combinedFormFields);
 
   const hasMounted = useRef(false);
@@ -51,7 +54,7 @@ const MVLContextProvider = ({ children }: { children: JSX.Element }) => {
       productSiteId: PRODUCT_INFO.MVL.productSiteId,
     };
 
-    loadingOverlay.open("Please wait", "Calculation premium...");
+    loadingOverlay.open(t("form.premiumOverlay.loading.title"), t("form.premiumOverlay.loading.subTitle"));
 
     const jsonData = await customFetch("/form/premium", {
       method: "POST",
@@ -84,7 +87,7 @@ const MVLContextProvider = ({ children }: { children: JSX.Element }) => {
           ...prev,
           premium: {
             ...prev.premium,
-            value: jsonData.data.premiumGross,
+            value: String(roundToTwoDecimals(jsonData.data.premiumGross)),
           },
           premiumCurrency: {
             ...prev.premiumCurrency,
@@ -95,15 +98,33 @@ const MVLContextProvider = ({ children }: { children: JSX.Element }) => {
     }
   };
 
+  const removePremium = async () => {
+    setFormData((prev) => {
+      return {
+        ...prev,
+        premium: {
+          ...prev.premium,
+          value: "",
+        },
+        premiumCurrency: {
+          ...prev.premiumCurrency,
+          value: "",
+        },
+      };
+    });
+  };
+
   useEffect(() => {
     if (hasMounted.current) {
-      if (formData.vehicleSelected.value === true && formData.durationId.value) {
+      if (formData.objectType.value && formData.durationId.value) {
         getPremium();
+      } else {
+        removePremium();
       }
     } else {
       hasMounted.current = true; // Skip the first run
     }
-  }, [formData.durationId.value, formData.objectType.value, formData.vehicleSelected.value]);
+  }, [formData.durationId.value, formData.objectType.value]);
   // provider logic here
   return (
     <mvlContext.Provider value={{ formData: formData, setFormData: setFormData }}>

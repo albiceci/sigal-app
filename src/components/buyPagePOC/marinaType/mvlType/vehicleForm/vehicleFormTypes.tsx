@@ -13,7 +13,7 @@ export const formFields: FormInputs<{
 }> = {
   objectName: {
     name: "objectName",
-    placeholder: "Emri i mjetit",
+    placeholder: "form.placeholder.objectName",
     type: "text",
     value: "",
     state: {
@@ -23,7 +23,7 @@ export const formFields: FormInputs<{
   },
   objectFlag: {
     name: "objectFlag",
-    placeholder: "Flamuri i mjetit",
+    placeholder: "form.placeholder.objectFlag",
     type: "text",
     value: "",
     state: {
@@ -33,7 +33,7 @@ export const formFields: FormInputs<{
   },
   objectType: {
     name: "objectType",
-    placeholder: "Kategoria",
+    placeholder: "form.placeholder.objectType",
     type: "text",
     value: "",
     state: {
@@ -43,7 +43,7 @@ export const formFields: FormInputs<{
   },
   regNumber: {
     name: "regNumber",
-    placeholder: "Numri i Regjistrimit",
+    placeholder: "form.placeholder.regNumber",
     type: "text",
     value: "",
     state: {
@@ -53,7 +53,7 @@ export const formFields: FormInputs<{
   },
   objectMaterialType: {
     name: "objectMaterialType",
-    placeholder: "Materiali",
+    placeholder: "form.placeholder.objectMaterialType",
     type: "text",
     value: "",
     state: {
@@ -63,7 +63,7 @@ export const formFields: FormInputs<{
   },
   objectProdYear: {
     name: "objectProdYear",
-    placeholder: "Viti i prodhimit",
+    placeholder: "form.placeholder.objectProdYear",
     type: "text",
     value: "",
     state: {
@@ -73,7 +73,7 @@ export const formFields: FormInputs<{
   },
   objectPower: {
     name: "objectPower",
-    placeholder: "Fuqia Motorrike(KW)",
+    placeholder: "form.placeholder.objectPower",
     type: "text",
     value: "",
     state: {
@@ -83,7 +83,7 @@ export const formFields: FormInputs<{
   },
   objectDimensions: {
     name: "objectDimensions",
-    placeholder: "Dimensionet",
+    placeholder: "form.placeholder.objectDimensions",
     type: "text",
     value: "",
     state: {
@@ -93,7 +93,7 @@ export const formFields: FormInputs<{
   },
   objectNavigationArea: {
     name: "objectNavigationArea",
-    placeholder: "Zona e Navigimit",
+    placeholder: "form.placeholder.objectNavigationArea",
     type: "text",
     value: "",
     state: {
@@ -107,71 +107,76 @@ export const formFields: FormInputs<{
 export const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
   objectName: [
     {
+      type: "REGEX",
+      value: /^.{2}/g,
+      error: "form.error.objectName.moreThan2Character",
+    },
+    {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni llojin e prones",
+      error: "form.error.objectName.notEmpty",
     },
   ],
   objectFlag: [
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni llojin e prones",
+      error: "form.error.objectFlag.notEmpty",
     },
   ],
   objectType: [
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni llojin e prones",
+      error: "form.error.objectType.notEmpty",
     },
   ],
   regNumber: [
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni llojin e prones",
+      error: "form.error.regNumber.notEmpty",
     },
   ],
   objectMaterialType: [
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni llojin e prones",
+      error: "form.error.objectMaterialType.notEmpty",
     },
   ],
   objectProdYear: [
     {
       type: "REGEX",
       value: /^\d+$/g,
-      error: "Viti duhet te permbaje vetem numra",
+      error: "form.error.objectProdYear.wrongFormat",
     },
     {
       type: "NOT_EMPTY",
-      error: "Viti nuk mund te jete bosh",
+      error: "form.error.objectProdYear.notEmpty",
     },
   ],
   objectPower: [
     {
       type: "REGEX",
       value: /^\d+$/g,
-      error: "Sipërfaqe duhet te permbaje vetem numra",
+      error: "form.error.objectPower.wrongFormat",
     },
     {
       type: "NOT_EMPTY",
-      error: "Sipërfaqe nuk mund te jete bosh",
+      error: "form.error.objectPower.notEmpty",
     },
   ],
   objectDimensions: [
     {
       type: "NOT_EMPTY",
-      error: "Sipërfaqe nuk mund te jete bosh",
+      error: "form.error.objectDimensions.notEmpty",
     },
   ],
   objectNavigationArea: [
     {
       type: "REGEX",
       value: /^\d+$/g,
-      error: "Zona e navigimit duhet te permbaje vetem numra",
+      error: "form.error.objectNavigationArea.wrongFormat",
     },
     {
       type: "NOT_EMPTY",
-      error: "Zona e navigimit nuk mund te jete bosh",
+      error: "form.error.objectNavigationArea.notEmpty",
     },
   ],
 };

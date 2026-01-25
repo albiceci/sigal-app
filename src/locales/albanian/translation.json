@@ -16,6 +16,9 @@
     "autosos": {
       "name": "Autosos"
     },
+    "border": {
+      "name": "Kufitare"
+    },
     "property": {
       "name": "Prona"
     },
@@ -39,6 +42,9 @@
     },
     "mvl": {
       "name": "MVL"
+    },
+    "payment": {
+      "name": "Pagesa"
     }
   },
   "navigation": {
@@ -114,12 +120,21 @@
     }
   },
   "form": {
+    "divider": {
+      "owner": "Pronari",
+      "drivers": "Drejtuesit",
+      "property": "Prona"
+    },
     "controller": {
       "back": "Kthehu",
       "next": "Vazhdo",
       "submit": "Perfundo"
     },
     "car": {
+      "title": "Mjeti",
+      "subTitle": "Plotësoni të dhënat e mjetit."
+    },
+    "vehicle": {
       "title": "Mjeti",
       "subTitle": "Plotësoni të dhënat e mjetit."
     },
@@ -153,13 +168,17 @@
         "total": "Totali"
       }
     },
+    "flightCancel": {
+      "add": "Shto anullim fluturimi",
+      "remove": "Hiq anullim fluturimi"
+    },
     "multiStep": {
       "step": "Hapi"
     },
     "premium": "Primi",
     "minicasco": {
       "title": "MiniKasko",
-      "subTotal": "Plotësoni të dhënat e MiniKasko",
+      "subTitle": "Plotësoni të dhënat e MiniKasko",
       "endDateDisclaimer": "Data e mbarimit do të jetë e njëjtë me datën e mbarimit të policës shoqëruese."
     },
     "autosos": {
@@ -177,6 +196,7 @@
       "destination": "Destinacioni",
       "coverageAmountShort": "Masa e mbulimit",
       "coverageAmount": "Shuma e siguruar",
+      "coveragePercentage": "Perqindja e mbulimit",
       "profession": "Profesioni",
       "flightConfirmationDate": "Data e konfirmimit të fluturimit",
       "email": "Email",
@@ -194,66 +214,189 @@
       "birthday": "Datëlindja",
       "isOwnerDriver": "Pronari është dhe drejtues i mjetit.",
       "type": "Tipi",
+      "make": "Marka",
+      "region": "Qyteti",
       "model": "Modeli",
       "power": "Fuqia",
       "color": "Ngjyra",
       "year": "Viti",
+      "objectName": "Emri i mjetit",
+      "objectFlag": "Flamuri i mjetit",
+      "objectType": "Kategoria",
+      "regNumber": "Numri i regjistrimit",
+      "objectMaterialType": "Materiali",
+      "objectProdYear": "Viti i prodhimit",
+      "objectPower": "Fuqia Motorrike",
+      "objectDimensions": "Dimensionet",
+      "objectNavigationArea": "Zona e Navigimit",
       "peoplecapacity": "Vende",
       "weightcapacity": "Pesha totale",
       "category": "Kategoria",
       "parentPolicyProductId": "Polica shoqëruese",
       "parentPolicySerial": "Nr. Serial",
       "password": "Fjalëkalimi",
-      "repeatPassword": "Përsërit Fjalëkalimin"
+      "repeatPassword": "Përsërit Fjalëkalimin",
+      "insuredSum": "Shuma e siguruar",
+      "propertyType": "Lloji i pronës",
+      "subregion": "Zona Kadastrale",
+      "address": "Adresa",
+      "wealthnr": "Nr. i Pasurisë",
+      "area": "Sipërfaqa",
+      "propertyFileUploads": "Bashkëngjit kopje të kartelës së parsurisë dhe minimumi 3 foto të objektit"
     },
     "error": {
+      "insuredSum": {
+        "notEmpty": "Shuma e siguruar nuk mund të jetë bosh.",
+        "wrongFormat": "Shuma e siguruar duhet të permbajë vetëm numra.",
+        "biggerThan": "Shuma e siguruar duhet të jetë më e madhe se 4,000,000Lek."
+      },
+      "propertyFileUploads": {
+        "moreThan4": "Ju duhet të shtoni të paktën 4 dokumente."
+      },
+      "area": {
+        "notEmpty": "Sipërfaqa nuk mund të jetë bosh.",
+        "wrongFormat": "Sipërfaqa duhet të permbajë vetëm numra."
+      },
+      "wealthnr": {
+        "notEmpty": "Nr. i pasurisë nuk mund të jetë bosh."
+      },
+      "address": {
+        "notEmpty": "Adresa nuk mund të jetë bosh."
+      },
+      "propertyType": {
+        "notEmpty": "Zgjidhni llojin e pronës."
+      },
+      "region": {
+        "notEmpty": "Zgjidhni qytetin."
+      },
+      "subregion": {
+        "notEmpty": "Zgjidhni zonën kadastrale."
+      },
       "vehicleSelected": {
         "isTrue": "Ju duhet te kërkoni mjetin."
       },
       "licence": {
         "wrongFormat": "Targa nuk është në formatin e duhur.",
-        "notEmpty": "Targa nuk mund të jetë bosh."
+        "notEmpty": "Targa nuk mund të jetë bosh.",
+        "moreThan2Character": "Targa duhet të ketë më shumë se 2 karaktere."
+      },
+      "vin": {
+        "notEmpty": "VIN nuk mund të jetë bosh.",
+        "moreThan2Character": "VIN duhet të ketë më shumë se 2 karaktere."
       },
       "durationId": {
         "notEmpty": "Zgjidhni periudhën e sigurimit."
       },
+      "category": {
+        "notEmpty": "Zgjidhni kategorinë e mjetit."
+      },
+      "make": {
+        "notEmpty": "Marka nuk mund të jetë bosh."
+      },
+      "model": {
+        "notEmpty": "Modeli nuk mund të jetë bosh."
+      },
+      "year": {
+        "notEmpty": "Viti nuk mund të jetë bosh.",
+        "wrongFormat": "Viti duhet të permbajë vetëm numra."
+      },
+      "peoplecapacity": {
+        "notEmpty": "Vendet nuk mund të jetë bosh.",
+        "wrongFormat": "Vendet duhet të permbajnë vetëm numra."
+      },
+      "power": {
+        "wrongFormat": "Fuqia duhet të permbajë vetëm numra."
+      },
+      "weightcapacity": {
+        "wrongFormat": "Pesha tpta;e duhet të permbajë vetëm numra."
+      },
       "begDate": {
-        "notEmpty": "Data e fillimit nuk mund të jetë bosh"
+        "notEmpty": "Data e fillimit nuk mund të jetë bosh."
       },
       "endDate": {
-        "notEmpty": "Data e mbarimit nuk mund të jetë bosh"
+        "notEmpty": "Data e mbarimit nuk mund të jetë bosh."
+      },
+      "coveragePercentage": {
+        "notEmpty": "Zgjidhni përqindjen e mbulimit."
+      },
+      "coverage": {
+        "notEmpty": "Zgjidhni shumën e siguruar."
+      },
+      "coverageInt": {
+        "notEmpty": "Shuma e siguruar nuk mund të jetë bosh.",
+        "wrongFormat": "Shuma e siguruar duhet të permbajë vetëm numra."
+      },
+      "profession": {
+        "notEmpty": "Zgjidhni profesionin."
+      },
+      "destination": {
+        "notEmpty": "Zgjidhni destinacionin."
+      },
+      "flightConfirmationDate": {
+        "notEmpty": "Data e biletes nuk mund të jetë bosh."
       },
       "parentPolicyProductId": {
-        "notEmpty": "Zgjidhni llojin e polices shoqëruese"
+        "notEmpty": "Zgjidhni llojin e polices shoqëruese."
       },
       "parentPolicySerial": {
-        "notEmpty": "Nr. serial i policës shoqëruese nuk mund të jetë bosh"
+        "notEmpty": "Nr. serial i policës shoqëruese nuk mund të jetë bosh."
       },
       "name": {
-        "notEmpty": "Emri nuk mund të jetë bosh",
-        "moreThan2Character": "Emri duhet të ketë më shumë se 2 karaktere"
+        "notEmpty": "Emri nuk mund të jetë bosh.",
+        "moreThan2Character": "Emri duhet të ketë më shumë se 2 karaktere."
       },
       "surname": {
         "notEmpty": "Mbiemri nuk mund të jetë bosh",
-        "moreThan2Character": "Mbiemri duhet të ketë më shumë se 2 karaktere"
+        "moreThan2Character": "Mbiemri duhet të ketë më shumë se 2 karaktere."
       },
       "gender": {
-        "notEmpty": "Gjinia nuk mund të jetë bosh"
+        "notEmpty": "Gjinia nuk mund të jetë bosh."
       },
       "birthday": {
-        "notEmpty": "Datëlindja nuk mund të jetë bosh"
+        "notEmpty": "Datëlindja nuk mund të jetë bosh."
       },
       "taxNumber": {
-        "notEmpty": "Nr. personal nuk mund të jetë bosh",
+        "notEmpty": "Nr. personal nuk mund të jetë bosh.",
         "wrongFormat": "Nr. personal nuk është në formatin e duhur.",
         "duplicateValue": "Nr. personal është në përdorim."
       },
       "email": {
-        "notEmpty": "Emaili nuk mund të jetë bosh",
-        "wrongFormat": "Emaili nuk është në formatin e duhur."
+        "notEmpty": "Email nuk mund të jetë bosh.",
+        "wrongFormat": "Email nuk është në formatin e duhur."
       },
       "phone": {
-        "notEmpty": "Nr. i telefonit nuk mund të jetë bosh"
+        "notEmpty": "Nr. i telefonit nuk mund të jetë bosh."
+      },
+      "objectName": {
+        "notEmpty": "Emri i mjetit nuk mund të jetë bosh.",
+        "moreThan2Character": "Emri i mjetit duhet të ketë më shumë se 2 karaktere."
+      },
+      "objectFlag": {
+        "notEmpty": "Flamuri i mjetit nuk mund të jetë bosh."
+      },
+      "objectType": {
+        "notEmpty": "Kategoria nuk mund të jetë bosh."
+      },
+      "regNumber": {
+        "notEmpty": "Numri i regjistrimit nuk mund të jetë bosh."
+      },
+      "objectMaterialType": {
+        "notEmpty": "Materiali nuk mund të jetë bosh."
+      },
+      "objectProdYear": {
+        "notEmpty": "Viti i prodhimit nuk mund të jetë bosh.",
+        "wrongFormat": "Viti i prodhimit duhet të permbajë vetëm numra."
+      },
+      "objectPower": {
+        "notEmpty": "Fuqia motorrike nuk mund të jetë bosh.",
+        "wrongFormat": "Fuqia motorrike duhet të permbajë vetëm numra."
+      },
+      "objectDimensions": {
+        "notEmpty": "Dimensionet nuk mund të jenë bosh."
+      },
+      "objectNavigationArea": {
+        "notEmpty": "Zona e navigimit nuk mund të jetë bosh.",
+        "wrongFormat": "Zona e navigimit duhet të permbajë vetëm numra."
       }
     },
     "option": {
@@ -263,6 +406,22 @@
         "europeExSwiss": "Gjithë Europa përjashtuar Zvicrën",
         "swiss": "Zvicër",
         "turkey": "Turqi"
+      },
+      "category": {
+        "cars": "Autovetura",
+        "motorbike": "Motocikleta",
+        "motorizedTricycle": "Motokarro",
+        "truck1": "Kamion nga 15-34.99 KV",
+        "truck2": "Kamion nga 35 KV e larte",
+        "moped": "Ciklomotor",
+        "bus": "Autobus",
+        "truckTrailer": "Rimorkio kamioni",
+        "busTrailer": "Rimorkio autobusi",
+        "otherTrailers": "Rimorkio të tjera"
+      },
+      "gender": {
+        "male": "Mashkull",
+        "female": "Femer"
       }
     },
     "carSearchForm": {
@@ -281,6 +440,18 @@
       "loading": {
         "title": "Ju lutem prisni!",
         "subTitle": "Duke llogaritur primin tuaj."
+      }
+    },
+    "transaction": {
+      "loading": {
+        "title": "Ju lutem prisni!",
+        "subTitle": "Duke marr te dhenat e transaksionit."
+      }
+    },
+    "policy": {
+      "loading": {
+        "title": "Ju lutem prisni!",
+        "subTitle": "Duke përgatitur policen tuaj."
       }
     },
     "duration": {
@@ -349,6 +520,33 @@
       "skip": "Vazhdo"
     }
   },
+  "transaction": {
+    "status": {
+      "successful": "I suksesshëm",
+      "pending": "Në pritje",
+      "in_progress": "Në progres",
+      "failed": "Dështoi",
+      "waiting_payment": "Ne pritje të pagesës",
+      "cancelled": "Anulluar",
+      "partial_failure": "Dështoi pjesërisht"
+    },
+    "section": {
+      "products": "Produktet tuaja",
+      "summary": "Përmbledhja e Transaksionit"
+    },
+    "summary": {
+      "status": "Statusi",
+      "date": "Data",
+      "products": "Produktet",
+      "bundle": "Oferta",
+      "rate": "Kursi i këmbimit",
+      "total": "Totali"
+    },
+    "button": {
+      "continueWithPayment": "Vazhdo me pagesen",
+      "download": "Shkarko"
+    }
+  },
   "account": {
     "login": {
       "title": "Hyr",
@@ -373,6 +571,22 @@
     }
   },
   "error": {
+    "payment": {
+      "notApproved": {
+        "message": "Pagesa juaj nuk u aprovua.",
+        "description": "Ju lutem provoni përsëri ose kontaktoni supportin për më shumë informacion."
+      }
+    },
+    "insuredSum": {
+      "typeError": {
+        "message": "Shuma e siguruar nuk është numer.",
+        "description": "Ju lutem rivendosni vlerën e shumës së siguruar."
+      },
+      "minValueError": {
+        "message": "Shuma e siguruar është më e vogël se limit.",
+        "description": "Ju lutem rivendosni vlerën e shumës së siguruar."
+      }
+    },
     "validation": {
       "error": {
         "message": "Të dhënat tuaja nuk janë të sakta.",

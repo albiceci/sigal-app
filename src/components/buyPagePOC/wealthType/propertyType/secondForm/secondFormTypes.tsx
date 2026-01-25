@@ -7,11 +7,11 @@ export const formFields: FormInputs<{
   taxNumber: InputField<"text">;
   name: InputField<"text">;
   surname: InputField<"text">;
+  gender: InputField<"text">;
   birthday: InputField<"text">;
   phone: InputField<"text">;
   email: InputField<"text">;
   wealthnr: InputField<"text">;
-  postalcode: InputField<"text">;
   address: InputField<"text">;
   begDate: InputField<"text">;
   endDate: InputField<"text">;
@@ -19,19 +19,9 @@ export const formFields: FormInputs<{
   premium: InputField<"text">;
   premiumCurrency: InputField<"text">;
 }> = {
-  taxNumber: {
-    name: "taxNumber",
-    placeholder: "Nr. i kartës ID",
-    type: "text",
-    value: "",
-    state: {
-      isValid: false,
-      errors: [],
-    },
-  },
   name: {
     name: "name",
-    placeholder: "Emër",
+    placeholder: "form.placeholder.name",
     type: "text",
     value: "",
     state: {
@@ -41,7 +31,7 @@ export const formFields: FormInputs<{
   },
   surname: {
     name: "surname",
-    placeholder: "Mbiemër",
+    placeholder: "form.placeholder.surname",
     type: "text",
     value: "",
     state: {
@@ -51,7 +41,7 @@ export const formFields: FormInputs<{
   },
   birthday: {
     name: "birthday",
-    placeholder: "Datelindja",
+    placeholder: "form.placeholder.birthday",
     type: "text",
     value: "",
     state: {
@@ -59,9 +49,19 @@ export const formFields: FormInputs<{
       errors: [],
     },
   },
-  phone: {
-    name: "phone",
-    placeholder: "Telefon",
+  gender: {
+    name: "gender",
+    placeholder: "form.placeholder.gender",
+    type: "text",
+    value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
+  },
+  taxNumber: {
+    name: "taxNumber",
+    placeholder: "form.placeholder.taxNumber",
     type: "text",
     value: "",
     state: {
@@ -71,7 +71,17 @@ export const formFields: FormInputs<{
   },
   email: {
     name: "email",
-    placeholder: "Email",
+    placeholder: "form.placeholder.email",
+    type: "text",
+    value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
+  },
+  phone: {
+    name: "phone",
+    placeholder: "form.placeholder.phone",
     type: "text",
     value: "",
     state: {
@@ -81,17 +91,7 @@ export const formFields: FormInputs<{
   },
   wealthnr: {
     name: "wealthnr",
-    placeholder: "Nr Pasurise",
-    type: "text",
-    value: "",
-    state: {
-      isValid: false,
-      errors: [],
-    },
-  },
-  postalcode: {
-    name: "postalcode",
-    placeholder: "Zona Kadestrale",
+    placeholder: "form.placeholder.wealthnr",
     type: "text",
     value: "",
     state: {
@@ -101,7 +101,7 @@ export const formFields: FormInputs<{
   },
   address: {
     name: "address",
-    placeholder: "Adresa e prones",
+    placeholder: "form.placeholder.address",
     type: "text",
     value: "",
     state: {
@@ -111,7 +111,7 @@ export const formFields: FormInputs<{
   },
   begDate: {
     name: "begDate",
-    placeholder: "Data e fillimit",
+    placeholder: "form.placeholder.begDate",
     type: "text",
     value: "",
     state: {
@@ -121,7 +121,7 @@ export const formFields: FormInputs<{
   },
   endDate: {
     name: "endDate",
-    placeholder: "Data e mbarimit",
+    placeholder: "form.placeholder.endDate",
     type: "text",
     value: "",
     state: {
@@ -163,87 +163,97 @@ export const formFields: FormInputs<{
 
 ///////////VALIDATION RULES/////////////////////////
 export const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
-  taxNumber: [
-    {
-      type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni njësinë administrative ku ndodhet prona",
-    },
-  ],
   name: [
     {
       type: "REGEX",
       value: /^.{2}/g,
-      error: "Emri duhet te kete me shume se 2 karaktere",
+      error: "form.error.name.moreThan2Character",
     },
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni njësinë administrative ku ndodhet prona",
+      error: "form.error.name.notEmpty",
     },
   ],
   surname: [
     {
       type: "REGEX",
       value: /^.{2}/g,
-      error: "Emri duhet te kete me shume se 2 karaktere",
+      error: "form.error.surname.moreThan2Character",
     },
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni njësinë administrative ku ndodhet prona",
+      error: "form.error.surname.notEmpty",
     },
   ],
   birthday: [
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni njësinë administrative ku ndodhet prona",
+      error: "form.error.birthday.notEmpty",
+    },
+  ],
+  gender: [
+    {
+      type: "NOT_EMPTY",
+      error: "form.error.gender.notEmpty",
+    },
+  ],
+  taxNumber: [
+    {
+      type: "NOT_EMPTY",
+      error: "form.error.taxNumber.notEmpty",
+    },
+    {
+      type: "REGEX",
+      value: /[A-Z]\d{8}[A-Z]/g,
+      error: "form.error.taxNumber.wrongFormat",
+    },
+  ],
+  email: [
+    {
+      type: "REGEX",
+      value: /\w+@\w+/g,
+      error: "form.error.email.wrongFormat",
+    },
+    {
+      type: "NOT_EMPTY",
+      error: "form.error.email.notEmpty",
     },
   ],
   phone: [
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni njësinë administrative ku ndodhet prona",
-    },
-  ],
-  email: [
-    {
-      type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni njësinë administrative ku ndodhet prona",
+      error: "form.error.phone.notEmpty",
     },
   ],
   wealthnr: [
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni njësinë administrative ku ndodhet prona",
-    },
-  ],
-  postalcode: [
-    {
-      type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni njësinë administrative ku ndodhet prona",
+      error: "form.error.wealthnr.notEmpty",
     },
   ],
   address: [
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni njësinë administrative ku ndodhet prona",
+      error: "form.error.address.notEmpty",
     },
   ],
   begDate: [
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni njësinë administrative ku ndodhet prona",
+      error: "form.error.begDate.notEmpty",
     },
   ],
   endDate: [
     {
       type: "NOT_EMPTY",
-      error: "Ju lutem zgjidhni njësinë administrative ku ndodhet prona",
+      error: "form.error.endDate.notEmpty",
     },
   ],
   fileUploads: [
     {
       type: "LENGTH_BIGGER_EQUAL_THAN",
-      value: 4,
-      error: "Ju duhet te shtoni te pakten 4 dokumente",
+      value: 1,
+      error: "form.error.propertyFileUploads.moreThan4",
     },
   ],
   premium: [],

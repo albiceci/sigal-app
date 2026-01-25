@@ -79,8 +79,6 @@ export const useAccountDataSharing = ({
       }
     });
 
-    console.log(sharedObject);
-
     setFormData((prev: any) => {
       return {
         ...prev,

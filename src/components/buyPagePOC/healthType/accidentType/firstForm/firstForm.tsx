@@ -18,7 +18,7 @@ const FirstForm = forwardRef(
     props: {
       product: PRODUCT_DATA_TYPE;
     },
-    ref
+    ref,
   ) => {
     const { formData, setFormData } = useContext(props.product.context as typeof accidentContext);
     let includeAdditionalFields = false;
@@ -92,8 +92,8 @@ const FirstForm = forwardRef(
                 value={formData.gender.value}
                 isValid={formData.gender.state.isValid}
                 options={[
-                  { id: "Male", text: "Mashkull" },
-                  { id: "Female", text: "Femer" },
+                  { id: "Male", text: "form.option.gender.male" },
+                  { id: "Female", text: "form.option.gender.female" },
                 ]}
                 onOptionChange={(name: string, value: string) => {
                   formHook.changeFieldValue({
@@ -139,7 +139,7 @@ const FirstForm = forwardRef(
                 <TextInput
                   name={formFields.coverage.name}
                   value={formData.coverage.value}
-                  //helper="Ketu duhet te vendosni siperfaqen e prones"
+                  prefixElement={<span className="font-semibold text-presetgray px-1">Lek</span>}
                   placeholder={formData.coverage.placeholder as string}
                   selfState={true}
                   isValid={formData.coverage.state.isValid}
@@ -203,7 +203,7 @@ const FirstForm = forwardRef(
         </Reveal>
       </div>
     );
-  }
+  },
 );
 
 export default FirstForm;

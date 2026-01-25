@@ -72,11 +72,9 @@ const SecondForm = forwardRef(
     props: {
       product: PRODUCT_DATA_TYPE;
     },
-    ref
+    ref,
   ) => {
     const { formData, setFormData } = useContext(props.product.context as typeof teleHealthContext);
-
-    const hasMounted = useRef(false);
 
     const formHook = useForm<typeof formData, keyof typeof formFields>({
       formData: formData,
@@ -89,7 +87,6 @@ const SecondForm = forwardRef(
       product: props.product,
     });
 
-    const customFetch = useServer();
     const loadingOverlay = useLoadingOverlay();
     const alerter = useAlerter();
 
@@ -101,55 +98,8 @@ const SecondForm = forwardRef(
 
     useImperativeHandle(ref, () => ({
       runValidation: formHook.validateForm,
-      isValid: formHook.isValid,
+      isValid: formHook.isValid && durationForm.isValid,
     }));
-
-    const getPremium = async () => {
-      const body = {
-        data: formData,
-        productId: props.product.productId,
-      };
-
-      loadingOverlay.open("Please wait", "Calculation premium...");
-
-      const jsonData = await customFetch("/form/premium", {
-        method: "POST",
-        body: body,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      loadingOverlay.close();
-
-      if (jsonData.status !== 200) {
-        alerter.alertMessage(getErrorMessage(jsonData.message));
-      } else {
-        setFormData((prev) => {
-          return {
-            ...prev,
-            premium: {
-              ...prev.premium,
-              value: jsonData.data.premiumGross,
-            },
-            premiumCurrency: {
-              ...prev.premiumCurrency,
-              value: jsonData.data.premiumCurrency,
-            },
-          };
-        });
-      }
-    };
-
-    useEffect(() => {
-      if (hasMounted.current) {
-        if (formData.templateId.value && formData.begDate.value && formData.durationId.value) {
-          getPremium();
-        }
-      } else {
-        hasMounted.current = true; // Skip the first run
-      }
-    }, [formData.templateId.value, formData.begDate.value, formData.durationId.value]);
 
     return (
       <div>
@@ -191,7 +141,7 @@ const SecondForm = forwardRef(
         </Reveal>
       </div>
     );
-  }
+  },
 );
 
 export default SecondForm;

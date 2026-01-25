@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 
 import tpl from "../../assets/sigal/product/tpl.svg";
+import border from "../../assets/sigal/product/border.svg";
 import greencard from "../../assets/sigal/product/greencard.svg";
 import autosos from "../../assets/sigal/product/autosos.svg";
 import minicasco from "../../assets/sigal/product/minicasco.svg";
@@ -15,6 +16,7 @@ import mvl from "../../assets/sigal/product/mvl.svg";
 
 export type PRODUCT_SITE_ID =
   | "PROPERTY"
+  | "BORDER"
   | "TPL"
   | "TPL_BUNDLE"
   | "AUTOSOS"
@@ -56,7 +58,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     category: "DUMMYCATEGORY",
     categoryId: "DUMMYCATEGORYID",
     paramKey: "PAYMENTDUMMYPARAM",
-    name: "Payment",
+    name: "product.payment.name",
     image: <></>,
   },
   PROPERTY: {
@@ -212,6 +214,18 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     paramKey: "autosos_bundle",
     name: "product.autosos.name",
     image: <img className="h-full" src={autosos} alt="" />,
+  },
+  BORDER: {
+    productId: "00000000-e1fe-43e2-85cd-439ac4c6a857",
+    productSiteId: "BORDER",
+    type: "product",
+    category: "car",
+    categoryId: "car",
+    paramKey: "border",
+    name: "product.border.name",
+    image: <img className="h-full" src={border} alt="" />,
+    moreInfoText: "product.border.moreInfo",
+    moreInfo: "/car/border",
   },
   MVL: {
     productId: "f386d807-e46d-f011-b9b4-00505692fbbd",

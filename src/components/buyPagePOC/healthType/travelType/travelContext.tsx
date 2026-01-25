@@ -8,13 +8,15 @@ import { useLoadingOverlay } from "../../../ui/loadingOverlay/loadingOverlay";
 import { useAlerter } from "../../../ui/alerter/useAlerter";
 import { PRODUCT_INFO } from "../../productConstants";
 import { getErrorMessage } from "../../../../helper/getErrorMessage";
+import { useTranslation } from "react-i18next";
+import { roundToTwoDecimals } from "../../../../helper/roundToTwoDecimals";
 
 //////////JOIN ALL FIELDS ON THE FORMS//////////////////////
 
 function mergeForms(
   form1: typeof firstFormFields,
   form2: typeof secondFormFields,
-  form3: typeof additionalPeopleFields
+  form3: typeof additionalPeopleFields,
 ) {
   return { ...form1, ...form2, ...form3 };
 }
@@ -22,7 +24,7 @@ function mergeForms(
 const combinedFormFields = mergeForms(
   firstFormFields,
   secondFormFields,
-  JSON.parse(JSON.stringify(additionalPeopleFields))
+  JSON.parse(JSON.stringify(additionalPeopleFields)),
 );
 
 const travelContext = createContext<{
@@ -31,6 +33,7 @@ const travelContext = createContext<{
 }>({ formData: combinedFormFields, setFormData: () => {} });
 
 const TravelContextProvider = ({ children }: { children: JSX.Element }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState(combinedFormFields);
 
   const hasMounted = useRef(false);
@@ -45,7 +48,7 @@ const TravelContextProvider = ({ children }: { children: JSX.Element }) => {
       productSiteId: PRODUCT_INFO.TRAVEL.productSiteId,
     };
 
-    loadingOverlay.open("Please wait", "Calculation premium...");
+    loadingOverlay.open(t("form.premiumOverlay.loading.title"), t("form.premiumOverlay.loading.subTitle"));
 
     const jsonData = await customFetch("/form/premium", {
       method: "POST",
@@ -59,13 +62,26 @@ const TravelContextProvider = ({ children }: { children: JSX.Element }) => {
 
     if (jsonData.status !== 200) {
       alerter.alertMessage(getErrorMessage(jsonData.message));
+      setFormData((prev) => {
+        return {
+          ...prev,
+          destination: {
+            ...prev.destination,
+            value: "",
+            state: {
+              errors: [],
+              isValid: false,
+            },
+          },
+        };
+      });
     } else {
       setFormData((prev) => {
         return {
           ...prev,
           premium: {
             ...prev.premium,
-            value: jsonData.data.premiumGross,
+            value: String(roundToTwoDecimals(jsonData.data.premiumGross)),
           },
           premiumCurrency: {
             ...prev.premiumCurrency,
@@ -101,6 +117,8 @@ const TravelContextProvider = ({ children }: { children: JSX.Element }) => {
         formData.begDate.state.isValid &&
         formData.endDate.state.isValid &&
         formData.destination.state.isValid &&
+        formData.birthday.state.isValid &&
+        formData.gender.state.isValid &&
         formData.flightCancel.state.isValid
       ) {
         getPremium();
@@ -114,6 +132,8 @@ const TravelContextProvider = ({ children }: { children: JSX.Element }) => {
     formData.templateId.value,
     formData.begDate.value,
     formData.endDate.value,
+    formData.gender.value,
+    formData.birthday.value,
     formData.flightCancel.value,
     formData.destination.value,
   ]);

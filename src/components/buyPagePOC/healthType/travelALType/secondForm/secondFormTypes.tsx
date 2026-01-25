@@ -69,19 +69,20 @@ export const fieldsValidationObject: fieldValidationRules<keyof typeof formField
   begDate: [
     {
       type: "NOT_EMPTY",
-      error: "Zgjidhni daten e fillimit te urdhetimit",
+      error: "form.error.begDate.notEmpty",
     },
   ],
   endDate: [
     {
       type: "NOT_EMPTY",
-      error: "Zgjidhni daten e mbarimit te urdhetimit",
+      error: "form.error.endDate.notEmpty",
     },
   ],
+
   templateId: [
     {
       type: "NOT_NULL",
-      error: "Ju duhet te zgjidhni nje nga opsionet",
+      error: "form.error.templateId.notNull",
     },
   ],
   premium: [],

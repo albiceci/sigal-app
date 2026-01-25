@@ -10,13 +10,14 @@ import { useForm } from "../../../../ui/form/useForm";
 import { PRODUCT_DATA_TYPE } from "../../../formConstants";
 import { useAdditionalPeopleForm } from "../../../additionalPeopleForm/additionalPeopleForm";
 import { CheckboxInput } from "../../../../ui/form/inputs/checkboxInput/checkboxInput";
+import { FormDivider } from "../../../../ui/form/formContainers/formDivider";
 
 const SecondForm = forwardRef(
   (
     props: {
       product: PRODUCT_DATA_TYPE;
     },
-    ref
+    ref,
   ) => {
     const { formData, setFormData } = useContext(props.product.context as typeof tplContext);
 
@@ -46,7 +47,7 @@ const SecondForm = forwardRef(
             taxNumber: formData.taxNumber,
             metadata: formData.metadata,
           },
-          "add"
+          "add",
         );
       } else {
         operationCheck = additionalPeopleForm.onPersonRemove({
@@ -76,6 +77,7 @@ const SecondForm = forwardRef(
       <div>
         <Reveal width="100%" delay={0}>
           <FormBody>
+            <FormDivider text="form.divider.owner" />
             <FormRow>
               <TextInput
                 name={formFields.taxNumber.name}
@@ -89,7 +91,6 @@ const SecondForm = forwardRef(
               <TextInput
                 name={formFields.name.name}
                 value={formData.name.value}
-                helper="Ketu duhet te vendosni targen e makines"
                 placeholder={formData.name.placeholder as string}
                 isValid={formData.name.state.isValid}
                 errors={formData.name.state.errors}
@@ -114,12 +115,12 @@ const SecondForm = forwardRef(
                 name={formFields.birthday.name}
                 value={formData.birthday.value}
                 placeholder={formData.birthday.placeholder as string}
-                helper="Ketu duhet te vendosni daten e fillimit"
                 isValid={formData.birthday.state.isValid}
                 errors={formData.birthday.state.errors}
                 //style={{ paddingTop: 5, paddingBottom: 5 }}
               />
             </FormRow>
+            <FormDivider text="form.divider.drivers" />
             <FormRow>
               <CheckboxInput
                 text={formData.isOwnerDriver.placeholder as string}
@@ -136,6 +137,6 @@ const SecondForm = forwardRef(
         </Reveal>
       </div>
     );
-  }
+  },
 );
 export default SecondForm;

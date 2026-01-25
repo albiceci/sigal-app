@@ -1,25 +1,16 @@
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fieldValidationRules, FormInputs, InputField } from "../../../ui/form/types";
-import { useValidator } from "../../../ui/form/validator/useValidator";
 import { FormBody } from "../../../ui/form/formContainers/formBody";
 import { FormRow } from "../../../ui/form/formContainers/formRow";
 import { TextInput } from "../../../ui/form/inputs/textInput/textInput";
 import React from "react";
 import { FormDisclaimer } from "../../../ui/form/formContainers/formDisclaimer";
-import { Reveal } from "../../../../util/reveal";
 import { Button } from "../../../ui/button/button";
-import { Overlay } from "../../../../util/overlay";
 import { useForm } from "../../../ui/form/useForm";
 import { DateInput } from "../../../ui/form/inputs/dateInput/dateInput";
 import { SelectInput } from "../../../ui/form/inputs/selectInput/selectInput";
 import { useTranslation } from "react-i18next";
 import { PopUp } from "../../../ui/popUp/popUp";
-
-const IoClose = React.lazy(() =>
-  import("react-icons/io5").then((module) => ({
-    default: module.IoClose,
-  }))
-);
 
 export const personalInfoFormFields: FormInputs<{
   name: InputField<"text">;
@@ -120,13 +111,18 @@ const optionalFormFieldsValidationObject: fieldValidationRules<keyof typeof opti
   coverage: [
     {
       type: "NOT_EMPTY",
-      error: "Ditelindja nuk mund te jete bosh",
+      error: "form.error.coverageInt.notEmpty",
+    },
+    {
+      type: "REGEX",
+      value: /^\d+$/g,
+      error: "form.error.coverageInt.wrongFormat",
     },
   ],
   profession: [
     {
       type: "NOT_EMPTY",
-      error: "Ditelindja nuk mund te jete bosh",
+      error: "form.error.profession.notEmpty",
     },
   ],
 };
@@ -137,40 +133,45 @@ export const personalInfoFormFieldsValidationObject: fieldValidationRules<keyof 
     {
       type: "REGEX",
       value: /^.{2}/g,
-      error: "Emri duhet te kete me shume se 2 karaktere",
+      error: "form.error.name.moreThan2Character",
     },
     {
       type: "NOT_EMPTY",
-      error: "Emri nuk mund te jete bosh",
+      error: "form.error.name.notEmpty",
     },
   ],
   surname: [
     {
       type: "REGEX",
       value: /^.{2}/g,
-      error: "Emri duhet te kete me shume se 2 karaktere",
+      error: "form.error.surname.moreThan2Character",
     },
     {
       type: "NOT_EMPTY",
-      error: "Emri nuk mund te jete bosh",
+      error: "form.error.surname.notEmpty",
     },
   ],
   birthday: [
     {
       type: "NOT_EMPTY",
-      error: "Ditelindja nuk mund te jete bosh",
+      error: "form.error.birthday.notEmpty",
     },
   ],
   gender: [
     {
       type: "NOT_EMPTY",
-      error: "Gjinia nuk mund te jete bosh",
+      error: "form.error.gender.notEmpty",
     },
   ],
   taxNumber: [
     {
       type: "NOT_EMPTY",
-      error: "Ditelindja nuk mund te jete bosh",
+      error: "form.error.taxNumber.notEmpty",
+    },
+    {
+      type: "REGEX",
+      value: /[A-Z]\d{8}[A-Z]/g,
+      error: "form.error.taxNumber.wrongFormat",
     },
   ],
   metadata: [],
@@ -293,20 +294,6 @@ export const usePersonalInfoForm = ({
           </FormRow>
           <FormRow>
             <TextInput
-              name={personalInfoFormFields.taxNumber.name}
-              placeholder={personalInfoFormFields.taxNumber.placeholder as string}
-              value={formData.taxNumber.value}
-              isValid={formData.taxNumber.state.isValid}
-              onChange={(e) => {
-                if (formType === "add") {
-                  formHook.handleInputChange(e);
-                }
-              }}
-              errors={formData.taxNumber.state.errors}
-            />
-          </FormRow>
-          <FormRow>
-            <TextInput
               name={personalInfoFormFields.name.name}
               placeholder={personalInfoFormFields.name.placeholder as string}
               value={formData.name.value}
@@ -334,8 +321,8 @@ export const usePersonalInfoForm = ({
               value={formData.gender.value}
               isValid={formData.gender.state.isValid}
               options={[
-                { id: "Male", text: "Mashkull" },
-                { id: "Female", text: "Femer" },
+                { id: "Male", text: "form.option.gender.male" },
+                { id: "Female", text: "form.option.gender.female" },
               ]}
               onOptionChange={(name: string, value: string) => {
                 formHook.changeFieldValue({
@@ -358,10 +345,25 @@ export const usePersonalInfoForm = ({
             />
           </FormRow>
           <FormRow>
+            <TextInput
+              name={personalInfoFormFields.taxNumber.name}
+              placeholder={personalInfoFormFields.taxNumber.placeholder as string}
+              value={formData.taxNumber.value}
+              isValid={formData.taxNumber.state.isValid}
+              onChange={(e) => {
+                if (formType === "add") {
+                  formHook.handleInputChange(e);
+                }
+              }}
+              errors={formData.taxNumber.state.errors}
+            />
+          </FormRow>
+          <FormRow>
             {metadata.includeCoverage ? (
               <TextInput
                 name={optionalFormFields.coverage.name}
                 placeholder={optionalFormFields.coverage.placeholder as string}
+                prefixElement={<span className="font-semibold text-presetgray px-1">Lek</span>}
                 value={formData.coverage!.value}
                 isValid={formData.coverage!.state.isValid}
                 onChange={(e) => {

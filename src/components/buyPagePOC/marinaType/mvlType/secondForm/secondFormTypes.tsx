@@ -33,14 +33,19 @@ export const formFields: FormInputs<{
 export const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
   email: [
     {
+      type: "REGEX",
+      value: /\w+@\w+/g,
+      error: "form.error.email.wrongFormat",
+    },
+    {
       type: "NOT_EMPTY",
-      error: "Email nuk mund te jete bosh",
+      error: "form.error.email.notEmpty",
     },
   ],
   phone: [
     {
       type: "NOT_EMPTY",
-      error: "Telefoni nuk mund te jete bosh",
+      error: "form.error.phone.notEmpty",
     },
   ],
 };

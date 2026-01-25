@@ -28,7 +28,7 @@ export const useLoadingOverlay = () => {
 
     return (
       <Overlay>
-        <div className="text-white border border-white max-w-[95vw] rounded-md font-semibold flex flex-col items-center justify-center backdrop-blur-sm p-5">
+        <div className="text-white border border-white max-w-[80vw] rounded-md font-semibold flex flex-col items-center justify-center backdrop-blur-sm p-5">
           <div className="mb-3">
             <Loader />
           </div>
@@ -45,6 +45,6 @@ export const useLoadingOverlay = () => {
       open,
       close,
     }),
-    [render, open, close]
+    [render, open, close],
   );
 };

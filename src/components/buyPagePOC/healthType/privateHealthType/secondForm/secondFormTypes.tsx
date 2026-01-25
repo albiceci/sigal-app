@@ -6,6 +6,7 @@ import { fieldValidationRules, FormInputs, InputField } from "../../../../ui/for
 export const formFields: FormInputs<{
   begDate: InputField<"text">;
   endDate: InputField<"text">;
+  coveragePercentage: InputField<"text">;
   templateId: InputField<
     "select",
     | "fa0739e4-11ef-ed11-b989-00505692fbbd"
@@ -29,6 +30,16 @@ export const formFields: FormInputs<{
   endDate: {
     name: "endDate",
     placeholder: "form.placeholder.endDate",
+    type: "text",
+    value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
+  },
+  coveragePercentage: {
+    name: "coveragePercentage",
+    placeholder: "form.placeholder.coveragePercentage",
     type: "text",
     value: "",
     state: {
@@ -79,6 +90,12 @@ export const fieldsValidationObject: fieldValidationRules<keyof typeof formField
     {
       type: "NOT_EMPTY",
       error: "form.error.endDate.notEmpty",
+    },
+  ],
+  coveragePercentage: [
+    {
+      type: "NOT_EMPTY",
+      error: "form.error.coveragePercentage.notEmpty",
     },
   ],
   templateId: [

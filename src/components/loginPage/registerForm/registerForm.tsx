@@ -141,7 +141,6 @@ export const RegisterForm = () => {
   const isFormValid = () => {
     return formHook.isValid && isPasswordValid();
   };
-  console.log(isFormValid());
 
   return (
     <>

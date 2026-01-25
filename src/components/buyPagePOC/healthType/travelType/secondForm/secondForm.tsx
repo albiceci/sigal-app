@@ -11,14 +11,16 @@ import { useForm } from "../../../../ui/form/useForm";
 import { Premium } from "../../../premium/premium";
 import { SelectInput } from "../../../../ui/form/inputs/selectInput/selectInput";
 import { Button } from "../../../../ui/button/button";
+import { useTranslation } from "react-i18next";
 
 const SecondForm = forwardRef(
   (
     props: {
       product: PRODUCT_DATA_TYPE;
     },
-    ref
+    ref,
   ) => {
+    const { t } = useTranslation();
     const { formData, setFormData } = useContext(props.product.context as typeof travelContext);
 
     const formHook = useForm<typeof formData, keyof typeof formFields>({
@@ -87,24 +89,54 @@ const SecondForm = forwardRef(
               <DateInput
                 name={formFields.begDate.name}
                 value={formData.begDate.value}
-                helper="Ketu duhet te vendosni daten e fillimit te udhetimit"
                 placeholder={formData.begDate.placeholder as string}
                 isValid={formData["begDate"].state.isValid}
                 onChange={(e) => {
                   formHook.handleInputChange(e);
                 }}
+                selfState={true}
                 errors={formData["begDate"].state.errors}
+                min={(() => {
+                  if (
+                    props.product.config &&
+                    props.product.config.beginDate &&
+                    props.product.config.beginDate.minValue !== undefined
+                  ) {
+                    const currentDate = new Date();
+
+                    currentDate.setDate(currentDate.getDate() + props.product.config.beginDate.minValue);
+
+                    return `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
+                      2,
+                      "0",
+                    )}-${String(currentDate.getDate()).padStart(2, "0")}`;
+                  }
+                  return undefined;
+                })()}
               />
               <DateInput
                 name={formFields.endDate.name}
                 value={formData.endDate.value}
-                helper="Ketu duhet te vendosni daten e mbarimit te udhetimit"
                 placeholder={formData.endDate.placeholder as string}
                 isValid={formData["endDate"].state.isValid}
                 onChange={(e) => {
                   formHook.handleInputChange(e);
                 }}
+                selfState={true}
                 errors={formData["endDate"].state.errors}
+                min={(() => {
+                  if (formData.begDate.value) {
+                    const currentDate = new Date(formData.begDate.value);
+
+                    currentDate.setDate(currentDate.getDate() + 1);
+
+                    return `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
+                      2,
+                      "0",
+                    )}-${String(currentDate.getDate()).padStart(2, "0")}`;
+                  }
+                  return undefined;
+                })()}
               />
             </FormRow>
             <FormRow>
@@ -124,7 +156,7 @@ const SecondForm = forwardRef(
                         });
                       }}
                     >
-                      Hiq Anullim Udhëtimi
+                      {t("form.flightCancel.remove")}
                     </Button>
                   ) : (
                     <Button
@@ -140,7 +172,7 @@ const SecondForm = forwardRef(
                         });
                       }}
                     >
-                      Shto Anullim Udhëtimi
+                      {t("form.flightCancel.add")}
                     </Button>
                   )}
                 </div>
@@ -189,7 +221,7 @@ const SecondForm = forwardRef(
         </Reveal>
       </div>
     );
-  }
+  },
 );
 
 export default SecondForm;

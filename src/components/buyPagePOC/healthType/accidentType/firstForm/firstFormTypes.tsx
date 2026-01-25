@@ -112,64 +112,79 @@ export const fieldsValidationObject: fieldValidationRules<keyof typeof formField
     {
       type: "REGEX",
       value: /^.{2}/g,
-      error: "Emri duhet te kete me shume se 2 karaktere",
+      error: "form.error.name.moreThan2Character",
     },
     {
       type: "NOT_EMPTY",
-      error: "Emri nuk mund te jete bosh",
+      error: "form.error.name.notEmpty",
     },
   ],
   surname: [
     {
       type: "REGEX",
       value: /^.{2}/g,
-      error: "Emri duhet te kete me shume se 2 karaktere",
+      error: "form.error.surname.moreThan2Character",
     },
     {
       type: "NOT_EMPTY",
-      error: "Emri nuk mund te jete bosh",
+      error: "form.error.surname.notEmpty",
     },
   ],
   birthday: [
     {
       type: "NOT_EMPTY",
-      error: "Ditelindja nuk mund te jete bosh",
+      error: "form.error.birthday.notEmpty",
     },
   ],
   gender: [
     {
       type: "NOT_EMPTY",
-      error: "Gjinia nuk mund te jete bosh",
+      error: "form.error.gender.notEmpty",
     },
   ],
   taxNumber: [
     {
       type: "NOT_EMPTY",
-      error: "Ditelindja nuk mund te jete bosh",
+      error: "form.error.taxNumber.notEmpty",
+    },
+    {
+      type: "REGEX",
+      value: /[A-Z]\d{8}[A-Z]/g,
+      error: "form.error.taxNumber.wrongFormat",
     },
   ],
   email: [
     {
+      type: "REGEX",
+      value: /\w+@\w+/g,
+      error: "form.error.email.wrongFormat",
+    },
+    {
       type: "NOT_EMPTY",
-      error: "Ditelindja nuk mund te jete bosh",
+      error: "form.error.email.notEmpty",
     },
   ],
   phone: [
     {
       type: "NOT_EMPTY",
-      error: "Ditelindja nuk mund te jete bosh",
+      error: "form.error.phone.notEmpty",
     },
   ],
   coverage: [
     {
       type: "NOT_EMPTY",
-      error: "Ditelindja nuk mund te jete bosh",
+      error: "form.error.coverageInt.notEmpty",
+    },
+    {
+      type: "REGEX",
+      value: /^\d+$/g,
+      error: "form.error.coverageInt.wrongFormat",
     },
   ],
   profession: [
     {
       type: "NOT_EMPTY",
-      error: "Ditelindja nuk mund te jete bosh",
+      error: "form.error.profession.notEmpty",
     },
   ],
 };

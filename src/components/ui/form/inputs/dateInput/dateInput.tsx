@@ -1,10 +1,10 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { CSSProperties, useState } from "react";
 import { useTranslation } from "react-i18next";
 const FaRegQuestionCircle = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
     default: module.FaRegQuestionCircle,
-  }))
+  })),
 );
 
 export type dateInputType = React.InputHTMLAttributes<HTMLInputElement> & {
@@ -30,7 +30,11 @@ export const DateInput: React.FC<dateInputType> = ({
   const { t } = useTranslation();
   const [isFocus, setIsFocus] = useState(false);
   const [isHelperHover, setIsHelperHover] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(props.value);
+
+  useEffect(() => {
+    setValue(props.value);
+  }, [props.value]);
   return (
     <div className="flex-[1] flex flex-col gap-1 relative" style={{ ...containerStyle }}>
       <div className="flex w-full">
@@ -43,8 +47,8 @@ export const DateInput: React.FC<dateInputType> = ({
             errors.length
               ? "border-red-400 focus:border-red-500 bg-red-50"
               : isValid
-              ? "border-primary focus:border-primarysub bg-[#f6f9fd]"
-              : "border-gray-200 focus:border-gray-400 bg-gray-50"
+                ? "border-primary focus:border-primarysub bg-[#f6f9fd]"
+                : "border-gray-200 focus:border-gray-400 bg-gray-50"
           } ${helper && "pr-10 lg:pr-7"}`}
           {...props}
           style={{ ...style }}

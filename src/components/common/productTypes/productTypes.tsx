@@ -9,7 +9,7 @@ import { Button } from "../../ui/button/button";
 const FaLink = React.lazy(() =>
   import("react-icons/fa6").then((module) => ({
     default: module.FaLink,
-  }))
+  })),
 );
 
 export type productTypesType = {
@@ -23,7 +23,7 @@ export type productTypesType = {
 const ProductTypesItem = ({ productType }: { productType: productTypesType }) => {
   const navigate = useNavigate();
   return (
-    <div className="w-[95%] lg:w-[45%] h-44 sm:h-40 border rounded-md shadow-lg p-4 bg-white flex flex-col hover:scale-105">
+    <div className="w-[95%] lg:w-[45%] h-44 sm:h-40 border rounded-md shadow-lg p-4 bg-white flex flex-col hover:scale-105 transition-transform">
       <div className="flex h-full gap-4 flex-grow">
         <div className="h-full w-fit min-w-fit flex items-center justify-center">
           <div className="h-[60%] sm:h-full w-fit min-w-fit">{productType.image}</div>

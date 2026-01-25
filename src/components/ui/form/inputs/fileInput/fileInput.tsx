@@ -89,7 +89,7 @@ const FileInput = ({
   const handleRemoveFile = (index: number) => {
     onChange(
       name,
-      value.filter((_, i) => i !== index)
+      value.filter((_, i) => i !== index),
     );
   };
 
@@ -120,7 +120,7 @@ const FileInput = ({
           onChange={handleFileSelect}
           className="hidden"
         />
-        <p className="text-gray-600">{isDragging ? "Drop your files here..." : label}</p>
+        <p className="text-gray-600">{isDragging ? "Drop your files here..." : t(label)}</p>
       </div>
 
       {value.length > 0 && (

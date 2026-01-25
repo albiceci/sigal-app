@@ -18,6 +18,7 @@ import { propertyContext, PropertyContextProvider } from "./wealthType/propertyT
 import { JSX } from "react";
 import { travelALContext, TravelALContextProvider } from "./healthType/travelALType/travelALContext";
 import { paymentContext, PaymentContextProvider } from "./payment/paymentContext";
+import { borderContext, BorderContextProvider } from "./carType/borderType/borderContext";
 
 export type FORM_TYPE = {
   path: string;
@@ -75,6 +76,12 @@ export const PRODUCT_DATA = {
         subTitle: "form.ownership.subTitle",
       },
     ],
+    config: {
+      beginDate: {
+        minValue: 15,
+        defaultValue: 15,
+      },
+    },
   },
   TRAVELAL: {
     ...PRODUCT_INFO["TRAVELAL"],
@@ -94,6 +101,12 @@ export const PRODUCT_DATA = {
         subTitle: "form.package.subTitle",
       },
     ],
+    config: {
+      beginDate: {
+        minValue: 1,
+        defaultValue: 1,
+      },
+    },
   },
   TRAVEL: {
     ...PRODUCT_INFO["TRAVEL"],
@@ -113,6 +126,12 @@ export const PRODUCT_DATA = {
         subTitle: "form.package.subTitle",
       },
     ],
+    config: {
+      beginDate: {
+        minValue: 1,
+        defaultValue: 1,
+      },
+    },
   },
   PRIVATEHEALTH: {
     ...PRODUCT_INFO["PRIVATEHEALTH"],
@@ -134,7 +153,7 @@ export const PRODUCT_DATA = {
     ],
     config: {
       dataSharing: {
-        PROPERTY: { fields: ["name", "surname", "taxNumber", "birthday", "email", "phone"] },
+        PROPERTY: { fields: ["name", "surname", "taxNumber", "birthday", "email", "phone", "gender"] },
       },
       beginDate: {
         minValue: 1,
@@ -160,6 +179,12 @@ export const PRODUCT_DATA = {
         subTitle: "form.package.subTitle",
       },
     ],
+    config: {
+      beginDate: {
+        minValue: 1,
+        defaultValue: 1,
+      },
+    },
   },
   ANTITUMOR: {
     ...PRODUCT_INFO["ANTITUMOR"],
@@ -179,6 +204,12 @@ export const PRODUCT_DATA = {
         subTitle: "form.package.subTitle",
       },
     ],
+    config: {
+      beginDate: {
+        minValue: 1,
+        defaultValue: 1,
+      },
+    },
   },
   ACCIDENT: {
     ...PRODUCT_INFO["ACCIDENT"],
@@ -198,6 +229,12 @@ export const PRODUCT_DATA = {
         subTitle: "form.person.subTitle",
       },
     ],
+    config: {
+      beginDate: {
+        minValue: 1,
+        defaultValue: 1,
+      },
+    },
   },
   TPL: {
     ...PRODUCT_INFO["TPL"],
@@ -331,6 +368,31 @@ export const PRODUCT_DATA = {
       },
     },
   },
+  BORDER: {
+    ...PRODUCT_INFO["BORDER"],
+    context: borderContext,
+    contextProvider: BorderContextProvider,
+    forms: [
+      {
+        id: "668723b3-8563-47bc-8a6e-bc64d59d7540",
+        path: "./carType/borderType/firstForm/firstForm",
+        name: "form.car.title",
+        subTitle: "form.car.subTitle",
+      },
+      {
+        id: "14856ff3-d751-431e-92df-df4088942b51",
+        path: "./carType/borderType/secondForm/secondForm",
+        name: "form.driver.title",
+        subTitle: "form.driver.subTitle",
+      },
+    ],
+    config: {
+      beginDate: {
+        minValue: 1,
+        defaultValue: 1,
+      },
+    },
+  },
   AUTOSOS: {
     ...PRODUCT_INFO["AUTOSOS"],
     context: autososContext,
@@ -393,13 +455,19 @@ export const PRODUCT_DATA = {
         subTitle: "form.driver.subTitle",
       },
     ],
+    config: {
+      beginDate: {
+        minValue: 0,
+        defaultValue: 0,
+      },
+    },
   },
 } satisfies Record<PRODUCT_SITE_ID, PRODUCT_DATA_TYPE>;
 
 export type BUNDLE_TYPE = {
   id: string;
   products: PRODUCT_DATA_TYPE[] | PRODUCT_SITE_ID[] | PRODUCT_INFO_TYPE[];
-  percentageOff?: number;
-  fixedValueOff?: number;
+  discount: number;
+  discountyType: "percentage" | "flat";
   promoMessage: string;
 };

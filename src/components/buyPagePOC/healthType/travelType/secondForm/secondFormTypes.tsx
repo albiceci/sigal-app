@@ -156,31 +156,31 @@ export const fieldsValidationObject: fieldValidationRules<keyof typeof formField
   begDate: [
     {
       type: "NOT_EMPTY",
-      error: "Zgjidhni daten e fillimit te urdhetimit",
+      error: "form.error.begDate.notEmpty",
     },
   ],
   endDate: [
     {
       type: "NOT_EMPTY",
-      error: "Zgjidhni daten e mbarimit te urdhetimit",
+      error: "form.error.endDate.notEmpty",
     },
   ],
   destination: [
     {
       type: "NOT_EMPTY",
-      error: "Zgjidhni destinacionin",
+      error: "form.error.destination.notEmpty",
     },
   ],
   templateId: [
     {
-      type: "NOT_EMPTY",
-      error: "Zgjidhni daten e mbarimit te urdhetimit",
+      type: "NOT_NULL",
+      error: "form.error.templateId.notNull",
     },
   ],
   flightConfirmationDate: [
     {
       type: "NOT_EMPTY",
-      error: "Zgjidhni daten e fillimit te urdhetimit",
+      error: "form.error.flightConfirmationDate.notEmpty",
     },
   ],
   flightCancel: [],

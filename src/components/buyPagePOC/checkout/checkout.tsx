@@ -1,41 +1,80 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useServer } from "../../../util/useServer";
 import { useLoadingOverlay } from "../../ui/loadingOverlay/loadingOverlay";
 import { useAlerter } from "../../ui/alerter/useAlerter";
-import { Loader } from "../loader/loader";
-import { Button } from "../../ui/button/button";
-import { CheckoutPayment } from "./checkoutPayment";
 import { getErrorMessage } from "../../../helper/getErrorMessage";
+import { useTranslation } from "react-i18next";
+import { PRODUCT_SITE_ID } from "../productConstants";
+import { Loader } from "../loader/loader";
+import { CheckoutBuilder } from "./checkoutBuilder";
 
-type stepType = {
-  contentId: string;
+export const statusMap = {
+  successful: "transaction.status.successful",
+  in_progress: "transaction.status.in_progress",
+  pending: "transaction.status.pending",
+  failed: "transaction.status.failed",
+  cancelled: "transaction.status.cancelled",
+  waiting_payment: "transaction.status.waiting_payment",
+  data_processing_failed: "transaction.status.data_processing_failed",
+  partial_failure: "transaction.status.partial_failure",
+};
+
+export type stepType = {
+  contentId: PRODUCT_SITE_ID;
   id: string;
   index: number;
-  name: string;
+  name: PRODUCT_SITE_ID;
   status: keyof typeof statusMap;
   transactionId: string;
   policyId?: string;
   type: "payment" | "product";
-  processedData: Object;
+  premiumValue: number;
+  premiumCurrency: "EUR" | "ALL";
+  adjustedPremiumValue: number;
+  exchangedPremiumValue: number;
+  exchangedPremiumCurrency: "EUR" | "ALL";
+  processedData: any;
+  errorMessage: string;
 };
 
-type transactionType = {
+export type rateType = {
+  id: string;
+  createdAt: string;
+  ALL: number;
+  EUR: number;
+  USD: number;
+};
+
+export type bundleType = {
+  id: string;
+  products: string;
+  discount: number;
+  discountyType: "percentage" | "flat";
+  promoMessage: string;
+};
+
+export type transactionType = {
   id: string;
   sessionId: string;
   status: keyof typeof statusMap;
+  bundle: bundleType;
+  rate: rateType;
   steps: stepType[];
+  createdAt: string;
+  errorMessage: string;
 };
 
-const statusMap = {
-  successful: "Successful",
-  in_progress: "In progress",
-  pending: "Pending",
-  failed: "Failed",
-  cancelled: "Cancelled",
-};
+export const transactionContext = createContext<{
+  transactionData: transactionType | null;
+  setTransactionData: React.Dispatch<React.SetStateAction<transactionType | null>>;
+}>({
+  transactionData: null,
+  setTransactionData: () => {},
+});
 
 export default function Checkout() {
+  const { t } = useTranslation();
   const [transactionData, setTransactionData] = useState<transactionType | null>(null);
   const [searchParams] = useSearchParams();
   const customFetch = useServer();
@@ -47,7 +86,7 @@ export default function Checkout() {
       transactionId: transactionId,
     };
 
-    if (showOverlay) loadingOverlay.open("Please wait", "Getting transaction...");
+    if (showOverlay) loadingOverlay.open(t("form.transaction.loading.title"), t("form.transaction.loading.subTitle"));
 
     const jsonData = await customFetch("/buy/getTransaction", {
       method: "POST",
@@ -82,166 +121,15 @@ export default function Checkout() {
     <>
       {loadingOverlay.render}
       {alerter.render}
-      <div className="w-full h-full flex flex-col gap-10">
-        <div className="flex flex-col items-center">
-          <div className="h2 text-primary pb-6 text-center w-full">Checkout</div>
-          <div>
-            <span className="flex gap-2">
-              <span className="text-primary font-semibold whitespace-nowrap">Transaction ID: </span>
-              <span className="text-presetgray font-semibold">{transactionData?.id}</span>
-            </span>
-            <span className="flex gap-2">
-              <span className="text-primary font-semibold whitespace-nowrap">Status: </span>
-              <span className="text-presetgray font-semibold">
-                {transactionData !== null ? statusMap[transactionData.status] : ""}
-              </span>
-            </span>
-          </div>
-        </div>
+      <transactionContext.Provider value={{ transactionData: transactionData, setTransactionData: setTransactionData }}>
         {transactionData !== null ? (
-          <div>
-            <div className="flex flex-col gap-6">
-              {transactionData.steps
-                .sort((a, b) => a.index - b.index)
-                .map((step) => {
-                  return <StepItem stepData={step} />;
-                })}
-            </div>
-          </div>
+          <CheckoutBuilder />
         ) : (
-          <div>Loading checkout...</div>
+          <div className="w-full h-full flex items-center justify-center">
+            <Loader />
+          </div>
         )}
-      </div>
+      </transactionContext.Provider>
     </>
   );
 }
-
-const StepItem = ({ stepData }: { stepData: stepType }) => {
-  const customFetch = useServer();
-  const loadingOverlay = useLoadingOverlay();
-  const alerter = useAlerter();
-
-  const getPolicy = async () => {
-    const jsonData = await customFetch(`/policy/get?id=${stepData.policyId}`, {
-      method: "GET",
-    });
-
-    if (jsonData.status !== 200) {
-      alerter.alertMessage(getErrorMessage(jsonData.message));
-    } else {
-      try {
-        const response = await customFetch(
-          jsonData.data.fileUrl,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-          false
-        );
-
-        if (!response.ok) throw new Error("Failed to download file");
-
-        // Convert the response to a Blob (binary object)
-        const blob = await response.blob();
-
-        // Create a temporary object URL
-        const url = window.URL.createObjectURL(blob);
-
-        // Create an <a> tag and trigger a click
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = jsonData.data.fileName;
-        document.body.appendChild(a);
-        a.click();
-
-        // Clean up
-        a.remove();
-        window.URL.revokeObjectURL(url);
-
-        alerter.alertMessage({ description: null, message: "File downloaded successfully", type: "success" });
-      } catch (err: any) {
-        alerter.alertMessage({ description: null, message: "Failed to start download", type: "error" });
-      }
-    }
-  };
-
-  const typeClassName = {
-    successful: "bg-green-400 text-white border-2 border-green-500",
-    failed: "bg-red-400 text-white border-2 border-red-500",
-    in_progress: "border-2 border-primary text-primary",
-    pending: "border-2 border-gray-300 text-gray-300",
-    cancelled: "border-2 border-gray-300 text-gray-300",
-  };
-  return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="flex items-center justify-between gap-2 w-full">
-        {loadingOverlay.render}
-        {alerter.render}
-        <div className="flex items-center gap-4">
-          {stepData.status !== "in_progress" ? (
-            <div
-              className={`h-10 w-10 min-w-10 sm:h-14 sm:w-14 rounded-full flex items-center justify-center ${
-                typeClassName[stepData.status]
-              }`}
-            >
-              <div className="font-semibold text-lg">
-                {stepData.status === "successful" ? <span>&#10003;</span> : stepData.index + 1}
-              </div>
-            </div>
-          ) : (
-            <div className="h-10 w-10 sm:h-14 sm:w-14 relative">
-              <Loader />
-              <div className="font-semibold text-lg absolute top-0 left-0 h-full w-full flex items-center justify-center">
-                <div className="text-primary">{stepData.index + 1}</div>
-              </div>
-            </div>
-          )}
-          <div
-            className={`${stepData.status === "successful" && "text-green-400"} ${
-              stepData.status === "failed" && "text-red-400"
-            } ${stepData.status === "in_progress" && "text-primary"} ${
-              stepData.status === "pending" && "text-gray-300"
-            } font-bold text-base sm:text-lg`}
-          >
-            {stepData.name}
-          </div>
-        </div>
-        <div className="h-2 flex-grow flex items-center justify-center">
-          <hr className="w-full" />
-        </div>
-        <div
-          className={`${stepData.status === "successful" && "text-green-400"} ${
-            stepData.status === "failed" && "text-red-400"
-          } ${stepData.status === "in_progress" && "text-primary"} ${
-            stepData.status === "pending" && "text-gray-300"
-          } font-bold text-base sm:text-lg`}
-        >
-          {statusMap[stepData.status]}
-        </div>
-      </div>
-      <div className="">
-        {stepData.policyId ? (
-          <Button
-            buttonType="secondary"
-            style={{
-              paddingTop: 4,
-              paddingBottom: 4,
-            }}
-            onClick={getPolicy}
-          >
-            Shkarko
-          </Button>
-        ) : (
-          <div></div>
-        )}
-        {stepData.type === "payment" && stepData.status === "in_progress" ? (
-          <CheckoutPayment paymentObject={stepData.processedData} />
-        ) : (
-          <div></div>
-        )}
-      </div>
-    </div>
-  );
-};

@@ -16,7 +16,7 @@ import { PopUp } from "../../../ui/popUp/popUp";
 const IoClose = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoClose,
-  }))
+  })),
 );
 
 type selectTypeProps = {
@@ -48,18 +48,17 @@ export const SelectOption = ({ optionData, type, bundleProduct }: selectTypeProp
   const getPossibleBundles = (bundles: BUNDLE_TYPE[]) => {
     const possibleBundles = getBundleProducts(bundles).filter((bundle) => {
       return (bundle.products as PRODUCT_INFO_TYPE[]).filter(
-        (bundleProduct) => bundleProduct.productSiteId === (optionData as PRODUCT_INFO_TYPE).productSiteId
+        (bundleProduct) => bundleProduct.productSiteId === (optionData as PRODUCT_INFO_TYPE).productSiteId,
       ).length;
     });
     return possibleBundles
       .filter((bundle) => bundle.products.length === 2)
       .map((bundle) => {
         return {
+          ...bundle,
           ...(bundle.products as PRODUCT_INFO_TYPE[]).filter(
-            (product) => product.productSiteId !== (optionData as PRODUCT_INFO_TYPE).productSiteId
+            (product) => product.productSiteId !== (optionData as PRODUCT_INFO_TYPE).productSiteId,
           )[0],
-          percentOff: bundle.percentageOff,
-          promoMessage: bundle.promoMessage,
         };
       });
   };

@@ -10,28 +10,34 @@ import { BundleContextProvider } from "../../components/buyPagePOC/bundleContext
 const FormBuilder = React.lazy(() =>
   import("../../components/buyPagePOC/formBuilder").then((module) => ({
     default: module.FormBuilder,
-  }))
+  })),
+);
+
+const Checkout = React.lazy(() =>
+  import("../../components/buyPagePOC/checkout/checkout").then((module) => ({
+    default: module.default,
+  })),
 );
 
 const CarType = React.lazy(() =>
   import("../../components/buyPagePOC/carType/carType").then((module) => ({
     default: module.CarType,
-  }))
+  })),
 );
 const WealthType = React.lazy(() =>
   import("../../components/buyPagePOC/wealthType/wealthType").then((module) => ({
     default: module.WealthType,
-  }))
+  })),
 );
 const HealthType = React.lazy(() =>
   import("../../components/buyPagePOC/healthType/healthType").then((module) => ({
     default: module.HealthType,
-  }))
+  })),
 );
 const MarinaType = React.lazy(() =>
   import("../../components/buyPagePOC/marinaType/marinaType").then((module) => ({
     default: module.MarinaType,
-  }))
+  })),
 );
 // function renderSwitch(param: string | null) {
 //   switch (param) {
@@ -93,15 +99,25 @@ function renderSwitch(param: string | null): JSX.Element {
 
 export default function Buy() {
   const [buyType, setBuyType] = useState<string | null>(null);
+  const [transactionId, setTransactionId] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
     setBuyType(searchParams.get("type"));
+    setTransactionId(searchParams.get("transactionId"));
   }, [searchParams]);
 
   return (
     <BuyPageContainer>
-      <BundleContextProvider>{renderSwitch(buyType)}</BundleContextProvider>
+      <BundleContextProvider>
+        {transactionId ? (
+          <Suspense fallback={<div></div>}>
+            <Checkout />
+          </Suspense>
+        ) : (
+          renderSwitch(buyType)
+        )}
+      </BundleContextProvider>
     </BuyPageContainer>
   );
 }

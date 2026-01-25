@@ -315,8 +315,8 @@ export function PersonalInfo() {
               value={formData.gender.value}
               isValid={formData.gender.state.isValid}
               options={[
-                { id: "Male", text: "Mashkull" },
-                { id: "Female", text: "Femer" },
+                { id: "Male", text: "form.option.gender.male" },
+                { id: "Female", text: "form.option.gender.female" },
               ]}
               onOptionChange={onSelectChange}
               errors={formData.gender.state.errors}

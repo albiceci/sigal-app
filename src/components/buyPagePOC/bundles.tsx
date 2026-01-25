@@ -13,13 +13,13 @@ import { PopUp } from "../ui/popUp/popUp";
 const IoClose = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoClose,
-  }))
+  })),
 );
 
 const BsPlusSquareDotted = React.lazy(() =>
   import("react-icons/bs").then((module) => ({
     default: module.BsPlusSquareDotted,
-  }))
+  })),
 );
 
 const SelectOption = ({
@@ -86,7 +86,7 @@ const BundleForm = ({
     const possibleBundles = allBundles.filter((bundle) => {
       return activeProducts.every((currentProduct) => {
         return (bundle.products as PRODUCT_DATA_TYPE[]).filter(
-          (bundleProduct) => bundleProduct.productSiteId === currentProduct.productSiteId
+          (bundleProduct) => bundleProduct.productSiteId === currentProduct.productSiteId,
         ).length;
       });
     });
@@ -98,7 +98,7 @@ const BundleForm = ({
     const possibleBundles = allBundles.filter((bundle) => {
       return activeProducts.every((currentProduct) => {
         return (bundle.products as PRODUCT_DATA_TYPE[]).filter(
-          (bundleProduct) => bundleProduct.productSiteId === currentProduct.productSiteId
+          (bundleProduct) => bundleProduct.productSiteId === currentProduct.productSiteId,
         ).length;
       });
     });
@@ -124,7 +124,13 @@ const BundleForm = ({
     setActiveProducts((prev) => {
       return prev.filter((activeProducts) => {
         //If we are removing a product, remove all the bundle products of the same category
-        if (product.type === "product" && activeProducts.category === product.category) {
+        if (product.productSiteId === activeProducts.productSiteId) {
+          return false;
+        } else if (
+          product.type === "product" &&
+          activeProducts.category === product.category &&
+          activeProducts.type === "bundle"
+        ) {
           return false;
         } else if (product.type === "bundle" && product.productSiteId === activeProducts.productSiteId) {
           return false;
@@ -316,7 +322,7 @@ export const useBundles = ({
                   </button>
                 </div>
               </div>,
-              pageContainer
+              pageContainer,
             )
           : null}
         {isOpen ? (

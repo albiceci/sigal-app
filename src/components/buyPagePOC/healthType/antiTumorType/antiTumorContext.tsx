@@ -9,6 +9,8 @@ import { useLoadingOverlay } from "../../../ui/loadingOverlay/loadingOverlay";
 import { useAlerter } from "../../../ui/alerter/useAlerter";
 import { PRODUCT_INFO } from "../../productConstants";
 import { getErrorMessage } from "../../../../helper/getErrorMessage";
+import { useTranslation } from "react-i18next";
+import { roundToTwoDecimals } from "../../../../helper/roundToTwoDecimals";
 
 //////////JOIN ALL FIELDS ON THE FORMS//////////////////////
 
@@ -16,7 +18,7 @@ function mergeForms(
   form1: typeof firstFormFields,
   form2: typeof secondFormFields,
   form3: typeof durationFormFields,
-  form4: typeof additionalPeopleFields
+  form4: typeof additionalPeopleFields,
 ) {
   return { ...form1, ...form2, ...form3, ...form4 };
 }
@@ -25,7 +27,7 @@ const combinedFormFields = mergeForms(
   firstFormFields,
   secondFormFields,
   durationFormFields,
-  JSON.parse(JSON.stringify(additionalPeopleFields))
+  JSON.parse(JSON.stringify(additionalPeopleFields)),
 );
 
 const antiTumorContext = createContext<{
@@ -34,6 +36,7 @@ const antiTumorContext = createContext<{
 }>({ formData: combinedFormFields, setFormData: () => {} });
 
 const AntiTumorContextProvider = ({ children }: { children: JSX.Element }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState(combinedFormFields);
 
   const hasMounted = useRef(false);
@@ -48,7 +51,7 @@ const AntiTumorContextProvider = ({ children }: { children: JSX.Element }) => {
       productSiteId: PRODUCT_INFO.ANTITUMOR.productSiteId,
     };
 
-    loadingOverlay.open("Please wait", "Calculation premium...");
+    loadingOverlay.open(t("form.premiumOverlay.loading.title"), t("form.premiumOverlay.loading.subTitle"));
 
     const jsonData = await customFetch("/form/premium", {
       method: "POST",
@@ -62,13 +65,26 @@ const AntiTumorContextProvider = ({ children }: { children: JSX.Element }) => {
 
     if (jsonData.status !== 200) {
       alerter.alertMessage(getErrorMessage(jsonData.message));
+      setFormData((prev) => {
+        return {
+          ...prev,
+          coverage: {
+            ...prev.coverage,
+            value: "",
+            state: {
+              errors: [],
+              isValid: false,
+            },
+          },
+        };
+      });
     } else {
       setFormData((prev) => {
         return {
           ...prev,
           premium: {
             ...prev.premium,
-            value: jsonData.data.premiumGross,
+            value: String(roundToTwoDecimals(jsonData.data.premiumGross)),
           },
           premiumCurrency: {
             ...prev.premiumCurrency,
@@ -77,6 +93,22 @@ const AntiTumorContextProvider = ({ children }: { children: JSX.Element }) => {
         };
       });
     }
+  };
+
+  const removePremium = async () => {
+    setFormData((prev) => {
+      return {
+        ...prev,
+        premium: {
+          ...prev.premium,
+          value: "",
+        },
+        premiumCurrency: {
+          ...prev.premiumCurrency,
+          value: "",
+        },
+      };
+    });
   };
 
   useEffect(() => {
@@ -88,6 +120,8 @@ const AntiTumorContextProvider = ({ children }: { children: JSX.Element }) => {
         formData.coverage.state.isValid
       ) {
         getPremium();
+      } else {
+        removePremium();
       }
     } else {
       hasMounted.current = true; // Skip the first run

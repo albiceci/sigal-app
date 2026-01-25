@@ -10,6 +10,7 @@ import { useAlerter } from "../../../ui/alerter/useAlerter";
 import { PRODUCT_INFO } from "../../productConstants";
 import { getErrorMessage } from "../../../../helper/getErrorMessage";
 import { useTranslation } from "react-i18next";
+import { roundToTwoDecimals } from "../../../../helper/roundToTwoDecimals";
 
 //////////JOIN ALL FIELDS ON THE FORMS//////////////////////
 
@@ -17,7 +18,7 @@ function mergeForms(
   form1: typeof firstFormFields,
   form2: typeof secondFormFields,
   form3: typeof additionalPeopleFields,
-  form4: typeof dataSharingFields
+  form4: typeof dataSharingFields,
 ) {
   return { ...form1, ...form2, ...form3, ...form4 };
 }
@@ -26,7 +27,7 @@ const combinedFormFields = mergeForms(
   firstFormFields,
   secondFormFields,
   JSON.parse(JSON.stringify(additionalPeopleFields)),
-  dataSharingFields
+  dataSharingFields,
 );
 
 const privateHealthContext = createContext<{
@@ -84,7 +85,7 @@ const PrivateHealthContextProvider = ({ children }: { children: JSX.Element }) =
           ...prev,
           premium: {
             ...prev.premium,
-            value: jsonData.data.premiumGross,
+            value: String(roundToTwoDecimals(jsonData.data.premiumGross)),
           },
           premiumCurrency: {
             ...prev.premiumCurrency,
@@ -118,7 +119,8 @@ const PrivateHealthContextProvider = ({ children }: { children: JSX.Element }) =
         formData.begDate.state.isValid &&
         formData.endDate.state.isValid &&
         formData.birthday.state.isValid &&
-        formData.gender.state.isValid
+        formData.gender.state.isValid &&
+        formData.coveragePercentage.value
       ) {
         getPremium();
       } else {
@@ -134,6 +136,7 @@ const PrivateHealthContextProvider = ({ children }: { children: JSX.Element }) =
     formData.additionalPeople.value,
     formData.gender.value,
     formData.birthday.value,
+    formData.coveragePercentage.value,
   ]);
   return (
     <privateHealthContext.Provider value={{ formData: formData, setFormData: setFormData }}>

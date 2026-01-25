@@ -42,7 +42,7 @@ export function FormBuilder() {
       .filter((productParamKey) => Object.values(PRODUCT_DATA).some((v) => v.paramKey === productParamKey))
       .map(
         (productParamKey) =>
-          Object.entries(PRODUCT_DATA).find(([, value]) => value.paramKey === productParamKey)![0] as PRODUCT_SITE_ID
+          Object.entries(PRODUCT_DATA).find(([, value]) => value.paramKey === productParamKey)![0] as PRODUCT_SITE_ID,
       );
 
     if (
@@ -50,8 +50,8 @@ export function FormBuilder() {
         bundleData.some((bundle) =>
           arraysEqualIgnoreOrder(
             bundle.products.map((p) => (typeof p === "string" ? p : p.productSiteId)),
-            currentProductNames
-          )
+            currentProductNames,
+          ),
         )) ||
       currentProductNames.length === 1
     ) {
@@ -61,8 +61,8 @@ export function FormBuilder() {
         rawCurrentProduct.filter(
           (product) =>
             product.type !== "bundle" ||
-            rawCurrentProduct.some((sub) => sub.type === "product" && sub.category === product.category)
-        )
+            rawCurrentProduct.some((sub) => sub.type === "product" && sub.category === product.category),
+        ),
       );
 
       if (bundleData) {
@@ -70,9 +70,9 @@ export function FormBuilder() {
           bundleData.filter((bundle) =>
             arraysEqualIgnoreOrder(
               bundle.products.map((p) => (typeof p === "string" ? p : p.productSiteId)),
-              currentProductNames
-            )
-          )
+              currentProductNames,
+            ),
+          ),
         );
       }
     }
@@ -132,7 +132,7 @@ const ContextProviderContainer = React.memo(
 
     const providers = useMemo(
       () => [...possibleProducts, PRODUCT_DATA.PAYMENT].map((p) => p.contextProvider),
-      [possibleProducts]
+      [possibleProducts],
     );
 
     return (
@@ -146,12 +146,12 @@ const ContextProviderContainer = React.memo(
             <FormBuilderForm
               currentProducts={activeProductsIncludingPayment}
               currentBundle={bundleHook.currentBundle}
-            />
+            />,
           )}
         </div>
       </>
     );
-  }
+  },
 );
 
 ///////////////////////////////
@@ -163,26 +163,38 @@ const ContextContainer = ({
   setData,
 }: {
   context: React.Context<any>;
-  productSiteId: string;
-  setData: React.Dispatch<React.SetStateAction<Object>>;
+  productSiteId: PRODUCT_SITE_ID;
+  setData: React.Dispatch<React.SetStateAction<allFormDataType>>;
 }) => {
   //formData in this case is the data for a specific product
   const { formData } = useContext(context);
   useEffect(() => {
     //When we save the data for the product, we use the productId as a key
     setData((prev) => {
-      if (prev) return { ...prev, [productSiteId]: formData };
-      else return { [productSiteId]: formData };
+      return { ...prev, [productSiteId]: formData };
     });
   }, [formData]);
 
   return <></>;
 };
 
+type allFormDataType = {
+  [key in PRODUCT_SITE_ID]?: React.ContextType<(typeof PRODUCT_DATA)[key]["context"]>["formData"];
+} & {
+  activeProduct: PRODUCT_SITE_ID[];
+  currentBundle: BUNDLE_TYPE | null;
+};
+
 export const allFormContext = createContext<{
-  allFormData: Object;
-  setAllFormData: React.Dispatch<React.SetStateAction<Object>>;
-}>({ allFormData: {}, setAllFormData: () => {} });
+  allFormData: allFormDataType;
+  setAllFormData: React.Dispatch<React.SetStateAction<allFormDataType>>;
+}>({
+  allFormData: {
+    activeProduct: [],
+    currentBundle: null,
+  },
+  setAllFormData: () => {},
+});
 
 // Handle form render with dynamic loading of form steps
 const FormBuilderForm = React.memo(
@@ -198,7 +210,7 @@ const FormBuilderForm = React.memo(
     >([]);
 
     //Here is where we store everything that will get sent to backend on submit
-    const [allFormData, setAllFormData] = useState<Object>({
+    const [allFormData, setAllFormData] = useState<allFormDataType>({
       activeProduct: currentProducts.map((product) => product.productSiteId),
       currentBundle: currentBundle,
     });
@@ -242,12 +254,46 @@ const FormBuilderForm = React.memo(
 
     //Function that plays when everything is completed
     const onSubmit = async () => {
-      const data = allFormDataRef.current;
+      async function convertFileToBase64(file: File): Promise<string> {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file); // reads file and encodes as Base64
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = (error) => reject(error);
+        });
+      }
+      const currentData = allFormDataRef.current;
+
+      const postData = {};
+
+      for (var i = 0; i < currentData.activeProduct.length; i++) {
+        const productFormData = currentData[currentData.activeProduct[i]];
+
+        Object.assign(postData, {
+          [currentData.activeProduct[i]]: {
+            ...productFormData,
+            fileUploads:
+              productFormData && "fileUploads" in productFormData
+                ? {
+                    ...productFormData.fileUploads,
+                    value: await Promise.all(
+                      productFormData.fileUploads.value.map(async (file) => ({
+                        name: file.name,
+                        type: file.type,
+                        size: file.size,
+                        data: await convertFileToBase64(file), // base64 string
+                      })),
+                    ),
+                  }
+                : undefined,
+          },
+        });
+      }
 
       const body = {
-        ...data,
-        //@ts-ignore
-        currentBundle: data.currentBundle?.id,
+        ...postData,
+        currentBundle: currentData.currentBundle?.id,
+        activeProduct: currentData.activeProduct,
       };
 
       loadingOverlay.open("Please wait", "Starting transaction...");
@@ -279,7 +325,6 @@ const FormBuilderForm = React.memo(
       });
       triggerStepLoad();
     }, [currentProducts, currentBundle, triggerStepLoad]); //Jointing all the ID together as a string. Used to check if the products have changed
-    //console.log(formSteps);
     return (
       <>
         <allFormContext.Provider value={{ allFormData: allFormData, setAllFormData: setAllFormData }}>
@@ -296,23 +341,19 @@ const FormBuilderForm = React.memo(
             );
           })}
           {formSteps.length ? (
-            !searchParams.get("transactionId") ? (
-              <MultiStepForm
-                title={`${currentProducts
-                  .filter((product) => product.productSiteId !== PRODUCT_DATA.PAYMENT.productSiteId)
-                  .map((product) => t(product.name))
-                  .join(" + ")}`}
-                stepsData={formSteps}
-                onSubmit={onSubmit}
-              />
-            ) : (
-              <Checkout />
-            )
+            <MultiStepForm
+              title={`${currentProducts
+                .filter((product) => product.productSiteId !== PRODUCT_DATA.PAYMENT.productSiteId)
+                .map((product) => t(product.name))
+                .join(" + ")}`}
+              stepsData={formSteps}
+              onSubmit={onSubmit}
+            />
           ) : (
             <div>Loading forms...</div>
           )}
         </allFormContext.Provider>
       </>
     );
-  }
+  },
 );

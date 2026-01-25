@@ -13,6 +13,7 @@ import { useAlerter } from "../../../ui/alerter/useAlerter";
 import { PRODUCT_INFO } from "../../productConstants";
 import { getErrorMessage } from "../../../../helper/getErrorMessage";
 import { useTranslation } from "react-i18next";
+import { roundToTwoDecimals } from "../../../../helper/roundToTwoDecimals";
 
 //////////JOIN ALL FIELDS ON THE FORMS//////////////////////
 
@@ -22,7 +23,7 @@ function mergeForms(
   form3: typeof thirdFormFields,
   form4: typeof carSearchFormFields,
   form5: typeof durationFormFields,
-  form6: typeof additionalPeopleFields
+  form6: typeof additionalPeopleFields,
 ) {
   return { ...form1, ...form2, ...form3, ...form4, ...form5, ...form6 };
 }
@@ -33,7 +34,7 @@ const combinedFormFields = mergeForms(
   thirdFormFields,
   carSearchFormFields,
   durationFormFields,
-  additionalPeopleFields
+  additionalPeopleFields,
 );
 
 const autososContext = createContext<{
@@ -90,7 +91,7 @@ const AutososContextProvider = ({ children }: { children: JSX.Element }) => {
           ...prev,
           premium: {
             ...prev.premium,
-            value: jsonData.data.premiumGross,
+            value: String(roundToTwoDecimals(jsonData.data.premiumGross)),
           },
           premiumCurrency: {
             ...prev.premiumCurrency,

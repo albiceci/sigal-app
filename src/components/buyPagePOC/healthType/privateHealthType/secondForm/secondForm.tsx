@@ -1,11 +1,10 @@
-import { forwardRef, useContext, useEffect, useImperativeHandle, useRef } from "react";
+import { forwardRef, useContext, useImperativeHandle } from "react";
 import { Reveal } from "../../../../../util/reveal";
 import { FormBody } from "../../../../ui/form/formContainers/formBody";
 import { FormRow } from "../../../../ui/form/formContainers/formRow";
 import { formFields, fieldsValidationObject } from "./secondFormTypes";
 import { privateHealthContext } from "../privateHealthContext";
 import { DateInput } from "../../../../ui/form/inputs/dateInput/dateInput";
-import { PackageOption } from "../../../packages/packageOption";
 import { PRODUCT_DATA_TYPE } from "../../../formConstants";
 import { useForm } from "../../../../ui/form/useForm";
 
@@ -17,6 +16,7 @@ import standard from "./standard.svg";
 import standardSelected from "./standardSelected.svg";
 import { Premium } from "../../../premium/premium";
 import { PackageList } from "../../../packages/packageList";
+import { SelectInput } from "../../../../ui/form/inputs/selectInput/selectInput";
 
 const packageOptionsData: {
   name: string;
@@ -63,7 +63,7 @@ const SecondForm = forwardRef(
     props: {
       product: PRODUCT_DATA_TYPE;
     },
-    ref
+    ref,
   ) => {
     const { formData, setFormData } = useContext(props.product.context as typeof privateHealthContext);
 
@@ -93,7 +93,6 @@ const SecondForm = forwardRef(
               <DateInput
                 name={formFields.begDate.name}
                 value={formData.begDate.value}
-                helper="Ketu duhet te vendosni daten e fillimit te udhetimit"
                 placeholder={formData.begDate.placeholder as string}
                 isValid={formData.begDate.state.isValid}
                 onChange={(e) => {
@@ -113,7 +112,7 @@ const SecondForm = forwardRef(
 
                     return `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
                       2,
-                      "0"
+                      "0",
                     )}-${String(currentDate.getDate()).padStart(2, "0")}`;
                   }
                   return undefined;
@@ -122,7 +121,6 @@ const SecondForm = forwardRef(
               <DateInput
                 name={formFields.endDate.name}
                 value={formData.endDate.value}
-                helper="Ketu duhet te vendosni daten e mbarimit te udhetimit"
                 placeholder={formData.endDate.placeholder as string}
                 isValid={formData.endDate.state.isValid}
                 onChange={(e) => {
@@ -138,11 +136,32 @@ const SecondForm = forwardRef(
 
                     return `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
                       2,
-                      "0"
+                      "0",
                     )}-${String(currentDate.getDate()).padStart(2, "0")}`;
                   }
                   return undefined;
                 })()}
+              />
+            </FormRow>
+            <FormRow>
+              <SelectInput
+                placeholder={formData.coveragePercentage.placeholder as string}
+                name={formData.coveragePercentage.name}
+                value={formData.coveragePercentage.value}
+                isValid={formData.coveragePercentage.state.isValid}
+                options={[
+                  { id: "100%", text: "100%" },
+                  { id: "90%", text: "90%" },
+                  { id: "80%", text: "80%" },
+                ]}
+                onOptionChange={(name: string, value: string) => {
+                  formHook.changeFieldValue({
+                    name: "coveragePercentage",
+                    value: value,
+                    showErrors: true,
+                  });
+                }}
+                errors={formData.coveragePercentage.state.errors}
               />
             </FormRow>
             <FormRow>
@@ -178,7 +197,7 @@ const SecondForm = forwardRef(
         </Reveal>
       </div>
     );
-  }
+  },
 );
 
 export default SecondForm;

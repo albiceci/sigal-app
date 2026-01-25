@@ -21,11 +21,9 @@ const FirstForm = forwardRef(
       product: PRODUCT_DATA_TYPE;
       parentProduct: PRODUCT_DATA_TYPE | undefined;
     },
-    ref
+    ref,
   ) => {
     const { formData, setFormData } = useContext(props.product.context as typeof privateHealthContext);
-
-    console.log("PARENT PRODUCT: " + props.parentProduct?.productSiteId);
 
     const formHook = useForm<typeof formData, keyof typeof formFields>({
       formData: formData,
@@ -106,8 +104,8 @@ const FirstForm = forwardRef(
                 value={formData.gender.value}
                 isValid={formData.gender.state.isValid}
                 options={[
-                  { id: "Male", text: "Mashkull" },
-                  { id: "Female", text: "Femer" },
+                  { id: "Male", text: "form.option.gender.male" },
+                  { id: "Female", text: "form.option.gender.female" },
                 ]}
                 onOptionChange={(name: string, value: string) => {
                   formHook.changeFieldValue({
@@ -181,7 +179,7 @@ const FirstForm = forwardRef(
         </Reveal>
       </div>
     );
-  }
+  },
 );
 
 export default FirstForm;
