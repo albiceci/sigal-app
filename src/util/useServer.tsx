@@ -13,7 +13,7 @@ export const useServer = () => {
         body?: object;
         method: "GET" | "POST" | "PUT" | "DELETE";
       },
-      isJsonResponse: boolean = true
+      isJsonResponse: boolean = true,
     ) => {
       const res = await fetch(server_url + url, {
         method: options.method,
@@ -35,14 +35,14 @@ export const useServer = () => {
       if (isJsonResponse) {
         const jsonResponse = await res.json();
 
-        if (jsonResponse.status === 401) window.location.href = "/";
+        if (jsonResponse.status === 401) window.location.reload();
         else if (jsonResponse.status === 403) window.location.href = "/login";
         return jsonResponse;
       } else {
         return res;
       }
     },
-    [sessionData?.id]
+    [sessionData?.id],
   );
 
   return customFetch;

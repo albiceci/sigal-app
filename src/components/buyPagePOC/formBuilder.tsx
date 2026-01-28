@@ -215,8 +215,6 @@ const FormBuilderForm = React.memo(
       currentBundle: currentBundle,
     });
 
-    console.log(allFormData);
-
     const allFormDataRef = useRef(allFormData);
 
     useEffect(() => {

@@ -3,17 +3,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { MenuSubItem } from "./menuSubItem/menuSubItem";
 import { NavBarItem } from "../../../navBarData";
+import { useTranslation } from "react-i18next";
 
 const MdOutlineKeyboardArrowDown = React.lazy(() =>
   import("react-icons/md").then((module) => ({
     default: module.MdOutlineKeyboardArrowDown,
-  }))
+  })),
 );
 
 const MdOutlineKeyboardArrowUp = React.lazy(() =>
   import("react-icons/md").then((module) => ({
     default: module.MdOutlineKeyboardArrowUp,
-  }))
+  })),
 );
 
 type menuItemProps = {
@@ -45,6 +46,7 @@ export const MenuItemWapper = ({
 
 export const MenuItem = ({ itemData, activeKey = null, theme }: menuItemProps) => {
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const colors = {
     isActive: {
@@ -68,8 +70,8 @@ export const MenuItem = ({ itemData, activeKey = null, theme }: menuItemProps) =
             itemData.key === activeKey
               ? `${colors.isActive[theme]}`
               : itemData.link
-              ? `${colors.isLink[theme]}`
-              : `${colors.isNotLink[theme]}`
+                ? `${colors.isLink[theme]}`
+                : `${colors.isNotLink[theme]}`
           }`}
           onMouseOver={() => {
             setIsMouseOver(true);
@@ -90,7 +92,7 @@ export const MenuItem = ({ itemData, activeKey = null, theme }: menuItemProps) =
                 <></>
               )}
             </div>
-            <span>{itemData.name}</span>
+            <span>{t(itemData.name)}</span>
           </div>
           {itemData.subCategories ? (
             <div className="absolute bottom-0">

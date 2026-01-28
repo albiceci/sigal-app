@@ -106,7 +106,7 @@ export const useAlerter = () => {
    * ------------------------- */
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const pageContainer = useMemo(() => document.getElementById("alerterContainer"), []);
+  const pageContainer = document.getElementById("alerterContainer");
 
   /* -------------------------
    * Stable handlers
@@ -136,7 +136,6 @@ export const useAlerter = () => {
     if (messages.length) {
       resetInterval();
     }
-
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);

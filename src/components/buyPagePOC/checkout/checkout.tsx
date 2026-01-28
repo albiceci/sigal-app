@@ -18,6 +18,8 @@ export const statusMap = {
   waiting_payment: "transaction.status.waiting_payment",
   data_processing_failed: "transaction.status.data_processing_failed",
   partial_failure: "transaction.status.partial_failure",
+  expired: "transaction.status.expired",
+  not_approved: "transaction.status.not_approved",
 };
 
 export type stepType = {

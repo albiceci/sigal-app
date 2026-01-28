@@ -5,18 +5,18 @@ const BsCarFront = React.lazy(() => import("react-icons/bs").then((module) => ({
 const BsCarFrontFill = React.lazy(() =>
   import("react-icons/bs").then((module) => ({
     default: module.BsCarFrontFill,
-  }))
+  })),
 );
 
 const FaHospital = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
     default: module.FaHospital,
-  }))
+  })),
 );
 const FaRegHospital = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
     default: module.FaRegHospital,
-  }))
+  })),
 );
 
 const FaInfo = React.lazy(() => import("react-icons/fa").then((module) => ({ default: module.FaInfo })));
@@ -25,51 +25,51 @@ const IoHome = React.lazy(() => import("react-icons/io5").then((module) => ({ de
 const IoHomeOutline = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoHomeOutline,
-  }))
+  })),
 );
 
 const PiPersonArmsSpreadFill = React.lazy(() =>
   import("react-icons/pi").then((module) => ({
     default: module.PiPersonArmsSpreadFill,
-  }))
+  })),
 );
 const PiPersonArmsSpreadLight = React.lazy(() =>
   import("react-icons/pi").then((module) => ({
     default: module.PiPersonArmsSpreadLight,
-  }))
+  })),
 );
 
 const FaRegUser = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
     default: module.FaRegUser,
-  }))
+  })),
 );
 const FaUser = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
     default: module.FaUser,
-  }))
+  })),
 );
 
 const IoDocumentText = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoDocumentText,
-  }))
+  })),
 );
 const IoDocumentTextOutline = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoDocumentTextOutline,
-  }))
+  })),
 );
 
 const IoBoat = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoBoat,
-  }))
+  })),
 );
 const IoBoatOutline = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoBoatOutline,
-  }))
+  })),
 );
 
 export type BaseNavBarItem = {
@@ -92,7 +92,7 @@ export const navBarValues: {
 } = {
   primary: [
     {
-      name: "MAKINA",
+      name: "category.car.name",
       link: "/car",
       icons: {
         primary: (
@@ -110,7 +110,7 @@ export const navBarValues: {
       subCategories: null,
     },
     {
-      name: "PASURIA",
+      name: "category.wealth.name",
       link: "/wealth",
       icons: {
         primary: (
@@ -128,7 +128,7 @@ export const navBarValues: {
       subCategories: null,
     },
     {
-      name: "SHËNDETI",
+      name: "category.health.name",
       link: "/health",
       icons: {
         primary: (
@@ -146,7 +146,7 @@ export const navBarValues: {
       subCategories: null,
     },
     {
-      name: "MARINA",
+      name: "category.marina.name",
       link: "/marina",
       icons: {
         primary: (
@@ -164,7 +164,7 @@ export const navBarValues: {
       subCategories: null,
     },
     {
-      name: "JETA & PENSIONE",
+      name: "category.life.name",
       link: "/life",
       icons: {
         primary: (
@@ -184,7 +184,7 @@ export const navBarValues: {
   ],
   secondary: [
     {
-      name: "RRETH NESH",
+      name: "nav.page.about",
       link: "https://sigal.com.al/rreth-nesh/grupi-rajonal-sigurimesh/",
       icons: {
         primary: (
@@ -202,7 +202,7 @@ export const navBarValues: {
       subCategories: null,
     },
     {
-      name: "RAPORTO DEM",
+      name: "navigation.fileClaim.name",
       link: "/file-claim",
       icons: {
         primary: (
@@ -220,7 +220,7 @@ export const navBarValues: {
       subCategories: null,
     },
     {
-      name: "LLOGARIA IME",
+      name: "navigation.myAccount.name",
       link: "/login",
       icons: {
         primary: (

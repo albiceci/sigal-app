@@ -4,41 +4,41 @@ const IoHome = React.lazy(() => import("react-icons/io5").then((module) => ({ de
 const IoHomeOutline = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoHomeOutline,
-  }))
+  })),
 );
 
 const FaRegUser = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
     default: module.FaRegUser,
-  }))
+  })),
 );
 const FaUser = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
     default: module.FaUser,
-  }))
+  })),
 );
 
 const IoDocumentText = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoDocumentText,
-  }))
+  })),
 );
 const IoDocumentTextOutline = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoDocumentTextOutline,
-  }))
+  })),
 );
 
 const IoCartOutline = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoCartOutline,
-  }))
+  })),
 );
 
 export const bottomBarValues = {
   items: [
     {
-      name: "Home",
+      name: "navigation.home.name",
       link: "/",
       icons: {
         primary: (
@@ -56,7 +56,7 @@ export const bottomBarValues = {
       subCategories: null,
     },
     {
-      name: "Bli",
+      name: "navigation.buy.name",
       link: "/buy",
       icons: {
         primary: (
@@ -74,7 +74,7 @@ export const bottomBarValues = {
       subCategories: null,
     },
     {
-      name: "Raporto Dem",
+      name: "navigation.fileClaim.name",
       link: "/file-claim",
       icons: {
         primary: (
@@ -92,7 +92,7 @@ export const bottomBarValues = {
       subCategories: null,
     },
     {
-      name: "Llogaria",
+      name: "navigation.myAccount.short",
       link: "/login",
       icons: {
         primary: (

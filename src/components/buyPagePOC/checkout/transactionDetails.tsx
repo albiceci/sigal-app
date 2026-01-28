@@ -10,7 +10,7 @@ export const TransactionDetails = () => {
   const { transactionData } = useContext(transactionContext);
 
   const status = () => {
-    const commonClasses = "font-bold rounded-full px-3 text-sm h-fit";
+    const commonClasses = "font-bold rounded-full px-3 text-sm h-fit text-nowrap";
     if (transactionData?.status === "in_progress" || transactionData?.status === "waiting_payment") {
       return <div className={`text-primary bg-blue-100 ${commonClasses}`}>{t(statusMap[transactionData?.status])}</div>;
     } else if (transactionData?.status === "successful") {
@@ -25,7 +25,8 @@ export const TransactionDetails = () => {
       transactionData?.status === "failed" ||
       transactionData?.status === "cancelled" ||
       transactionData?.status === "data_processing_failed" ||
-      transactionData?.status === "partial_failure"
+      transactionData?.status === "partial_failure" ||
+      transactionData?.status === "expired"
     ) {
       return <div className={`bg-red-100 text-red-500 ${commonClasses}`}>{t(statusMap[transactionData?.status])}</div>;
     }
@@ -48,7 +49,9 @@ export const TransactionDetails = () => {
         </div>
         <div className="flex justify-between gap-5 border-b pb-2">
           <span className="text-gray-400 font-semibold">{t("transaction.summary.date")}: </span>
-          <span className="text-presetgray font-semibold">{transactionData?.createdAt}</span>
+          <span className="text-presetgray font-semibold">
+            {transactionData?.createdAt ? new Date(transactionData.createdAt).toLocaleString() : ""}
+          </span>
         </div>
         <div className="flex justify-between gap-5 border-b pb-2">
           <span className="text-gray-400 font-semibold">{t("transaction.summary.products")}: </span>
@@ -75,7 +78,7 @@ export const TransactionDetails = () => {
             <span className="text-lg font-bold text-presetgray">{t("transaction.summary.total")}</span>
           </div>
           <span className="text-lg font-bold text-presetgray">
-            {transactionData?.steps.find((step) => step.type === "payment")?.premiumValue}{" "}
+            {transactionData?.steps.find((step) => step.type === "payment")?.premiumValue.toLocaleString()}{" "}
             {transactionData?.steps.find((step) => step.type === "payment")?.premiumCurrency}
           </span>
         </div>

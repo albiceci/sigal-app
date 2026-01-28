@@ -159,7 +159,7 @@ export const SelectOption = ({ optionData, type, bundleProduct }: selectTypeProp
                 <span className="text-green-500 font-bold text-lg">Price Range</span>
               </div>
             </div>
-            <div className="text-presetgray bg-gray-100 rounded-md p-3 sm:flex-grow">
+            <div className="text-presetgray bg-gray-100 rounded-md p-3 sm:flex-grow whitespace-pre-line">
               {/* @ts-ignore */}
               {optionData.moreInfoText ? t(optionData.moreInfoText) : ""}
             </div>

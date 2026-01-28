@@ -6,22 +6,24 @@ import { tabType } from "../../../pages/accountPage/accountPage";
 import { useServer } from "../../../util/useServer";
 import { useAlerter } from "../../ui/alerter/useAlerter";
 import { getErrorMessage } from "../../../helper/getErrorMessage";
+import { useTranslation } from "react-i18next";
 
 const FaChevronRight = React.lazy(() =>
   import("react-icons/fa6").then((module) => ({
     default: module.FaChevronRight,
-  }))
+  })),
 );
 
 const FaChevronLeft = React.lazy(() =>
   import("react-icons/fa6").then((module) => ({
     default: module.FaChevronLeft,
-  }))
+  })),
 );
 
 const cookies = new Cookies();
 
 export const MainMenu = ({ tabData, activeTab }: { tabData: tabType[]; activeTab: string | null }) => {
+  const { t } = useTranslation();
   const [userInfo, setUserInfo] = useState({
     name: "",
     surname: "",
@@ -72,7 +74,9 @@ export const MainMenu = ({ tabData, activeTab }: { tabData: tabType[]; activeTab
         <div className="flex flex-col justify-between h-full">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-3">
-              <div className="text-white font-semibold text-lg">Hi {userInfo.name}!</div>
+              <div className="text-white font-semibold text-lg">
+                {t("account.mainMenu.hello")} {userInfo.name}!
+              </div>
               <div className="flex gap-2">
                 <div>
                   <img
@@ -87,7 +91,7 @@ export const MainMenu = ({ tabData, activeTab }: { tabData: tabType[]; activeTab
                   </div>
                   <div className="text-sm font-medium">{userInfo.email}</div>
                   <div className="text-sm font-medium">
-                    {userInfo.phoneNumber ? userInfo.phoneNumber : " No phone number found."}
+                    {userInfo.phoneNumber ? userInfo.phoneNumber : t("account.mainMenu.noPhone")}
                   </div>
                 </div>
               </div>
@@ -116,7 +120,7 @@ export const MainMenu = ({ tabData, activeTab }: { tabData: tabType[]; activeTab
                             activeTab === tab.paramKey ? "text-current" : "text-presetgray lg:text-current"
                           }`}
                         >
-                          {tab.name}
+                          {t(tab.name)}
                         </span>
                       </div>
                       {activeTab === tab.paramKey ? (
@@ -147,7 +151,7 @@ export const MainMenu = ({ tabData, activeTab }: { tabData: tabType[]; activeTab
                   window.location.href = "/";
                 }}
               >
-                Logout
+                {t("account.mainMenu.logout")}
               </button>
             </div>
           </div>

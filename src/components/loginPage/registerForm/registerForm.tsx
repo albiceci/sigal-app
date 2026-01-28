@@ -15,6 +15,8 @@ import { Socials } from "../socials/socials";
 import { useForm } from "../../ui/form/useForm";
 import { useTranslation } from "react-i18next";
 import { getErrorMessage } from "../../../helper/getErrorMessage";
+import { ACCOUNT_REDIRECT, EMAIL_VERIFICATION_MESSAGE, EMAIL_VERIFICATION_REDIRECT } from "../loginForm/loginForm";
+import { commonFieldRules } from "../../ui/form/validator/commonRules";
 
 export const formFields: FormInputs<{
   email: InputField<"text">;
@@ -54,29 +56,9 @@ export const formFields: FormInputs<{
 };
 
 const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
-  email: [
-    {
-      type: "REGEX",
-      value: /\w+@\w+/g,
-      error: "Email nuk esht ne formatin e duhur",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "Email nuk mund te jete bosh",
-    },
-  ],
-  password: [
-    {
-      type: "NOT_EMPTY",
-      error: "Password nuk mund te jete bosh",
-    },
-  ],
-  repeatPassword: [
-    {
-      type: "NOT_EMPTY",
-      error: "Password nuk mund te jete bosh",
-    },
-  ],
+  email: commonFieldRules.email,
+  password: commonFieldRules.password,
+  repeatPassword: [],
 };
 
 export const RegisterForm = () => {
@@ -120,7 +102,9 @@ export const RegisterForm = () => {
 
     loadingOverlay.close();
 
-    if (jsonData.status !== 200) {
+    if (jsonData.data?.error === EMAIL_VERIFICATION_MESSAGE) {
+      window.location.href = EMAIL_VERIFICATION_REDIRECT + jsonData.data?.id;
+    } else if (jsonData.status !== 200) {
       if (jsonData.field) {
         formHook.changeFieldValue({
           name: jsonData.field as keyof typeof formFields,
@@ -130,7 +114,7 @@ export const RegisterForm = () => {
       }
       alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
-      window.location.href = "/";
+      window.location.href = ACCOUNT_REDIRECT;
     }
   };
 
@@ -197,7 +181,7 @@ export const RegisterForm = () => {
                 if (isPasswordValid()) {
                   return;
                 } else {
-                  return [...formData.repeatPassword.state.errors, "Fjalëkalimi nuk eshte i njejte"];
+                  return [...formData.repeatPassword.state.errors, "form.error.repeatPassword.notCorrect"];
                 }
               })()}
             />
@@ -232,6 +216,24 @@ export const RegisterForm = () => {
               justifyContent: "center",
             }}
           >
+            <div>
+              <div>
+                {t("account.register.haveAccount")}{" "}
+                {
+                  <span className="text-primary">
+                    <Link to="/login">{t("account.login.title")}</Link>
+                  </span>
+                }
+              </div>
+            </div>
+          </FormRow>
+          <FormRow
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <div className="flex w-full items-center justify-center">
               <hr className="flex-grow text-primary" />
               <span className="px-2 text-primary font-semibold">{t("account.register.or")}</span>
@@ -251,25 +253,6 @@ export const RegisterForm = () => {
                 window.location.href = "/";
               }}
             />
-          </FormRow>
-
-          <FormRow
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div>
-              <div>
-                {t("account.register.haveAccount")}{" "}
-                {
-                  <span className="text-primary">
-                    <Link to="/login">{t("account.login.title")}</Link>
-                  </span>
-                }
-              </div>
-            </div>
           </FormRow>
         </FormBody>
       </Reveal>

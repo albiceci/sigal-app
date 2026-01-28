@@ -4,11 +4,12 @@ import { useSearchParams } from "react-router-dom";
 
 import { MainMenu } from "../accountPage/mainMenu/mainMenu";
 import { tabType } from "../../pages/accountPage/accountPage";
+import { useTranslation } from "react-i18next";
 
 const FaChevronLeft = React.lazy(() =>
   import("react-icons/fa6").then((module) => ({
     default: module.FaChevronLeft,
-  }))
+  })),
 );
 
 export const AccountContainer = ({
@@ -21,6 +22,7 @@ export const AccountContainer = ({
   children: React.ReactNode;
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { t } = useTranslation();
   return (
     //BottomBar padding
     <div className="w-[100vw] max-w-[100vw] min-h-[650px] h-[100dvh] flex flex-col items-center justify-center bgGradientCustom pb-[50px] lg:pb-0">
@@ -52,7 +54,7 @@ export const AccountContainer = ({
                   </Suspense>
                 </div>
               </div>
-              <div>{tabData.filter((tab) => tab.paramKey === activeTab)[0]?.name}</div>
+              <div>{t(tabData.filter((tab) => tab.paramKey === activeTab)[0]?.name)}</div>
             </div>
           </div>
           <div className="h-auto py-3 my-3 px-5 sm:px-9 overflow-auto">{children}</div>

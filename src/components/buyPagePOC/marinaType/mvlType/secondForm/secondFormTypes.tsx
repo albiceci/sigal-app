@@ -2,6 +2,7 @@
 /////////////////ADD HERE WHEN ADDING NEW FORM FIELD///////////////
 
 import { fieldValidationRules, FormInputs, InputField } from "../../../../ui/form/types";
+import { commonFieldRules } from "../../../../ui/form/validator/commonRules";
 
 export const formFields: FormInputs<{
   email: InputField<"text">;
@@ -31,21 +32,6 @@ export const formFields: FormInputs<{
 
 ///////////VALIDATION RULES/////////////////////////
 export const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
-  email: [
-    {
-      type: "REGEX",
-      value: /\w+@\w+/g,
-      error: "form.error.email.wrongFormat",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "form.error.email.notEmpty",
-    },
-  ],
-  phone: [
-    {
-      type: "NOT_EMPTY",
-      error: "form.error.phone.notEmpty",
-    },
-  ],
+  email: commonFieldRules.email,
+  phone: commonFieldRules.phone,
 };

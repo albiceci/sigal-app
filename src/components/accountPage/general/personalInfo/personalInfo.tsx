@@ -11,19 +11,21 @@ import { SelectInput } from "../../../ui/form/inputs/selectInput/selectInput";
 import { Button } from "../../../ui/button/button";
 import { useForm } from "../../../ui/form/useForm";
 import { getErrorMessage } from "../../../../helper/getErrorMessage";
+import { commonFieldRules } from "../../../ui/form/validator/commonRules";
+import { useTranslation } from "react-i18next";
 
 export const formFields: FormInputs<{
   name: InputField<"text">;
   surname: InputField<"text">;
   birthday: InputField<"text">;
-  taxNumber: InputField<"text">;
   gender: InputField<"text">;
-  phoneNumber: InputField<"text">;
+  taxNumber: InputField<"text">;
   email: InputField<"text">;
+  phone: InputField<"text">;
 }> = {
   name: {
     name: "name",
-    placeholder: "Emri",
+    placeholder: "form.placeholder.name",
     type: "text",
     value: "",
     state: {
@@ -33,7 +35,7 @@ export const formFields: FormInputs<{
   },
   surname: {
     name: "surname",
-    placeholder: "Mbiemri",
+    placeholder: "form.placeholder.surname",
     type: "text",
     value: "",
     state: {
@@ -43,17 +45,7 @@ export const formFields: FormInputs<{
   },
   birthday: {
     name: "birthday",
-    placeholder: "Datelindja",
-    type: "text",
-    value: "",
-    state: {
-      isValid: false,
-      errors: [],
-    },
-  },
-  taxNumber: {
-    name: "taxNumber",
-    placeholder: "Nr. personal",
+    placeholder: "form.placeholder.birthday",
     type: "text",
     value: "",
     state: {
@@ -63,7 +55,7 @@ export const formFields: FormInputs<{
   },
   gender: {
     name: "gender",
-    placeholder: "Gjinia",
+    placeholder: "form.placeholder.gender",
     type: "text",
     value: "",
     state: {
@@ -71,9 +63,9 @@ export const formFields: FormInputs<{
       errors: [],
     },
   },
-  phoneNumber: {
-    name: "phoneNumber",
-    placeholder: "Nr. i telefonit",
+  taxNumber: {
+    name: "taxNumber",
+    placeholder: "form.placeholder.taxNumber",
     type: "text",
     value: "",
     state: {
@@ -83,7 +75,17 @@ export const formFields: FormInputs<{
   },
   email: {
     name: "email",
-    placeholder: "Email",
+    placeholder: "form.placeholder.email",
+    type: "text",
+    value: "",
+    state: {
+      isValid: false,
+      errors: [],
+    },
+  },
+  phone: {
+    name: "phone",
+    placeholder: "form.placeholder.phone",
     type: "text",
     value: "",
     state: {
@@ -94,76 +96,18 @@ export const formFields: FormInputs<{
 };
 
 const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
-  name: [
-    {
-      type: "REGEX",
-      value: /^.{2}/g,
-      error: "Emri duhet te kete me shume se 2 karaktere",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "Emri nuk mund te jete bosh",
-    },
-  ],
-  surname: [
-    {
-      type: "REGEX",
-      value: /^.{2}/g,
-      error: "Mbiemri duhet te kete me shume se 2 karaktere",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "Mbiemri nuk mund te jete bosh",
-    },
-  ],
-  birthday: [
-    {
-      type: "NOT_EMPTY",
-      error: "Datelindja nuk mund te jete bosh",
-    },
-  ],
-  taxNumber: [
-    {
-      type: "REGEX",
-      value: /[A-Z]\d{8}[A-Z]/g,
-      error: "Nr. personal nuk esht ne formatin e duhur",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "Nr. personal nuk mund te jete bosh",
-    },
-  ],
-  gender: [
-    {
-      type: "NOT_EMPTY",
-      error: "Gjinia nuk mund te jete bosh",
-    },
-  ],
-  phoneNumber: [
-    {
-      type: "REGEX",
-      value: /\d+/g,
-      error: "Nr. i telefonit duhet te permbaje vetem numra",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "Nr. i telefonit nuk mund te jete bosh",
-    },
-  ],
-  email: [
-    {
-      type: "REGEX",
-      value: /\w+@\w+/g,
-      error: "Email nuk esht ne formatin e duhur",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "Email nuk mund te jete bosh",
-    },
-  ],
+  name: commonFieldRules.name,
+  surname: commonFieldRules.surname,
+  birthday: commonFieldRules.birthday,
+  gender: commonFieldRules.gender,
+  taxNumber: commonFieldRules.taxNumber,
+  email: commonFieldRules.email,
+  phone: commonFieldRules.phone,
 };
 
 export function PersonalInfo() {
+  const { t } = useTranslation();
+
   const [formData, setFormData] = useState(formFields);
   const [isChanged, setIsChanged] = useState(false);
 
@@ -212,9 +156,9 @@ export function PersonalInfo() {
       Object.keys(jsonData.data).forEach((key) => {
         if (key === "birthday") {
           const date = new Date(jsonData.data[key]);
-          const year = date.getFullYear();
-          const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-indexed
-          const day = date.getDate().toString().padStart(2, "0");
+          const year = date.getUTCFullYear();
+          const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Months are 0-indexed
+          const day = date.getUTCDate().toString().padStart(2, "0");
           const formattedDate = `${year}-${month}-${day}`;
           updateForm(key, formattedDate, true);
         } else if (Object.keys(formFields).includes(key)) {
@@ -231,7 +175,7 @@ export function PersonalInfo() {
       gender: formData.gender.value,
       birthday: formData.birthday.value,
       taxNumber: formData.taxNumber.value,
-      phoneNumber: formData.phoneNumber.value,
+      phone: formData.phone.value,
       email: formData.email.value,
     };
 
@@ -266,7 +210,7 @@ export function PersonalInfo() {
     <div>
       {loadingOverlay.render}
       {alerter.render}
-      <div className="font-semibold text-lg text-presetgray">Informacioni personal</div>
+      <div className="font-semibold text-lg text-presetgray">{t("account.general.personalInfo.title")}</div>
       <div className="font-medium text-presetgray flex items-center justify-center w-fit gap-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -282,7 +226,7 @@ export function PersonalInfo() {
           <path d="M12 16v-4"></path>
           <path d="M12 8h.01"></path>
         </svg>
-        <span className="leading-5">Sigurohuni qe informacioni eshte i sakte.</span>
+        <span className="leading-5">{t("account.general.personalInfo.disclaimer")}</span>
       </div>
       <div className="px-3">
         <FormBody>
@@ -344,14 +288,14 @@ export function PersonalInfo() {
               errors={formData.taxNumber.state.errors}
             />
             <TextInput
-              name={formFields.phoneNumber.name}
-              value={formData.phoneNumber.value}
-              placeholder={formData.phoneNumber.placeholder as string}
-              isValid={formData.phoneNumber.state.isValid}
+              name={formFields.phone.name}
+              value={formData.phone.value}
+              placeholder={formData.phone.placeholder as string}
+              isValid={formData.phone.state.isValid}
               onChange={(e) => {
                 handleChange(e);
               }}
-              errors={formData.phoneNumber.state.errors}
+              errors={formData.phone.state.errors}
             />
           </FormRow>
           <FormRow>
@@ -383,7 +327,7 @@ export function PersonalInfo() {
                   }
                 }}
               >
-                Save
+                {t("account.general.personalInfo.submit")}
               </Button>
             </div>
           </FormRow>

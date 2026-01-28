@@ -14,7 +14,7 @@ const PERSONAL_INFO_MAP: Record<string, string> = {
   gender: "gender",
   name: "name",
   surname: "surname",
-  phoneNumber: "phone",
+  phone: "phone",
   taxNumber: "taxNumber",
 };
 
@@ -61,9 +61,9 @@ export const useAccountDataSharing = ({
         let value;
         if (field === "birthday") {
           const date = new Date(personalInfo[field]);
-          const year = date.getFullYear();
-          const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-indexed
-          const day = date.getDate().toString().padStart(2, "0");
+          const year = date.getUTCFullYear();
+          const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Months are 0-indexed
+          const day = date.getUTCDate().toString().padStart(2, "0");
           value = `${year}-${month}-${day}`;
         } else {
           value = personalInfo[field];

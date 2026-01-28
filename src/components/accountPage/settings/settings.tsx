@@ -1,20 +1,16 @@
-import { LinkAccount } from "./linkAccount/linkAccount";
-import { PersonalInfo } from "./personalInfo/personalInfo";
+import { ChangePassword } from "./changePassword/changePassword";
 
 const SectionContainer = ({ children }: { children: JSX.Element }) => {
   return <div className="bg-white rounded-lg px-5 sm:px-7 py-5">{children}</div>;
 };
 
-export function General() {
+export function Settings() {
   return (
     <>
       <div className="flex gap-4 flex-col lg:flex-row">
         <div className="flex flex-col gap-4 flex-grow">
           <SectionContainer>
-            <PersonalInfo />
-          </SectionContainer>
-          <SectionContainer>
-            <LinkAccount />
+            <ChangePassword />
           </SectionContainer>
         </div>
         {/* <div>

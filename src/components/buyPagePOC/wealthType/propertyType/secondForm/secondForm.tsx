@@ -12,6 +12,7 @@ import { DateInput } from "../../../../ui/form/inputs/dateInput/dateInput";
 import { SelectInput } from "../../../../ui/form/inputs/selectInput/selectInput";
 import { PRODUCT_DATA_TYPE } from "../../../formConstants";
 import { FormDivider } from "../../../../ui/form/formContainers/formDivider";
+import { getMinDateInLocalTime } from "../../../../../helper/getMinimumDate";
 
 const SecondForm = forwardRef(
   (
@@ -40,19 +41,22 @@ const SecondForm = forwardRef(
     }));
 
     const setDates = (dateDifference: number) => {
-      const now = new Date();
-      now.setDate(now.getDate() + dateDifference);
-
-      const begDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      const date = getMinDateInLocalTime({
+        offset: dateDifference,
+      }) as string;
 
       formHook.changeFieldValue({
         name: "begDate",
-        value: begDate,
+        value: getMinDateInLocalTime({
+          offset: dateDifference,
+        }) as string,
         showErrors: true,
       });
 
-      now.setFullYear(now.getFullYear() + 1);
-      const endDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      const now = new Date(date);
+
+      now.setUTCFullYear(now.getUTCFullYear() + 1);
+      const endDate = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}-${String(now.getUTCDate()).padStart(2, "0")}`;
 
       formHook.changeFieldValue({
         name: "endDate",

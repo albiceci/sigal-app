@@ -2,6 +2,7 @@
 /////////////////ADD HERE WHEN ADDING NEW FORM FIELD///////////////
 
 import { fieldValidationRules, FormInputs, InputField } from "../../../../ui/form/types";
+import { commonFieldRules } from "../../../../ui/form/validator/commonRules";
 
 export const formFields: FormInputs<{
   name: InputField<"text">;
@@ -109,68 +110,18 @@ export const formFields: FormInputs<{
 
 ///////////VALIDATION RULES/////////////////////////
 export const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
-  name: [
-    {
-      type: "REGEX",
-      value: /^.{2}/g,
-      error: "form.error.name.moreThan2Character",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "form.error.name.notEmpty",
-    },
-  ],
-  surname: [
-    {
-      type: "REGEX",
-      value: /^.{2}/g,
-      error: "form.error.surname.moreThan2Character",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "form.error.surname.notEmpty",
-    },
-  ],
-  birthday: [
-    {
-      type: "NOT_EMPTY",
-      error: "form.error.birthday.notEmpty",
-    },
-  ],
-  gender: [
-    {
-      type: "NOT_EMPTY",
-      error: "form.error.gender.notEmpty",
-    },
-  ],
+  name: commonFieldRules.name,
+  surname: commonFieldRules.surname,
+  birthday: commonFieldRules.birthday,
+  gender: commonFieldRules.gender,
   taxNumber: [
     {
       type: "NOT_EMPTY",
       error: "form.error.taxNumber.notEmpty",
     },
-    {
-      type: "REGEX",
-      value: /[A-Z]\d{8}[A-Z]/g,
-      error: "form.error.taxNumber.wrongFormat",
-    },
   ],
-  email: [
-    {
-      type: "REGEX",
-      value: /\w+@\w+/g,
-      error: "form.error.email.wrongFormat",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "form.error.email.notEmpty",
-    },
-  ],
-  phone: [
-    {
-      type: "NOT_EMPTY",
-      error: "form.error.phone.notEmpty",
-    },
-  ],
+  email: commonFieldRules.email,
+  phone: commonFieldRules.phone,
   isOwnerDriver: [],
   metadata: [],
 };

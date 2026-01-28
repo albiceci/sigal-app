@@ -29,7 +29,7 @@ export type PRODUCT_SITE_ID =
   | "ANTITUMOR"
   | "ACCIDENT"
   | "MVL"
-  | "CASCO"
+  //| "CASCO"
   | "MINICASCO"
   | "MINICASCO_BUNDLE"
   | "PAYMENT";
@@ -70,6 +70,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     paramKey: "property",
     name: "product.property.name",
     image: <img className="h-full" src={fire} alt="" />,
+    moreInfoText: "product.property.moreInfo",
     moreInfo: "/wealth/property#packages",
   },
   TRAVELAL: {
@@ -80,6 +81,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     categoryId: "health",
     paramKey: "travelAl",
     name: "product.travelAl.name",
+    moreInfoText: "product.travelAl.moreInfo",
     image: <img className="h-full" src={travel} alt="" />,
   },
   TRAVEL: {
@@ -90,6 +92,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     categoryId: "health",
     paramKey: "travel",
     name: "product.travel.name",
+    moreInfoText: "product.travel.moreInfo",
     image: <img className="h-full" src={travel} alt="" />,
   },
   PRIVATEHEALTH: {
@@ -100,6 +103,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     categoryId: "health",
     paramKey: "private_health",
     name: "product.privateHealth.name",
+    moreInfoText: "product.privateHealth.moreInfo",
     image: <img className="h-full" src={health} alt="" />,
   },
   TELEHEALTH: {
@@ -110,6 +114,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     categoryId: "health",
     paramKey: "tele_health",
     name: "product.teleHealth.name",
+    moreInfoText: "product.teleHealth.moreInfo",
     image: <img className="h-full" src={teleheath} alt="" />,
   },
   ANTITUMOR: {
@@ -120,6 +125,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     categoryId: "health",
     paramKey: "antitumor",
     name: "product.antiTumor.name",
+    moreInfoText: "product.antiTumor.moreInfo",
     image: <img className="h-full" src={antitumor} alt="" />,
   },
   ACCIDENT: {
@@ -130,6 +136,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     categoryId: "health",
     paramKey: "accident",
     name: "product.accident.name",
+    moreInfoText: "product.accident.moreInfo",
     image: <img className="h-full" src={accident} alt="" />,
   },
   TPL: {
@@ -154,16 +161,16 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     name: "product.tpl.name",
     image: <img className="h-full" src={tpl} alt="" />,
   },
-  CASCO: {
-    productId: "00000000-8af4-4ae2-8620-c20298432460",
-    productSiteId: "CASCO",
-    type: "product",
-    category: "car",
-    categoryId: "car",
-    paramKey: "casco",
-    name: "product.casco.name",
-    image: <img className="h-full" src={casco} alt="" />,
-  },
+  // CASCO: {
+  //   productId: "00000000-8af4-4ae2-8620-c20298432460",
+  //   productSiteId: "CASCO",
+  //   type: "product",
+  //   category: "car",
+  //   categoryId: "car",
+  //   paramKey: "casco",
+  //   name: "product.casco.name",
+  //   image: <img className="h-full" src={casco} alt="" />,
+  // },
   MINICASCO: {
     productId: "00000000-a495-ed11-bd0a-00505600b36e",
     productSiteId: "MINICASCO",
@@ -172,6 +179,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     categoryId: "car",
     paramKey: "minicasco",
     name: "product.minicasco.name",
+    moreInfoText: "product.minicasco.moreInfo",
     image: <img className="h-full" src={minicasco} alt="" />,
   },
   MINICASCO_BUNDLE: {
@@ -192,6 +200,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     categoryId: "car",
     paramKey: "greencard",
     name: "product.greencard.name",
+    moreInfoText: "product.greencard.moreInfo",
     image: <img className="h-full" src={greencard} alt="" />,
   },
   AUTOSOS: {
@@ -202,6 +211,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     categoryId: "car",
     paramKey: "autosos",
     name: "product.autosos.name",
+    moreInfoText: "product.autosos.moreInfo",
     image: <img className="h-full" src={autosos} alt="" />,
     moreInfo: "/car/autosos",
   },
@@ -235,6 +245,7 @@ export const PRODUCT_INFO: Record<PRODUCT_SITE_ID, PRODUCT_INFO_TYPE> = {
     categoryId: "marina",
     paramKey: "mvl",
     name: "product.mvl.name",
+    moreInfoText: "product.mvl.moreInfo",
     image: <img className="h-full" src={mvl} alt="" />,
   },
 };

@@ -112,13 +112,13 @@ const infoSVG = (
 );
 
 const LanguageSelectorPopUp = ({ onClose, onSubmit }: { onClose: () => void; onSubmit: (lang: string) => void }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const currentLanguage = i18n.language;
 
   const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage);
   return (
     <PopUp
-      title="Select language"
+      title={t("languageSelector.title")}
       onClose={onClose}
       bottomSection={
         <div className="w-full flex items-center justify-center">
@@ -131,7 +131,7 @@ const LanguageSelectorPopUp = ({ onClose, onSubmit }: { onClose: () => void; onS
                 onClose();
               }}
             >
-              Save
+              {t("languageSelector.submit")}
             </Button>
           </div>
         </div>
@@ -140,7 +140,7 @@ const LanguageSelectorPopUp = ({ onClose, onSubmit }: { onClose: () => void; onS
       <div className="py-6 flex flex-col gap-3">
         <div>
           <SelectInput
-            placeholder={"Language"}
+            placeholder={"form.placeholder.language"}
             name={"language"}
             value={selectedLanguage}
             isValid={true}
@@ -158,11 +158,9 @@ const LanguageSelectorPopUp = ({ onClose, onSubmit }: { onClose: () => void; onS
         <div className="flex flex-col gap-3 border rounded-lg px-6 py-6">
           <div className="flex items-center gap-3">
             <div className="w-5 text-primary">{infoSVG}</div>
-            <span className="text-presetgray font-bold">The translations are for convenience only</span>
+            <span className="text-presetgray font-bold">{t("languageSelector.disclaimer.title")}</span>
           </div>
-          <span className="text-gray-500 font-medium">
-            Sigal IG does not assume warranty for errors or omissions based on the provided translations.
-          </span>
+          <span className="text-gray-500 font-medium">{t("languageSelector.disclaimer.description")}</span>
         </div>
       </div>
     </PopUp>

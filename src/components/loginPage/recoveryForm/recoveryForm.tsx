@@ -14,6 +14,7 @@ import { Button } from "../../ui/button/button";
 import { useForm } from "../../ui/form/useForm";
 import { useTranslation } from "react-i18next";
 import { getErrorMessage } from "../../../helper/getErrorMessage";
+import { commonFieldRules } from "../../ui/form/validator/commonRules";
 
 export const formFields: FormInputs<{
   email: InputField<"text">;
@@ -31,17 +32,7 @@ export const formFields: FormInputs<{
 };
 
 const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
-  email: [
-    {
-      type: "REGEX",
-      value: /\w+@\w+/g,
-      error: "Email nuk esht ne formatin e duhur",
-    },
-    {
-      type: "NOT_EMPTY",
-      error: "Email nuk mund te jete bosh",
-    },
-  ],
+  email: commonFieldRules.email,
 };
 
 export const RecoveryForm = () => {

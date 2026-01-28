@@ -15,6 +15,7 @@ import option2Selected from "./option2Selected.svg";
 import { Premium } from "../../../premium/premium";
 import { travelALContext } from "../travelALContext";
 import { PackageList } from "../../../packages/packageList";
+import { getMinDateInLocalTime } from "../../../../../helper/getMinimumDate";
 
 const packageOptionsData: {
   name: string;
@@ -79,23 +80,9 @@ const SecondForm = forwardRef(
                 }}
                 errors={formData.begDate.state.errors}
                 selfState={true}
-                min={(() => {
-                  if (
-                    props.product.config &&
-                    props.product.config.beginDate &&
-                    props.product.config.beginDate.minValue !== undefined
-                  ) {
-                    const currentDate = new Date();
-
-                    currentDate.setDate(currentDate.getDate() + props.product.config.beginDate.minValue);
-
-                    return `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
-                      2,
-                      "0",
-                    )}-${String(currentDate.getDate()).padStart(2, "0")}`;
-                  }
-                  return undefined;
-                })()}
+                min={getMinDateInLocalTime({
+                  offset: props.product.config?.beginDate?.minValue,
+                })}
               />
               <DateInput
                 name={formFields.endDate.name}
@@ -107,19 +94,9 @@ const SecondForm = forwardRef(
                 }}
                 errors={formData.endDate.state.errors}
                 selfState={true}
-                min={(() => {
-                  if (formData.begDate.value) {
-                    const currentDate = new Date(formData.begDate.value);
-
-                    currentDate.setDate(currentDate.getDate() + 1);
-
-                    return `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
-                      2,
-                      "0",
-                    )}-${String(currentDate.getDate()).padStart(2, "0")}`;
-                  }
-                  return undefined;
-                })()}
+                min={getMinDateInLocalTime({
+                  startDate: formData.begDate.value,
+                })}
               />
             </FormRow>
             <FormRow>

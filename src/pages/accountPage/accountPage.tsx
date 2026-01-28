@@ -10,38 +10,38 @@ import { General } from "../../components/accountPage/general/general";
 const FaUser = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
     default: module.FaUser,
-  }))
+  })),
 );
 const FaCubes = React.lazy(() =>
   import("react-icons/fa").then((module) => ({
     default: module.FaCubes,
-  }))
-);
-const BsCreditCard2FrontFill = React.lazy(() =>
-  import("react-icons/bs").then((module) => ({
-    default: module.BsCreditCard2FrontFill,
-  }))
+  })),
 );
 const IoMdSettings = React.lazy(() =>
   import("react-icons/io").then((module) => ({
     default: module.IoMdSettings,
-  }))
+  })),
 );
 
 const Policies = React.lazy(() =>
   import("../../components/accountPage/policies/policies").then((module) => ({
     default: module.Policies,
-  }))
+  })),
 );
 const Claims = React.lazy(() =>
   import("../../components/accountPage/claims/claims").then((module) => ({
     default: module.Claims,
-  }))
+  })),
+);
+const Settings = React.lazy(() =>
+  import("../../components/accountPage/settings/settings").then((module) => ({
+    default: module.Settings,
+  })),
 );
 const IoDocumentText = React.lazy(() =>
   import("react-icons/io5").then((module) => ({
     default: module.IoDocumentText,
-  }))
+  })),
 );
 
 export type tabType = {
@@ -52,7 +52,7 @@ export type tabType = {
 
 const tabData: tabType[] = [
   {
-    name: "Profili im",
+    name: "account.nav.myProfile",
     paramKey: "general",
     icon: (
       <div className="mb-1">
@@ -63,7 +63,7 @@ const tabData: tabType[] = [
     ),
   },
   {
-    name: "Sigurimet e mia",
+    name: "account.nav.myInsurance",
     paramKey: "policies",
     icon: (
       <div className="">
@@ -74,7 +74,7 @@ const tabData: tabType[] = [
     ),
   },
   {
-    name: "Raportimet e mia",
+    name: "account.nav.myClaims",
     paramKey: "claims",
     icon: (
       <div className="">
@@ -96,7 +96,7 @@ const tabData: tabType[] = [
   //   ),
   // },
   {
-    name: "Cilësimet",
+    name: "account.nav.settings",
     paramKey: "settings",
     icon: (
       <div className="">
@@ -128,6 +128,12 @@ function renderSwitch(param: string | null) {
       return (
         <Suspense fallback={<div style={{ height: "100%", width: "100%" }}></div>}>
           <General />
+        </Suspense>
+      );
+    case "settings":
+      return (
+        <Suspense fallback={<div style={{ height: "100%", width: "100%" }}></div>}>
+          <Settings />
         </Suspense>
       );
     case "bundle":

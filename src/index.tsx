@@ -19,6 +19,7 @@ import { recoveryRoutes } from "./pages/recoveryPage/recovery.routes";
 import { buyRoutes } from "./pages/buyPage/boy.routes";
 import { accountRoutes } from "./pages/accountPage/account.routes";
 import { fileClaimRoutes } from "./pages/fileClaimPage/fileClaim.routes";
+import { emailVerificationRoutes } from "./pages/emailVerificationPage/emailVerification.routes";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
   ...marinaRoutes,
   ...registerRoutes,
   ...recoveryRoutes,
+  ...emailVerificationRoutes,
   ...passwordChangeRoutes,
   ...buyRoutes,
   ...accountRoutes,
@@ -43,7 +45,8 @@ root.render(
     <SessionContextProvider>
       <RouterProvider router={router} />
     </SessionContextProvider>
-  </React.StrictMode>
+    ,
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

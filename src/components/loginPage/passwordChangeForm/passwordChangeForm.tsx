@@ -13,6 +13,8 @@ import { FormDisclaimer } from "../../ui/form/formContainers/formDisclaimer";
 import { Button } from "../../ui/button/button";
 import { useForm } from "../../ui/form/useForm";
 import { getErrorMessage } from "../../../helper/getErrorMessage";
+import { commonFieldRules } from "../../ui/form/validator/commonRules";
+import { useTranslation } from "react-i18next";
 
 export const formFields: FormInputs<{
   password: InputField<"text">;
@@ -41,29 +43,15 @@ export const formFields: FormInputs<{
 };
 
 const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
-  password: [
-    {
-      type: "NOT_EMPTY",
-      error: "Password nuk mund te jete bosh",
-    },
-  ],
-  repeatPassword: [
-    {
-      type: "NOT_EMPTY",
-      error: "Password nuk mund te jete bosh",
-    },
-    {
-      type: "SAME_AS",
-      value: "password",
-      error: "Password doesn't match",
-    },
-  ],
+  password: commonFieldRules.password,
+  repeatPassword: [],
 };
 
 export const PasswordChangeForm = () => {
   const [formData, setFormData] = useState(formFields);
-  const [isValid, setIsValid] = useState(false);
   const [isActive, setIsActive] = useState(false);
+
+  const { t } = useTranslation();
 
   const customFetch = useServer();
   const loadingOverlay = useLoadingOverlay();
@@ -167,9 +155,11 @@ export const PasswordChangeForm = () => {
               justifyContent: "center",
             }}
           >
-            <div className="font-boldFamily text-4xl text-center text-primary pb-4">Change Password</div>
+            <div className="font-boldFamily text-4xl text-center text-primary pb-4">
+              {t("account.passwordChange.title")}
+            </div>
           </FormRow>
-          <FormDisclaimer>Enter your new password</FormDisclaimer>
+          <FormDisclaimer>{t("account.passwordChange.disclaimer")}</FormDisclaimer>
           <FormRow>
             <TextInput
               name={formFields.password.name}
@@ -195,7 +185,7 @@ export const PasswordChangeForm = () => {
                 if (isPasswordValid()) {
                   return;
                 } else {
-                  return [...formData.repeatPassword.state.errors, "Password does not match"];
+                  return [...formData.repeatPassword.state.errors, "form.error.repeatPassword.notCorrect"];
                 }
               })()}
             />
@@ -219,7 +209,7 @@ export const PasswordChangeForm = () => {
                   }
                 }}
               >
-                Confirm
+                {t("account.passwordChange.submit")}
               </Button>
             </div>
           </FormRow>
@@ -232,10 +222,10 @@ export const PasswordChangeForm = () => {
           >
             <div>
               <div>
-                Don't have an account?{" "}
+                {t("account.login.noAccount")}{" "}
                 {
                   <span className="text-primary">
-                    <Link to="/register">Sign up</Link>
+                    <Link to="/register">{t("account.register.title")}</Link>
                   </span>
                 }
               </div>

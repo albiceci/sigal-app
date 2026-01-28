@@ -3,9 +3,9 @@ import { useServer } from "../../../../util/useServer";
 import { useAlerter } from "../../../ui/alerter/useAlerter";
 import { useLoadingOverlay } from "../../../ui/loadingOverlay/loadingOverlay";
 import { IResolveParams, LoginSocialApple, LoginSocialFacebook } from "reactjs-social-login";
-import { useGoogleLogin } from "@react-oauth/google";
 import { LoginSocialGoogle } from "../../../loginPage/socials/LoginSocialGoogle/LoginSocialGoogle";
 import { getErrorMessage } from "../../../../helper/getErrorMessage";
+import { useTranslation } from "react-i18next";
 
 type accountLinksType = {
   google?: boolean;
@@ -14,11 +14,13 @@ type accountLinksType = {
 };
 
 export function LinkAccount() {
+  const { t } = useTranslation();
+
   const [accountLinks, setAccountLinks] = useState<accountLinksType>({});
 
   const customFetch = useServer();
   const loadingOverlay = useLoadingOverlay();
-  const alerter = useAlerter();
+  const { alertMessage, render } = useAlerter();
 
   const onSocialsSuccess = async ({ provider, data }: IResolveParams) => {
     const body = data;
@@ -32,7 +34,7 @@ export function LinkAccount() {
     });
 
     if (jsonData.status !== 200) {
-      alerter.alertMessage(getErrorMessage(jsonData.message));
+      alertMessage(getErrorMessage(jsonData.message));
     } else {
       //alerter.alertMessage({ description: null, message: "Success", type: "error" });
       //window.location.href = "/";
@@ -48,11 +50,11 @@ export function LinkAccount() {
     });
 
     if (jsonData.status !== 200) {
-      alerter.alertMessage(getErrorMessage(jsonData.message));
+      alertMessage(getErrorMessage(jsonData.message));
     } else {
       setAccountLinks(jsonData.data);
     }
-  }, [alerter, customFetch]);
+  }, [alertMessage, customFetch]);
 
   useEffect(() => {
     getAccountLinks();
@@ -60,8 +62,8 @@ export function LinkAccount() {
   return (
     <div>
       {loadingOverlay.render}
-      {alerter.render}
-      <div className="font-semibold text-lg text-presetgray">Llogarite e lidhura</div>
+      {render}
+      <div className="font-semibold text-lg text-presetgray">{t("account.general.linkAccount.title")}</div>
       <div className="px-3 py-2 pt-4">
         <div className="max-w-[300px] flex flex-col gap-2">
           <LoginSocialGoogle
@@ -98,7 +100,9 @@ export function LinkAccount() {
                   />
                 </svg>
               </div>
-              {accountLinks.google ? "Account linked to Google" : "Link Google account"}
+              {accountLinks.google
+                ? t("account.general.linkAccount.linkedToGoogle")
+                : t("account.general.linkAccount.linkGoogle")}
             </div>
           </LoginSocialGoogle>
 
@@ -144,7 +148,9 @@ export function LinkAccount() {
                   </g>
                 </svg>
               </div>
-              {accountLinks.facebook ? "Account linked to Facebook" : "Link Facebook account"}
+              {accountLinks.facebook
+                ? t("account.general.linkAccount.linkedToFacebook")
+                : t("account.general.linkAccount.linkFacebook")}
             </div>
           </LoginSocialFacebook>
           <LoginSocialApple
@@ -182,7 +188,9 @@ export function LinkAccount() {
                   </g>
                 </svg>
               </div>
-              {accountLinks.apple ? "Account linked to Apple" : "Link Apple account"}
+              {accountLinks.apple
+                ? t("account.general.linkAccount.linkedToApple")
+                : t("account.general.linkAccount.linkApple")}
             </div>
           </LoginSocialApple>
         </div>

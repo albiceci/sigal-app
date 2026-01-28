@@ -324,25 +324,25 @@ export const PRODUCT_DATA = {
       },
     },
   },
-  CASCO: {
-    ...PRODUCT_INFO["CASCO"],
-    context: cascoContext,
-    contextProvider: CascoContextProvider,
-    forms: [
-      {
-        id: "305fe687-55a2-4252-a9be-c03d14b8a206",
-        path: "./carType/tplType/firstForm/firstForm",
-        name: "form.car.title",
-        subTitle: "form.car.subTitle",
-      },
-      {
-        id: "fc437083-3388-485a-8b58-1c18913b0379",
-        path: "./carType/tplType/secondForm/secondForm",
-        name: "form.driver.title",
-        subTitle: "form.driver.subTitle",
-      },
-    ],
-  },
+  // CASCO: {
+  //   ...PRODUCT_INFO["CASCO"],
+  //   context: cascoContext,
+  //   contextProvider: CascoContextProvider,
+  //   forms: [
+  //     {
+  //       id: "305fe687-55a2-4252-a9be-c03d14b8a206",
+  //       path: "./carType/tplType/firstForm/firstForm",
+  //       name: "form.car.title",
+  //       subTitle: "form.car.subTitle",
+  //     },
+  //     {
+  //       id: "fc437083-3388-485a-8b58-1c18913b0379",
+  //       path: "./carType/tplType/secondForm/secondForm",
+  //       name: "form.driver.title",
+  //       subTitle: "form.driver.subTitle",
+  //     },
+  //   ],
+  // },
   GREENCARD: {
     ...PRODUCT_INFO["GREENCARD"],
     context: greencardContext,

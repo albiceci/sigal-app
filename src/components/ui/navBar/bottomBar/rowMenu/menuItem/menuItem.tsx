@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 type menuItemProps = {
@@ -15,6 +16,7 @@ type menuItemProps = {
 };
 
 export const MenuItem = ({ itemData, activeKey = null }: menuItemProps) => {
+  const { t } = useTranslation();
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
   return (
     <div className="relative h-full inline-block items-center justify-center">
@@ -23,7 +25,7 @@ export const MenuItem = ({ itemData, activeKey = null }: menuItemProps) => {
           className={`p-[2px] px-5 h-full no-underline text-presetgray text-xs font-semibold transition-colors whitespace-nowrap flex flex-col items-center justify-center text-primary border-b-2 border-b-primary `}
         >
           {itemData.icons.primary}
-          <span>{itemData.name}</span>
+          <span>{t(itemData.name)}</span>
         </div>
       ) : itemData.link ? (
         <Link
@@ -38,7 +40,7 @@ export const MenuItem = ({ itemData, activeKey = null }: menuItemProps) => {
           preventScrollReset={false}
         >
           {isMouseOver ? itemData.icons.primary : itemData.icons.secondary}
-          <span>{itemData.name}</span>
+          <span>{t(itemData.name)}</span>
         </Link>
       ) : (
         <div
@@ -51,7 +53,7 @@ export const MenuItem = ({ itemData, activeKey = null }: menuItemProps) => {
           }}
         >
           {isMouseOver ? itemData.icons.primary : itemData.icons.secondary}
-          <span>{itemData.name}</span>
+          <span>{t(itemData.name)}</span>
         </div>
       )}
     </div>

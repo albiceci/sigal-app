@@ -15,6 +15,7 @@ import { useForm } from "../../ui/form/useForm";
 import { useTranslation } from "react-i18next";
 import React from "react";
 import { getErrorMessage } from "../../../helper/getErrorMessage";
+import { commonFieldRules } from "../../ui/form/validator/commonRules";
 
 export const formFields: FormInputs<{
   email: InputField<"text">;
@@ -43,21 +44,13 @@ export const formFields: FormInputs<{
 };
 
 const fieldsValidationObject: fieldValidationRules<keyof typeof formFields> = {
-  email: [
-    {
-      type: "NOT_EMPTY",
-      error: "Email nuk mund te jete bosh",
-    },
-  ],
-  password: [
-    {
-      type: "NOT_EMPTY",
-      error: "Password nuk mund te jete bosh",
-    },
-  ],
+  email: commonFieldRules.email,
+  password: commonFieldRules.password,
 };
 
-const REDIRECT_URI = window.location.href;
+export const ACCOUNT_REDIRECT = "/account";
+export const EMAIL_VERIFICATION_MESSAGE = "EMAIL_VERIFICATION";
+export const EMAIL_VERIFICATION_REDIRECT = "/email-verification?id=";
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState(formFields);
@@ -100,7 +93,9 @@ export const LoginForm = () => {
 
     loadingOverlay.close();
 
-    if (jsonData.status !== 200) {
+    if (jsonData.data?.error === EMAIL_VERIFICATION_MESSAGE) {
+      window.location.href = EMAIL_VERIFICATION_REDIRECT + jsonData.data?.id;
+    } else if (jsonData.status !== 200) {
       if (jsonData.field) {
         formHook.changeFieldValue({
           name: jsonData.field as keyof typeof formFields,
@@ -108,9 +103,10 @@ export const LoginForm = () => {
           showErrors: true,
         });
       }
+
       alerter.alertMessage(getErrorMessage(jsonData.message));
     } else {
-      window.location.href = "/";
+      window.location.href = ACCOUNT_REDIRECT;
     }
   };
 
@@ -201,6 +197,24 @@ export const LoginForm = () => {
               justifyContent: "center",
             }}
           >
+            <div>
+              <div>
+                {t("account.login.noAccount")}{" "}
+                {
+                  <span className="text-primary">
+                    <Link to="/register">{t("account.register.title")}</Link>
+                  </span>
+                }
+              </div>
+            </div>
+          </FormRow>
+          <FormRow
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <div className="flex w-full items-center justify-center">
               <hr className="flex-grow text-primary" />
               <span className="px-2 text-primary font-semibold">{t("account.login.or")}</span>
@@ -220,24 +234,6 @@ export const LoginForm = () => {
                 window.location.href = "/";
               }}
             />
-          </FormRow>
-          <FormRow
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div>
-              <div>
-                {t("account.login.noAccount")}{" "}
-                {
-                  <span className="text-primary">
-                    <Link to="/register">{t("account.register.title")}</Link>
-                  </span>
-                }
-              </div>
-            </div>
           </FormRow>
         </FormBody>
       </Reveal>

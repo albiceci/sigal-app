@@ -1,0 +1,17 @@
+:80 {
+    encode gzip
+
+    route {
+        # Backend API — absolute priority
+        handle_path /api/* {
+            reverse_proxy backend:3002
+        }
+
+        # Frontend SPA — fallback only
+        handle {
+            root * /srv
+            try_files {path} /index.html
+            file_server
+        }
+    }
+}

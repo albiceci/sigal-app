@@ -18,7 +18,7 @@ function mergeForms(
   form2: typeof secondFormFields,
   form3: typeof carSearchFormFields,
   form4: typeof durationFormFields,
-  form5: typeof additionalPeopleFields
+  form5: typeof additionalPeopleFields,
 ) {
   return { ...form1, ...form2, ...form3, ...form4, ...form5 };
 }
@@ -28,7 +28,7 @@ const combinedFormFields = mergeForms(
   secondFormFields,
   carSearchFormFields,
   durationFormFields,
-  additionalPeopleFields
+  additionalPeopleFields,
 );
 
 const cascoContext = createContext<{
@@ -48,7 +48,7 @@ const CascoContextProvider = ({ children }: { children: JSX.Element }) => {
   const getPremium = async () => {
     const body = {
       data: formData,
-      productSiteId: PRODUCT_INFO.CASCO.productSiteId,
+      //productSiteId: PRODUCT_INFO.CASCO.productSiteId,
     };
 
     loadingOverlay.open("Please wait", "Calculation premium...");

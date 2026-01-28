@@ -3,17 +3,18 @@ import { Link } from "react-router-dom";
 import { MenuSubItem } from "./menuSubItem/menuSubItem";
 import React from "react";
 import { NavBarItem } from "../../../navBarData";
+import { useTranslation } from "react-i18next";
 
 const MdOutlineKeyboardArrowDown = React.lazy(() =>
   import("react-icons/md").then((module) => ({
     default: module.MdOutlineKeyboardArrowDown,
-  }))
+  })),
 );
 
 const MdOutlineKeyboardArrowUp = React.lazy(() =>
   import("react-icons/md").then((module) => ({
     default: module.MdOutlineKeyboardArrowUp,
-  }))
+  })),
 );
 
 type menuItemProps = {
@@ -22,6 +23,7 @@ type menuItemProps = {
 };
 
 export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
+  const { t } = useTranslation();
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
   const [subCatOpen, setSubCatOpen] = useState<boolean>(false);
 
@@ -51,7 +53,7 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
             ) : (
               <></>
             )}
-            <span className="ml-[3px]">{itemData.name}</span>
+            <span className="ml-[3px]">{t(itemData.name)}</span>
           </div>
         ) : itemData.link ? (
           <Link
@@ -73,7 +75,7 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
             ) : (
               <></>
             )}
-            <span className="ml-[3px]">{itemData.name}</span>
+            <span className="ml-[3px]">{t(itemData.name)}</span>
           </Link>
         ) : (
           <div
@@ -94,7 +96,7 @@ export const MenuItem = ({ itemData, activeKey }: menuItemProps) => {
             ) : (
               <></>
             )}
-            <span className="ml-[3px]">{itemData.name}</span>
+            <span className="ml-[3px]">{t(itemData.name)}</span>
           </div>
         )}
         {itemData.subCategories ? (

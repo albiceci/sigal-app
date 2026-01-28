@@ -2,46 +2,57 @@
   "product": {
     "tpl": {
       "name": "TPL",
-      "moreInfo": "SIGAL Insurance Group është një grup rajonal sigurimesh, me 8 kompani sigurimi Jetë dhe Jo-Jetë, Risigurime dhe Fond Pensionesh. SIGAL është kompania e vetme që ofron të gjitha klasat e sigurimit me mbi 50 produkte, me mbi 2,400 punonjës dhe agjentë, dhe mbi 1,200 zyra ku ajo operon dhe zhvillon aktivitetin e saj në 3 shtete: Shqipëri, Kosovë dhe Maqedoninë e Veriut."
+      "moreInfo": "Siguracioni i detyrueshëm i makinës \"TPL\"\n\nSIGAL i ofron të gjithë klientëve të saj të sigurimit të makinës \"TPL\" të shoqëruar me sigurime vullnetare shtesë ose me shërbime të ndryshme.\n\n Në kuadër të ligjit “Për sigurimin e detyrueshëm në sektorin e transportit” çdo automjet që qarkullon brenda territorit të Republikës së Shqipërisë duhet të jetë i pajisur me policën TPL (Sigurimi i Detyrueshëm i Mbajtësit të Mjetit Motorik për Përgjegjësinë Civile ndaj Palëve të Treta). Ky sigurim përfshin mbulimin e shpenzimeve si pasojë e dëmeve materiale, shëndetësore dhe pasurore të shkaktuara ndaj palëve të treta, për shkak të qarkullimit të mjetit motorik të siguruar. "
     },
     "casco": {
       "name": "Kasko"
     },
     "minicasco": {
-      "name": "MiniKasko"
+      "name": "MiniKasko",
+      "moreInfo": "MiniKasko - Sigurimi i vetë mjetit motorik nga përplasja mjet me mjet.\n\nMë shumë mbrojtje për makinën tuaj.\n\nNjë police sigurimi që ju mbulon dëmet në makinën tuaj edhe nëse jeni fajtor në aksident. Por kujdes, nëse ju nuk jeni shkaktar i aksidentit, mos pranoni fajësinë dhe polica e sigurimit do të vazhdojë të jetë e vlefshme duke ju mbrojtur nga aksidente të tjera që mund të ndodhin.\n\nPse të siguroni makinën me MiniKasko tek SIGAL UNIQA?\n\nSiguracioni i detyrueshëm i makinës TPL mbulon dëmet që i shkaktoni një pale tjetër ndërsa MiniKasko mbulon dëmin në makinën tuaj në rast përplasje me mjet tjetër, pavarësisht se kush është fajtori. Prandaj SIGAL UNIQA këshillon gjithmonë të kombinoni sigurimin e detyrueshëm të makinës me sigurimin MiniKasko."
     },
     "greencard": {
-      "name": "Kartoni Jeshil"
+      "name": "Kartoni Jeshil",
+      "moreInfo": "Sigurimi i detyrueshëm i makinës “Karton Jeshil”\n\nUdhëtoni të sigurt kudo në Europë me sigurimin e makinës nga SIGAL\n\nSigurimi i përgjegjësisë ndaj palëve të treta për drejtuesin e mjetit motorik\n\nSiguracioni “Karton Jeshil” është sigurimi i detyrueshëm për të gjithë automjetet e regjistruara në Republikën e Shqipërisë që udhëtojnë jashtë Shqipërisë, në një nga vendet anëtare të Këshillit të Byrove.\n\nPse të siguroni makinën me Karton Jeshil tek SIGAL?\n\nNëse pajiseni me një siguracion “Karton Jeshil” tek SIGAL dhe jeni përfitues në një aksident (një mjet tjeter ju ka shkaktuar deme materiale apo dëme shëndetësore ndaj jush apo pasagjerëve tuaj), atëherë SIGAL ju mbështet me procedurat e dëmshpërblimit me kompaninë përgjegjëse në vendin përkates ku ka ndodhur aksidenti. Kështu, ju kurseni kohën dhe paratë tuaja duke mosangazhuar një avokat në vendin e aksidentit."
     },
     "autosos": {
-      "name": "Autosos"
+      "name": "Autosos",
+      "moreInfo": "Shërbimi SIGAL AutoSOS\n\nMë shërbimin e asistencës rrugore me SIGAL ju udhëtoni pa shqetësime pothuajse në të gjithë Europën.\n\nÇfarë është SIGAL AutoSOS?\n\n▣ SIGAL AutoSOS është shërbimi asistencës rrugore që gjendet pranë jush në rast të pamundësie së mjetit për të lëvizur, qoftë për arsye të defekteve të mjetit apo në rast aksidenti.\n▣ Shërbim i dedikuar 24/7 nga një skuadër profesionistësh për zgjidhjen e problemit tuaj, nëpermjet riparimit në vënd, shërbimit karroatrec si dhe shërbime të tjera për vijimin e udhetimit ose akomodimin e drejtureist të mjetit.\n▣ Në rastin e parë që ju do të keni nevojë për shërbimin e AutoSOS, do telefononi qendrën Call-Center SIGAL, e cila do t'ju asistojë përgjatë gjithë procesit të asistencës rrugore.\n▣ Qendra Call-Center SIGAL është e gatshme në çdo orë të ditës dhe të natës për të bërë të mundur asistimin tuaj deri në zgjidhjen e problemit.\n▣ Shërbimi i asistencës rrugore nga SIGAL AutoSOS ofrohet brënda Shqiperisë, në rajon si dhe në të gjitha vëndet e Europës."
     },
     "border": {
       "name": "Kufitare"
     },
     "property": {
-      "name": "Prona"
+      "name": "Prona",
+      "moreInfo": "Sigurimi i Shtëpisë, Apartamentit\n\nMbroni investimin tuaj më të rëndësishëm: shtëpi, banesë, apartament nga zjarri dhe katastrofat natyrore.\n\nPse të zgjidhni sigurimin e shtëpisë dhe apartamentit tek SIGAL?\n\nSIGAL është kompania më e madhe e sigurimeve në Shqipëri.\nPër më tepër, SIGAL ofron edhe shërbimin e asistencës 24 orë, që do t'ju ndihmojë në rastin e një emergjence. Kjo do t'ju japë një ndjenjë të sigurisë dhe do të reduktojë stresin në rastin e një situatë emergjente."
     },
     "travelAl": {
-      "name": "Xpat Travel"
+      "name": "Xpat Travel",
+      "moreInfo": "Health Insurance Designed for Expats\n\nYou can find here the right health insurance plan that suits your needs\n\nDo I need Expat Health Insurance?\n\nThe cost of doctors’ visits, medicines and medical tests can add up very quickly, especially if you are an expat living in another country and are not covered under the country’s health insurance plan. Being an expat brings along with it, its own set of challenges; your health should not be one. This is where Health Insurance steps in, so that one can have access to the best healthcare without fearing the financial strain. Guaranteeing you and your loved ones, the peace of mind everyone deserves.\n\nInternational Coverage\n\nIf you are an individual who travels frequently, an international policy can provide you with extensive health cover even when you are abroad. You may have travel insurance in place, but bear in mind these policies are designed only for short visits and to cover for emergencies.\n\nAll inclusive\n\nEven if you are eligible for subsidized medical cover, most public healthcare policies are not all-inclusive which means there are gaps in the coverage and certain treatments might not be covered. An expat policy gives you thorough access to the finest healthcare amenities in the country"
     },
     "travel": {
-      "name": "Udhëtimi"
+      "name": "Udhëtimi",
+      "moreInfo": "Sigurimi i Shëndetit në Udhëtim\n\nMbuloni shpenzimet për emergjencat mjekësore jashtë Shqipërisë.\n\nSigurimi i domosdoshëm për të gjithë qytetarët që udhëtojnë jashtë Shqipërisë.\n\nGjatë udhëtimeve për punë, turizëm apo shkollim, kujdesuni që të keni gjthmonë Sigurimin e Shëndetit me vete. Përmes sigurimit SIGAL mbulon shpenzimet për emergjenca mjekësore gjatë udhëtimit (brenda ose jashtë Shqipërisë).\n\nMe Sigurimin e Shëndetit në Udhëtim në SIGAL, udhëton i sigurt kudo në botë\n\nSiguracioni Shëndeti në Udhëtim ndryshon në bazë të shumës së mbulimit, të zonës së udhëtimit dhe të moshës së personit që do të udhëtojë."
     },
     "privateHealth": {
-      "name": "Shëndeti"
+      "name": "Shëndeti",
+      "moreInfo": "Sigurimi i Shëndetit\n\nSigurimi privat i shëndetit është mundësi për mbulimin 100% të kostove financiare që duhet të përballojë çdo individ në rast sëmundje të papritur.\n\nPaketa të personalizuara Sigurim Privat Shëndeti, nga të cilat mund të zgjidhni sigurimin më të përshtatshëm për ju, familjen dhe stafin tuaj.\n\nSIGAL ofron paketa sigurimi individuale/familjare ose grup/korporate, të cilat ofrojnë mbulimin e ekzaminimeve shëndetësore duke filluar nga check up-i rutinë vjetor, trajtimet mjekësore në rast sëmundje, si dhe shpenzimet në rast ndjekje të shtatzanisë në spitalet private brenda dhe jashtë Shqipërisë."
     },
     "teleHealth": {
-      "name": "Tele-Shëndeti"
+      "name": "Tele-Shëndeti",
+      "moreInfo": "SIGAL Insurance Group ka sjellë shërbimin inovator “TeleShëndet” për të qenë pranë klientëve të saj në çdo moment dhe për t'ju dhënë shërbimin e duhur shëndetësor.\n\nPër çdo shqetësim shëndetësor që mund të keni, me Teleshëndet ju mund të komunikoni me mjekët më të mirë dhe në këtë mënyrë ju do të shmangni spitalet dhe nuk do tu bëheni barrë familjareve apo të njohurve tuaj mjekë.\n\nMerreni doktorin me vete kudo!"
     },
     "antiTumor": {
-      "name": "Anti-Tumor"
+      "name": "Anti-Tumor",
+      "moreInfo": "Sigurimi Jetë Plus Cash\n\nNdihma financiare që ju nevojitet në luftën kundër tumorit malinj.\n\nMerrni përfitime në para për trajtimin e tumorit malinj\n\t• Dëmshpërblim në masën e shumës së siguruar në formë të menjëhershme.\n\t• Opinion i dytë mjekësor nga qendrat mjekësore më të specializuara në botë për çdo diagnozë të identifikuar\n\t• Tarifë mujore e përballueshme për këdo\n\nKush mund të sigurohet?\n\t• Çdo person që është rezident në Shqipëri, Kosovë dhe Maqedoninë e Veriut, nga mosha 0-80 vjeç."
     },
     "accident": {
-      "name": "Mbrojtje nga Aksidenti"
+      "name": "Mbrojtje nga Aksidenti",
+      "moreInfo": "Sigurimi nga aksidentet\n\nSigurimi nga Aksidentet mbulon paaftësinë e përkohshme, paaftësinë e përhershme ose humbjen e jetës të siguruarit të shkaktuar nga aksidente të ndryshme të mundshme.\n\nPërballoni situatat urgjente dhe mbuloni shpenzimet e paparashikuara me SIGAL\n\nSigurimi nga aksidentet për Nxënës dhe Studentë\n\nSigurimi nga aksidentet për Sportistët\n\nSigurimi nga aksidentet për Punonjësit\n\nSigurimi vullnetar për Drejtuesit e Mjeteve Motorike"
     },
     "mvl": {
-      "name": "MVL"
+      "name": "MVL",
+      "moreInfo": "Mjetet e vogla lundruese\n\nSigurimi i pergjegjesise ndaj paleve te treta per mjetet e vogla lundruese.\n\t• Ligji nr. 10076 datë 12.02.2009 “Për sigurimin e detyrueshëm në sektorin e transportit”, këtu më poshtë do të quhet shkurtimisht Ligji. Rregullorja e Autoritetit të Mbikqyrjes Financiare miratuar me vendimin nr. 53, datë 25.06.2009 “Për trajtimin e dëmeve që mbulohen nga kontrata e sigurimit të detyrueshëm në sektorin e transportit."
     },
     "payment": {
       "name": "Pagesa"
@@ -49,7 +60,18 @@
   },
   "navigation": {
     "myAccount": {
-      "name": "Llogaria ime"
+      "name": "Llogaria ime",
+      "short": "Llogaria"
+    },
+    "fileClaim": {
+      "name": "Raporto Dem",
+      "short": "Raporto"
+    },
+    "buy": {
+      "name": "Bli"
+    },
+    "home": {
+      "name": "Home"
     }
   },
   "button": {
@@ -61,7 +83,8 @@
       "long": "Shiko cmimet"
     },
     "insure": {
-      "long": "Sigurohu"
+      "long": "Sigurohu",
+      "short": "Cmimet"
     }
   },
   "category": {
@@ -193,6 +216,7 @@
       "noBundlesAvailable": "Nuk ka paketa të tjera për këtë kombinim produktesh"
     },
     "placeholder": {
+      "language": "Gjuha",
       "destination": "Destinacioni",
       "coverageAmountShort": "Masa e mbulimit",
       "coverageAmount": "Shuma e siguruar",
@@ -235,6 +259,8 @@
       "parentPolicyProductId": "Polica shoqëruese",
       "parentPolicySerial": "Nr. Serial",
       "password": "Fjalëkalimi",
+      "oldPassword": "Fjalëkalimi i vjetër",
+      "newPassword": "Fjalëkalimi i ri",
       "repeatPassword": "Përsërit Fjalëkalimin",
       "insuredSum": "Shuma e siguruar",
       "propertyType": "Lloji i pronës",
@@ -245,6 +271,15 @@
       "propertyFileUploads": "Bashkëngjit kopje të kartelës së parsurisë dhe minimumi 3 foto të objektit"
     },
     "error": {
+      "password": {
+        "notEmpty": "Fjalëkalimi nuk mund të jetë bosh.",
+        "upperCase": "Fjalëkalimi duhet të përmbajë të paktën 1 shkronjë kapitale.",
+        "number": "Fjalëkalimi duhet të përmbajë të paktën 1 numër.",
+        "length": "Fjalëkalimi duhet të përmbajë të paktën 6 karaktere."
+      },
+      "repeatPassword": {
+        "notCorrect": "Fjalëkalimi nuk është i njëjtë."
+      },
       "insuredSum": {
         "notEmpty": "Shuma e siguruar nuk mund të jetë bosh.",
         "wrongFormat": "Shuma e siguruar duhet të permbajë vetëm numra.",
@@ -528,7 +563,10 @@
       "failed": "Dështoi",
       "waiting_payment": "Ne pritje të pagesës",
       "cancelled": "Anulluar",
-      "partial_failure": "Dështoi pjesërisht"
+      "partial_failure": "Dështoi pjesërisht",
+      "expired": "I skaduar",
+      "not_approved": "Nuk u aprovua",
+      "data_processing_failed": "Dështoi"
     },
     "section": {
       "products": "Produktet tuaja",
@@ -568,6 +606,62 @@
       "disclaimer": "Humbët fjalëkalimin? Ju lutemi shkruani emrin e përdoruesit ose email-in. Do të merrni një link për të krijuar një fjalëkalim të ri.",
       "send": "Dërgo",
       "sent": "Emaili u dërgua"
+    },
+    "passwordChange": {
+      "title": "Ndrysho Fjalëkalimin",
+      "disclaimer": "Vendosni fjalëkalimin e ri.",
+      "submit": "Ruaj"
+    },
+    "emailVerification": {
+      "title": "Verifikimi i Emailit",
+      "disclaimer1": "Në mënyrë që të krijoni nje llogari ju duhet të verifikoni emailin tuaj.",
+      "disclaimer2": "Nje email sapo u dërgua në adresen tuaj me udhezime për të aktivizuar llogarin tuaj.",
+      "emailNotSent": "Emaili nuk u dërgua?",
+      "sendAgain": "Dërgo perseri",
+      "sent": "U dërgua"
+    },
+    "settings": {
+      "changePassword": {
+        "title": "Ndrysho Fjalëkalimin",
+        "title2": "Vendos Fjalëkalimin",
+        "disclaimer": "Sigurohu që fjalëkalimi i vjetër është i saktë.",
+        "submit": "Ruaj"
+      }
+    },
+    "general": {
+      "personalInfo": {
+        "title": "Informacioni Personal",
+        "disclaimer": "Sigurohu që informacioni është i saktë.",
+        "submit": "Ruaj"
+      },
+      "linkAccount": {
+        "title": "Llogaritë e lidhura",
+        "linkGoogle": "Lidh me Google",
+        "linkedToGoogle": "Lidhur me Google",
+        "linkFacebook": "Lidh me Facebook",
+        "linkedToFacebook": "Lidhur me Facebook",
+        "linkApple": "Lidh me Apple",
+        "linkedToApple": "Lidhur me Apple"
+      }
+    },
+    "mainMenu": {
+      "noPhone": "Nuk u gjet një numër telefoni",
+      "hello": "Përshëndetje",
+      "logout": "Dil"
+    },
+    "nav": {
+      "myProfile": "Profili im",
+      "myInsurance": "Sigurimet e mia",
+      "myClaims": "Raportimet e mia",
+      "settings": "Cilesimet"
+    }
+  },
+  "languageSelector": {
+    "title": "Zgjidh gjuhen",
+    "submit": "Ruaj",
+    "disclaimer": {
+      "title": "Përkthimet janë vetëm për lehtësi",
+      "description": "Sigal IG nuk merr përsipër garanci për gabime bazuar në përkthimet e ofruara."
     }
   },
   "error": {
@@ -575,6 +669,18 @@
       "notApproved": {
         "message": "Pagesa juaj nuk u aprovua.",
         "description": "Ju lutem provoni përsëri ose kontaktoni supportin për më shumë informacion."
+      },
+      "responseNotFound": {
+        "message": "Dicka shkoi keq.",
+        "description": "Ju lutem kontaktoni supportin për më shumë informacion."
+      },
+      "hashError": {
+        "message": "Dicka shkoi keq.",
+        "description": "Ju lutem kontaktoni supportin për më shumë informacion."
+      },
+      "oidMissmatch": {
+        "message": "Dicka shkoi keq.",
+        "description": "Ju lutem kontaktoni supportin për më shumë informacion."
       }
     },
     "insuredSum": {
@@ -619,10 +725,24 @@
         "description": ""
       }
     },
+    "emailVerification": {
+      "notFound": {
+        "message": "Seanca e verifikimit te emailit nuk u gjet.",
+        "description": "Ju lutem provoni persëri."
+      },
+      "expired": {
+        "message": "Kjo seancë e verifikimit te emailit ka perfunduar.",
+        "description": "Ju lutem krijoni një seancë tjetër duke hyrë në llogari."
+      },
+      "idNotCorrect": {
+        "message": "Kjo URL nuk është e saktë.",
+        "description": "Ju lutem provoni persëri."
+      }
+    },
     "recovery": {
       "notFound": {
         "message": "Seanca e ndryshimit te passwordit nuk u gjet.",
-        "description": "Ju lutem provoni perseri."
+        "description": "Ju lutem provoni persëri."
       },
       "expired": {
         "message": "Kjo seancë e ndryshimit te passwordit ka perfunduar.",

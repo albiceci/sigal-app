@@ -13,6 +13,7 @@ import { useAlerter } from "../../ui/alerter/useAlerter";
 import { useForm } from "../../ui/form/useForm";
 import { useTranslation } from "react-i18next";
 import { getErrorMessage } from "../../../helper/getErrorMessage";
+import { getMinDateInLocalTime } from "../../../helper/getMinimumDate";
 
 export const useDurationForm = ({
   product,
@@ -125,12 +126,12 @@ export const useDurationForm = ({
         (x) => x.id === formData.durationId.value,
       )[0];
 
-      begDate.setDate(begDate.getDate() + selectedDuration.days);
-      begDate.setMonth(begDate.getMonth() + selectedDuration.months);
-      begDate.setFullYear(begDate.getFullYear() + selectedDuration.years);
+      begDate.setUTCDate(begDate.getUTCDate() + selectedDuration.days);
+      begDate.setUTCMonth(begDate.getUTCMonth() + selectedDuration.months);
+      begDate.setUTCFullYear(begDate.getUTCFullYear() + selectedDuration.years);
 
-      const endDate = `${begDate.getFullYear()}-${String(begDate.getMonth() + 1).padStart(2, "0")}-${String(
-        begDate.getDate(),
+      const endDate = `${begDate.getUTCFullYear()}-${String(begDate.getUTCMonth() + 1).padStart(2, "0")}-${String(
+        begDate.getUTCDate(),
       ).padStart(2, "0")}`;
 
       changeFieldValue({
@@ -174,18 +175,9 @@ export const useDurationForm = ({
               handleChange(e);
             }}
             errors={formData.begDate.state.errors}
-            min={(() => {
-              if (product.config && product.config.beginDate && product.config.beginDate.minValue !== undefined) {
-                const currentDate = new Date();
-
-                currentDate.setDate(currentDate.getDate() + product.config.beginDate.minValue);
-
-                return `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}-${String(
-                  currentDate.getDate(),
-                ).padStart(2, "0")}`;
-              }
-              return undefined;
-            })()}
+            min={getMinDateInLocalTime({
+              offset: product.config?.beginDate?.minValue,
+            })}
           />
           {showEndDate ? (
             <DateInput

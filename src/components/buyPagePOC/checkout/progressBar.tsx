@@ -16,7 +16,14 @@ export const ProgressBar = () => {
       {transactionData?.steps
         .sort((a, b) => a.index - b.index)
         .map((step) => {
-          return <ProgressItem stepData={step} />;
+          return (
+            <ProgressItem
+              stepData={{
+                ...step,
+                status: step.type === "payment" && transactionData.status === "expired" ? "expired" : step.status,
+              }}
+            />
+          );
         })}
       <div></div>
     </div>
@@ -50,7 +57,12 @@ const ProgressItem = ({ stepData }: { stepData: stepType }) => {
           <span>{stepData.index + 1}</span>
         </div>
       );
-    } else if (stepData.status === "failed") {
+    } else if (
+      stepData.status === "failed" ||
+      stepData.status === "expired" ||
+      stepData.status === "data_processing_failed" ||
+      stepData.status === "not_approved"
+    ) {
       return (
         <div className={`bg-red-500 ${commonClasses}`}>
           <span>
@@ -69,20 +81,30 @@ const ProgressItem = ({ stepData }: { stepData: stepType }) => {
       return <div className={`text-green-400 ${commonClasses}`}>{t(PRODUCT_INFO[stepData.contentId].name)}</div>;
     } else if (stepData.status === "pending") {
       return <div className={`text-gray-400 ${commonClasses}`}>{t(PRODUCT_INFO[stepData.contentId].name)}</div>;
-    } else if (stepData.status === "failed") {
+    } else if (
+      stepData.status === "failed" ||
+      stepData.status === "expired" ||
+      stepData.status === "data_processing_failed" ||
+      stepData.status === "not_approved"
+    ) {
       return <div className={`text-red-500 ${commonClasses}`}>{t(PRODUCT_INFO[stepData.contentId].name)}</div>;
     }
   };
 
   const status = () => {
-    const commonClasses = "font-bold rounded-full px-3 text-sm";
+    const commonClasses = "font-bold rounded-full px-3 text-sm text-nowrap";
     if (stepData.status === "in_progress" || stepData.status === "waiting_payment") {
       return <div className={`text-primary bg-blue-100 ${commonClasses}`}>{t(statusMap[stepData.status])}</div>;
     } else if (stepData.status === "successful") {
       return <div className={` bg-green-100 text-green-400 ${commonClasses}`}>{t(statusMap[stepData.status])}</div>;
     } else if (stepData.status === "pending") {
       return <div className={`bg-gray-100 text-gray-400 ${commonClasses}`}>{t(statusMap[stepData.status])}</div>;
-    } else if (stepData.status === "failed") {
+    } else if (
+      stepData.status === "failed" ||
+      stepData.status === "expired" ||
+      stepData.status === "data_processing_failed" ||
+      stepData.status === "not_approved"
+    ) {
       return <div className={`bg-red-100 text-red-500 ${commonClasses}`}>{t(statusMap[stepData.status])}</div>;
     }
   };

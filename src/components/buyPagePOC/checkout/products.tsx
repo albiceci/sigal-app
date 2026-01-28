@@ -37,11 +37,7 @@ export const Products = () => {
               return <ProductItem productData={step} />;
             })}
           </div>
-          {paymentStep?.status === "in_progress" || paymentStep?.status === "failed" ? (
-            <CheckoutPayment paymentObject={paymentStep?.processedData} />
-          ) : (
-            <></>
-          )}
+          {paymentStep?.processedData ? <CheckoutPayment paymentObject={paymentStep?.processedData} /> : <></>}
         </div>
       </div>
     </div>

@@ -30,8 +30,8 @@ const CheckoutHeader = () => {
   return (
     <div className="w-full flex flex-col gap-6">
       <div className="flex gap-1 items-center justify-center">
-        <div className="py-1 px-4 w-fit h-fit bg-primary rounded-md">
-          <img src={sigalLogo} className="w-auto h-[50px]" alt="Sigal logo" />
+        <div className="py-1 px-3 sm:px-4 w-fit h-fit bg-primary rounded-md">
+          <img src={sigalLogo} className="w-auto h-[40px] sm:h-[50px]" alt="Sigal logo" />
         </div>
         <h1 className="h1 text-primary">Checkout</h1>
       </div>

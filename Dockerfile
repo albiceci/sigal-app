@@ -1,10 +1,18 @@
-FROM node:20
+# Build stage
+FROM node:20 AS build
 WORKDIR /app
 
 COPY package*.json ./
 RUN npm install
 
-EXPOSE 3000
+COPY . .
+RUN npm run build
 
-# Start React dev server
-CMD ["npm", "start"]
+# Runtime stage (Caddy)
+FROM caddy:2
+WORKDIR /srv
+COPY --from=build /app/build .
+
+COPY Caddyfile /etc/caddy/Caddyfile
+
+EXPOSE 80
